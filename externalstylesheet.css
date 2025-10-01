@@ -236,4 +236,14 @@ html, body {
 
     .footer-right p {
       margin: 2px 0;
+
     }
+
+/* from your old internal CSS */
+.bar-title {
+  display: inline-block;
+  background: #d9d9d9;
+  padding: 8px 14px;
+  border-radius: 3px;
+  font-weight: 700;
+}
