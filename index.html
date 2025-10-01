@@ -1,83 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <!-- Declares the document type and version of HTML (HTML5).
+                     Important for browsers to interpret the code correctly. -->
+<html lang="en"> <!-- 'lang="en"' specifies that the page content is in English. -->
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FPL — Other Leagues/Coaches</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- ===== Internal CSS (page-specific tweak) ===== -->
-  <style>
-    /* Center the section headings bar on this page only */
-    .bar-title {
-      display: inline-block;
-      background: #d9d9d9;
-      padding: 8px 14px;
-      border-radius: 3px;
-      font-weight: 700;
-    }
-  </style>
+    <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 so all text, 
+                                 including symbols and special characters, displays properly. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Makes the website responsive by scaling it properly on mobile devices. -->
+
+    <title>Soccer News Hub</title> <!-- The title that shows in the browser tab. -->
+
+    <!-- External CSS file link -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container navbar">
-      <div class="brand">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Letter_f.svg/120px-Letter_f.svg.png" alt="FPL logo">
-        <nav aria-label="Main navigation">
-          <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">News</a></li>
-            <li><a href="#">Clubs &amp; Players</a></li>
-            <li><a aria-current="page" href="index.html">Other Leagues/Coaches</a></li>
-            <li><a href="discussion.html">Discussion</a></li>
-            <li><a href="#" aria-label="More">•••</a></li>
-          </ul>
+    <!-- HEADER SECTION: Contains site title and navigation bar -->
+    <header>
+        <h1>Soccer News Hub</h1> <!-- Main site heading -->
+
+        <!-- Navigation menu -->
+        <nav>
+            <ul> <!-- Unordered list used for navigation links -->
+                <li><a href="#">Home</a></li> <!-- "#" is a placeholder link -->
+                <li><a href="#">MLS</a></li>
+                <li><a href="#">ESPN Soccer</a></li>
+                <li><a href="#">Premier League</a></li>
+            </ul>
         </nav>
-      </div>
-      <div class="nav-actions">
-        <button class="btn-login" style="letter-spacing:0.4px">Login</button><!-- Inline CSS requirement -->
-        <span aria-hidden="true">🔍</span>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1 class="upper" style="margin:0">Coach Search</h1>
-      <div class="row" style="margin-top:14px">
-        <div class="col-6">
-          <img class="responsive-img" src="https://images.pexels.com/photos/3775164/pexels-photo-3775164.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Coach on the sideline gesturing">
-        </div>
-        <div class="col-6">
-          <p class="muted">Enzo Maresca is an Italian professional football manager and former player. He is the head coach of Premier League club Chelsea. After starting out at West Bromwich Albion in 1998, he went on to play for several clubs in his country, including Juventus and Fiorentina. He retired in 2017.</p>
-        </div>
-      </div>
-    </section>
+    <!-- MAIN SECTION: Holds the main content of the page -->
+    <main>
+        <!-- FEATURED HEADLINE SECTION -->
+        <section class="headline">
+            <article> <!-- Article = a self-contained piece of content -->
+                <!-- Image with alt text for accessibility -->
+                <img src="images/goal.jpg" alt="Player scoring a goal">
+                <h2>Big Weekend Matches Ahead</h2> <!-- Sub-heading for the article -->
+                <p>Top teams across the world prepare for another action-packed weekend of soccer.</p>
+            </article>
+        </section>
 
-    <section class="card center">
-      <span class="bar-title">Other League Info Search</span>
-      <div class="row" style="margin-top:16px">
-        <div class="col-6">
-          <p>Serie A, Italy's top soccer league, was founded in 1929 as a national round-robin competition. Its golden era came in the 1980s and 1990s with clubs like Juventus, AC Milan, and Inter dominating Europe. Today it remains a cornerstone of world football.</p>
-        </div>
-        <div class="col-6 center">
-          <img class="responsive-img" src="https://upload.wikimedia.org/wikipedia/en/3/37/Serie_A_logo_%282019%29.svg" alt="Serie A logo">
-        </div>
-      </div>
-    </section>
-  </main>
+        <!-- NEWS SECTION: Multiple articles laid out in a grid -->
+        <section class="news">
+            <article>
+                <h3>MLS Spotlight</h3> <!-- Smaller sub-heading -->
+                <p>The playoff race is heating up as clubs battle for crucial points.</p>
+                <!-- External link to MLS site -->
+                <a href="https://www.mlssoccer.com/" target="_blank">Read more on MLS</a>
+                <!-- 'target="_blank"' opens link in a new tab (optional to add) -->
+            </article>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>Check out other links here for the official Premier League Instagram and Twitter page</div>
-      <div class="social">
-        <a href="https://twitter.com" aria-label="Twitter">𝕏</a>
-        <a href="https://instagram.com" aria-label="Instagram">IG</a>
-      </div>
-      <address>
-        Contact information: <a href="tel:3025556611" style="color:#fff;text-decoration:underline">302-555-6611</a><br>
-        <a href="mailto:wearedefinitelyreal@gmail.com" style="color:#fff;text-decoration:underline">wearedefinitelyreal@gmail.com</a>
-      </address>
-    </div>
-  </footer>
+            <article>
+                <h3>ESPN Soccer Coverage</h3>
+                <p>Exclusive analysis, highlights, and behind-the-scenes coverage from around the globe.</p>
+                <a href="https://www.espn.com/soccer/" target="_blank">Visit ESPN Soccer</a>
+            </article>
+
+            <article>
+                <h3>Premier League Headlines</h3>
+                <p>Transfer rumors and injury updates dominate the week’s top stories.</p>
+                <a href="https://www.premierleague.com/en/news" target="_blank">Read Premier League News</a>
+            </article>
+        </section>
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer>
+        <!-- © symbol for copyright -->
+        <p>&copy; 2025 Soccer News Hub. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
+
