@@ -5,19 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FPL — Discussion</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- ===== Internal CSS (page-specific tweak) ===== -->
-  <style>
-    .discussion-hero {
-      display: block;
-      max-width: 640px;
-      margin: 24px auto 8px;
-      border-radius: 6px;
-    }
-    .paging {
-      display:flex; justify-content:space-between; max-width:640px; margin:0 auto; color:#222;
-      font-weight:700;
-    }
-  </style>
 </head>
 <body>
   <header class="site-header">
@@ -36,6 +23,7 @@
         </nav>
       </div>
       <div class="nav-actions">
+        <!-- Inline CSS requirement preserved -->
         <button class="btn-login" style="letter-spacing:0.4px">Login</button>
         <span aria-hidden="true">🔍</span>
       </div>
@@ -44,12 +32,14 @@
 
   <main class="container">
     <img class="discussion-hero" src="https://images.pexels.com/photos/1171084/pexels-photo-1171084.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Supporters in a football collage">
+
     <div class="paging">
       <span>PREVIOUS LIVE</span>
       <span>NEXT LIVE</span>
     </div>
 
     <section class="discussion-post">
+      <!-- Inline CSS requirement preserved -->
       <h1 style="margin:0 0 8px 0">Live Chat</h1>
       <div class="chat">
         <p><strong>James:</strong> I think the coach made a stupid decision</p>
@@ -69,7 +59,8 @@
         <a href="https://instagram.com" aria-label="Instagram">IG</a>
       </div>
       <address>
-        Contact information: <a href="tel:3025556611" style="color:#fff;text-decoration:underline">302-555-6611</a><br>
+        Contact information: 
+        <a href="tel:3025556611" style="color:#fff;text-decoration:underline">302-555-6611</a><br>
         <a href="mailto:wearedefinitelyreal@gmail.com" style="color:#fff;text-decoration:underline">wearedefinitelyreal@gmail.com</a>
       </address>
     </div>
