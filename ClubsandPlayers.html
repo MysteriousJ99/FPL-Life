@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Fast Premier Life</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="externalstylesheet.css">
+</head>
+
+<body>
+<header>
+  <div class="logo"><img src="Logo.png" alt="Website Logo"></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="news.html">News</a>
+    <a href="matches.html">Matches</a>
+    <a href="clubs.html" class="active">Clubs & Players</a>
+    <a href="leagues.html">Other Leagues/Coaches</a>
+    <a href="discussion.html">Discussion</a>
+  </nav>
+  <div class="header-right">
+    <a href="login.html">Login</a>
+    <span class="search-icon" title="Search">🔍</span>
+  </div>
+</header>
+
+<main>
+  <!-- Section 1: Club selection -->
+  <section>
+    <h2>Select a Club</h2>
+    <div class="search-section">
+      <input type="text" id="clubSearch" placeholder="Search Club...">
+      <select id="clubSelect">
+        <option value="">--Select Club--</option>
+        <option value="Manchester United">Manchester United</option>
+        <option value="Chelsea">Chelsea</option>
+        <option value="Liverpool">Liverpool</option>
+      </select>
+    </div>
+    <div class="search-result" id="clubResult">Please select a club.</div>
+  </section>
+
+  <!-- Section 2: Players based on selected club -->
+  <section>
+    <h2>Club Players</h2>
+    <div class="search-section">
+      <input type="text" id="playerSearch" placeholder="Search Player...">
+      <select id="playerSelect">
+        <option value="">--Select Player--</option>
+      </select>
+    </div>
+    <div class="search-result" id="playerResult">Select a club first.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-left">
+    <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
+    <img src="https://via.placeholder.com/30" alt="Twitter Logo">
+    <img src="https://via.placeholder.com/30" alt="Instagram Logo">
+  </div>
+  <div class="footer-right">
+    <p>302-555-6611</p>
+    <p>wearedefintelyreal@gmail.com</p>
+  </div>
+</footer>
+
+<script>
+  const clubData = {
+    "Manchester United": ["Cristiano Ronaldo", "Bruno Fernandes", "Marcus Rashford"],
+    "Chelsea": ["Mason Mount", "Kai Havertz", "Reece James"],
+    "Liverpool": ["Mohamed Salah", "Virgil van Dijk", "Trent Alexander-Arnold"]
+  };
+
+  const clubSelect = document.getElementById("clubSelect");
+  const playerSelect = document.getElementById("playerSelect");
+  const clubResult = document.getElementById("clubResult");
+  const playerResult = document.getElementById("playerResult");
+  const clubSearch = document.getElementById("clubSearch");
+  const playerSearch = document.getElementById("playerSearch");
+
+  // Update club dropdown based on typing
+  clubSearch.addEventListener("input", function() {
+    const filter = this.value.toLowerCase();
+    Array.from(clubSelect.options).forEach(option => {
+      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
+    });
+    // Update players dropdown based on filtered club(s)
+    updatePlayersDropdown();
+  });
+
+  // When club is selected
+  clubSelect.addEventListener("change", function() {
+    const club = this.value;
+    if (!club) {
+      clubResult.textContent = "Please select a club.";
+      playerResult.textContent = "Select a club first.";
+      playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+      return;
+    }
+    clubResult.textContent = `You selected: ${club}`;
+    updatePlayersDropdown();
+  });
+
+  function updatePlayersDropdown() {
+    const club = clubSelect.value;
+    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+    if (club && clubData[club]) {
+      clubData[club].forEach(player => {
+        const option = document.createElement("option");
+        option.value = player;
+        option.textContent = player;
+        playerSelect.appendChild(option);
+      });
+      playerResult.textContent = "Please select a player.";
+    } else {
+      playerResult.textContent = "Select a club first.";
+    }
+  }
+
+  // Player search filter
+  playerSearch.addEventListener("input", function() {
+    const filter = this.value.toLowerCase();
+    Array.from(playerSelect.options).forEach(option => {
+      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
+    });
+  });
+
+  // Show selected player
+  playerSelect.addEventListener("change", function() {
+    const player = this.value;
+    playerResult.textContent = player ? `You selected: ${player}` : "Please select a player.";
+  });
+</script>
+
+</body>
+</html>
