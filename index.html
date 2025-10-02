@@ -4,75 +4,9 @@
   <meta charset="utf-8" />
   <title>Fast Premier Life</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="externalstylesheet.css">
 
   <style>
-    /* Reset and layout */
-    html, body {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      font-family: Arial, sans-serif;
-    }
-
-    main {
-      flex: 1; /* expands so footer stays at bottom */
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* Header */
-    header {
-      background-color: #FAEFE1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-    }
-
-    .logo img {
-      height: 40px;
-      width: auto;
-    }
-
-    nav {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    nav a {
-      text-decoration: none;
-      color: black;
-      font-weight: 500;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: color 0.3s ease;
-    }
-    nav a:hover {
-      color: blue;
-    }
-    nav a.active {
-      color: blue;
-      font-weight: bold;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .header-right a {
-      text-decoration: none;
-      color: black;
-      font-weight: 500;
-    }
-    .search-icon {
-      font-size: 18px;
-      cursor: pointer;
-    }
 
     /* Main sections */
     .top-sections, .bottom-sections {
@@ -102,46 +36,6 @@
         flex-direction: column;
       }
     }
-
-    /* Footer */
-    footer {
-      background-color: #49BCDC;
-      width: 100%;
-      height: 90px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      box-sizing: border-box;
-      color: #fff;
-      font-size: 14px;
-    }
-
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .footer-left p {
-      margin: 0;
-      font-weight: bold;
-    }
-
-    .footer-left img {
-      width: 30px;
-      height: 30px;
-      background: white;
-      border-radius: 50%;
-    }
-
-    .footer-right {
-      text-align: right;
-    }
-
-    .footer-right p {
-      margin: 2px 0;
-    }
   </style>
 </head>
 <body>
@@ -154,6 +48,7 @@
   <nav>
     <a href="index.html" class="active">Home</a>
     <a href="news.html">News</a>
+    <a href="matches.html">Matches</a>
     <a href="clubs.html">Clubs & Players</a>
     <a href="leagues.html">Other Leagues/Coaches</a>
     <a href="discussion.html">Discussion</a>
