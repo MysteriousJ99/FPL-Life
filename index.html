@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="externalstylesheet.css">
 
   <style>
-
     /* Main sections */
     .top-sections, .bottom-sections {
       display: flex;
@@ -17,7 +16,7 @@
     .top-sections section {
       flex: 1;
       padding: 20px;
-      background-color: #f2f2f2;
+      background-color: #4ac2cd;
       border-radius: 8px;
       min-height: 200px;
     }
@@ -25,9 +24,26 @@
     .bottom-sections section {
       flex: 1;
       padding: 15px;
-      background-color: #e9e9e9;
+      background-color: #c7712a;
       border-radius: 6px;
       min-height: 150px;
+    }
+
+    /* Make links cover whole section */
+    .section-link {
+      text-decoration: none;   /* remove underline */
+      color: inherit;          /* inherit text color */
+      display: block;          /* make link wrap the section */
+    }
+
+    .section-link section {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .section-link section:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     /* Responsive adjustments */
@@ -36,13 +52,22 @@
         flex-direction: column;
       }
     }
+
+    /* Story image style */
+    .story-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
 
 <header>
   <div class="logo">
-    <img src="Logo.png" alt="Website Logo">
+    <img src="images/Logo.png" alt="Website Logo">
   </div>
 
   <nav>
@@ -65,33 +90,60 @@
 
   <!-- Top two large sections -->
   <div class="top-sections">
-    <section>
-      <p>This is where the Top story will go</p>
-    </section>
-    <section>
-      <p>This is where the Match of the week will go</p>
-    </section>
+    <a href="https://www.skysports.com/football/dynamo-kyiv-vs-c-palace/report/548310" class="section-link">
+      <section>
+        <p>
+          The club Crystal Palace have set a record unbeaten run after a win over 
+          Russian side Dynamo Kyiv.
+        </p>
+        <img src="images/Crystal-Palace-story.jpg" alt="Crystal Palace story" class="story-img" width="300">
+        <p>Click to read more</p>
+      </section>
+    </a>
+
+    <a href="https://www.premierleague.com/en/match/2561969/liverpool-vs-manchester-united?tab=preview" class="section-link">
+      <section>
+        <p>This week most anticipated match is between Liverpool and Manchester United,
+           for more informaton go here</p>
+        <img src="images/MOTW.jpg" alt="Match of the week" width="300">
+      </section>
+    </a>
   </div>
 
   <!-- Bottom three smaller sections side by side -->
   <div class="bottom-sections">
-    <section>
-      <p>This is where the Football around the world news will be</p>
-    </section>
-    <section>
-      <p>This is where the Club news will be</p>
-    </section>
-    <section>
-      <p>This is where the Coach news will be</p>
-    </section>
+    <a href="https://www.bbc.com/sport/football/articles/c4gwrplwyz8o" class="section-link">
+      <section>
+        <p>Celtic Football club has released manager Roberts after only 17 matches played.
+        </p>
+        <img src="images/Martin.jpg" alt="Story of the week" width="200">
+      </section>
+    </a>
+
+    <a href="https://www.mancity.com/news/mens/haaland-post-brentford-reaction-5-oct-63895283" class="section-link">
+      <section>
+        <p>"I am in the Greatest Form of my life" says Manchester City Striker Erling Haaland,
+          whos run of form has continued after their 1-0 win against Brentford last saturday.
+        </p>
+        <img src="images/Haaland.jpg" alt="Club Story of the week" width="200">
+      </section>
+    </a>
+
+    <a href="https://www.skysports.com/football/news/11727/13445467/nottingham-forest-boss-ange-postecoglou-to-hold-talks-with-club-hierarchy-over-winless-start" class="section-link">
+      <section>
+        <p>Nottengham Forest Manager, Ange Postecoglou will have  talks with upper management 
+          about the clubs 7 match winless start, leaving doubts as too his future with the club.
+        </p>
+      </section>
+    </a>
   </div>
 </main>
 
 <footer>
   <div class="footer-left">
     <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-    <img src="https://via.placeholder.com/30" alt="Twitter Logo">
-    <img src="https://via.placeholder.com/30" alt="Instagram Logo">
+    <img src="images/twitter page.jpg" alt="Twitter Logo">
+    <img src="images/instagram.jpg" alt="Instagram Logo">
   </div>
   <div class="footer-right">
     <p>302-555-6611</p>
