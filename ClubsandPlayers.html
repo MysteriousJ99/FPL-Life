@@ -5,6 +5,80 @@
   <title>Fast Premier Life</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="externalstylesheet.css">
+
+  <style>
+    /* Club Info Section */
+    .club-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-top: 1rem;
+      background-color: #f0f8ff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .club-info img {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: contain;
+      background-color: white;
+      border: 2px solid #ccc;
+      padding: 5px;
+    }
+
+    .club-text {
+      flex: 1;
+    }
+
+    .club-text h3 {
+      margin-top: 0;
+    }
+
+    .club-text ul {
+      margin-top: 0.5rem;
+      padding-left: 1.2rem;
+    }
+
+    .club-text ul li {
+      margin-bottom: 4px;
+    }
+
+    /* Player Info Section */
+    .player-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background-color: #e9f7ef;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .player-info img {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      border: 2px solid #bbb;
+      object-fit: cover;
+    }
+
+    .player-text h4 {
+      margin: 0;
+    }
+
+    .player-text ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    .player-text ul li {
+      margin-bottom: 4px;
+    }
+  </style>
 </head>
 
 <body>
@@ -14,7 +88,7 @@
     <a href="index.html">Home</a>
     <a href="news.html">News</a>
     <a href="matches.html">Matches</a>
-    <a href="clubs.html" class="active">Clubs & Players</a>
+    <a href="ClubsandPlayers.html" class="active">Clubs & Players</a>
     <a href="leagues.html">Other Leagues/Coaches</a>
     <a href="discussion.html">Discussion</a>
   </nav>
@@ -25,7 +99,7 @@
 </header>
 
 <main>
-  <!-- Section 1: Club selection -->
+  <!-- Club Selection -->
   <section>
     <h2>Select a Club</h2>
     <div class="search-section">
@@ -40,7 +114,22 @@
     <div class="search-result" id="clubResult">Please select a club.</div>
   </section>
 
-  <!-- Section 2: Players based on selected club -->
+  <!-- Club Info -->
+  <section>
+    <h2>Club History & Achievements</h2>
+    <div id="clubInfo" class="club-info" style="display:none;">
+      <img id="clubImage" src="" alt="Club Logo">
+      <div class="club-text">
+        <h3 id="clubName"></h3>
+        <p id="clubHistory"></p>
+        <h4>Notable Achievements:</h4>
+        <ul id="clubAchievements"></ul>
+      </div>
+    </div>
+    <p id="defaultHistory">Select a club above to view its Premier League history, image, and notable achievements.</p>
+  </section>
+
+  <!-- Players -->
   <section>
     <h2>Club Players</h2>
     <div class="search-section">
@@ -49,7 +138,7 @@
         <option value="">--Select Player--</option>
       </select>
     </div>
-    <div class="search-result" id="playerResult">Select a club first.</div>
+    <div id="playerResult">Select a club first.</div>
   </section>
 </main>
 
@@ -67,69 +156,154 @@
 
 <script>
   const clubData = {
-    "Manchester United": ["Cristiano Ronaldo", "Bruno Fernandes", "Marcus Rashford"],
-    "Chelsea": ["Mason Mount", "Kai Havertz", "Reece James"],
-    "Liverpool": ["Mohamed Salah", "Virgil van Dijk", "Trent Alexander-Arnold"]
+    "Manchester United": ["Mason Mount", "Bruno Fernandes", "Bryan Mbeumo"],
+    "Chelsea": ["Cole Palmer", "Moises Caicedo", "Reece James"],
+    "Liverpool": ["Mohamed Salah", "Virgil van Dijk", "Alexander Isak"]
+  };
+
+  const clubDetails = {
+    "Manchester United": {
+      img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
+      history: "Manchester United are one of the most successful clubs in Premier League history, boasting 13 Premier League titles under Sir Alex Ferguson.",
+      achievements: ["13 Premier League Titles", "3 UEFA Champions League Trophies", "12 FA Cups", "21 English Top-Flight Titles (Overall)"]
+    },
+    "Chelsea": {
+      img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
+      history: "Chelsea became a Premier League powerhouse in the 2000s under Roman Abramovich’s ownership.",
+      achievements: ["5 Premier League Titles", "2 UEFA Champions League Trophies", "8 FA Cups", "2 UEFA Europa League Titles"]
+    },
+    "Liverpool": {
+      img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
+      history: "Liverpool have one of the richest football histories in the world. Under Jürgen Klopp, they won their first Premier League title in 2020.",
+      achievements: ["1 Premier League Title (2020)", "19 English League Titles", "6 UEFA Champions League Trophies", "8 FA Cups"]
+    }
+  };
+
+  const playerStats = {
+    "Mason Mount": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p184341.png",
+      appearances: 120,
+      goals: 27,
+      assists: 22,
+      achievements: ["Chelsea Player of the Year 2022", "UEFA Champions League Winner 2021"]
+    },
+    "Bruno Fernandes": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p141746.png",
+      appearances: 160,
+      goals: 65,
+      assists: 45,
+      achievements: ["Manchester United Player of the Year 2021", "PFA Team of the Year 2020"]
+    },
+    "Bryan Mbeumo": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p242881.png",
+      appearances: 90,
+      goals: 25,
+      assists: 18,
+      achievements: ["Brentford Top Scorer 2023"]
+    },
+    "Cole Palmer": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p472715.png",
+      appearances: 40,
+      goals: 15,
+      assists: 10,
+      achievements: ["Chelsea Young Player of the Year 2024"]
+    },
+    "Moises Caicedo": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p492764.png",
+      appearances: 75,
+      goals: 3,
+      assists: 7,
+      achievements: ["Brighton Player of the Year 2023"]
+    },
+    "Reece James": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p225796.png",
+      appearances: 130,
+      goals: 10,
+      assists: 18,
+      achievements: ["Chelsea Captain 2024", "UEFA Champions League Winner 2021"]
+    },
+    "Mohamed Salah": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p118748.png",
+      appearances: 230,
+      goals: 155,
+      assists: 70,
+      achievements: ["3x Golden Boot Winner", "PFA Player of the Year 2018"]
+    },
+    "Virgil van Dijk": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p97032.png",
+      appearances: 180,
+      goals: 20,
+      assists: 7,
+      achievements: ["Premier League Player of the Season 2019", "Champions League Winner 2019"]
+    },
+    "Alexander Isak": {
+      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p223924.png",
+      appearances: 60,
+      goals: 28,
+      assists: 9,
+      achievements: ["Newcastle Top Scorer 2024"]
+    }
   };
 
   const clubSelect = document.getElementById("clubSelect");
   const playerSelect = document.getElementById("playerSelect");
-  const clubResult = document.getElementById("clubResult");
   const playerResult = document.getElementById("playerResult");
-  const clubSearch = document.getElementById("clubSearch");
-  const playerSearch = document.getElementById("playerSearch");
+  const clubInfo = document.getElementById("clubInfo");
+  const clubImage = document.getElementById("clubImage");
+  const clubName = document.getElementById("clubName");
+  const clubHistory = document.getElementById("clubHistory");
+  const clubAchievements = document.getElementById("clubAchievements");
+  const defaultHistory = document.getElementById("defaultHistory");
 
-  // Update club dropdown based on typing
-  clubSearch.addEventListener("input", function() {
-    const filter = this.value.toLowerCase();
-    Array.from(clubSelect.options).forEach(option => {
-      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
-    });
-    // Update players dropdown based on filtered club(s)
-    updatePlayersDropdown();
-  });
-
-  // When club is selected
-  clubSelect.addEventListener("change", function() {
-    const club = this.value;
+  clubSelect.addEventListener("change", () => {
+    const club = clubSelect.value;
     if (!club) {
-      clubResult.textContent = "Please select a club.";
-      playerResult.textContent = "Select a club first.";
+      clubInfo.style.display = "none";
       playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+      playerResult.innerHTML = "Select a club first.";
       return;
     }
-    clubResult.textContent = `You selected: ${club}`;
-    updatePlayersDropdown();
-  });
 
-  function updatePlayersDropdown() {
-    const club = clubSelect.value;
+    const details = clubDetails[club];
+    clubInfo.style.display = "flex";
+    defaultHistory.style.display = "none";
+    clubImage.src = details.img;
+    clubName.textContent = club;
+    clubHistory.textContent = details.history;
+    clubAchievements.innerHTML = details.achievements.map(a => `<li>${a}</li>`).join("");
+
     playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-    if (club && clubData[club]) {
-      clubData[club].forEach(player => {
-        const option = document.createElement("option");
-        option.value = player;
-        option.textContent = player;
-        playerSelect.appendChild(option);
-      });
-      playerResult.textContent = "Please select a player.";
-    } else {
-      playerResult.textContent = "Select a club first.";
-    }
-  }
-
-  // Player search filter
-  playerSearch.addEventListener("input", function() {
-    const filter = this.value.toLowerCase();
-    Array.from(playerSelect.options).forEach(option => {
-      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
+    clubData[club].forEach(player => {
+      const option = document.createElement("option");
+      option.value = player;
+      option.textContent = player;
+      playerSelect.appendChild(option);
     });
   });
 
-  // Show selected player
-  playerSelect.addEventListener("change", function() {
-    const player = this.value;
-    playerResult.textContent = player ? `You selected: ${player}` : "Please select a player.";
+  playerSelect.addEventListener("change", () => {
+    const player = playerSelect.value;
+    if (!player) {
+      playerResult.innerHTML = "Please select a player.";
+      return;
+    }
+
+    const info = playerStats[player];
+    if (info) {
+      playerResult.innerHTML = `
+        <div class="player-info">
+          <img src="${info.image}" alt="${player}">
+          <div class="player-text">
+            <h4>${player}</h4>
+            <p><strong>Appearances:</strong> ${info.appearances}</p>
+            <p><strong>Goals:</strong> ${info.goals}</p>
+            <p><strong>Assists:</strong> ${info.assists}</p>
+            <h5>Personal Achievements:</h5>
+            <ul>${info.achievements.map(a => `<li>${a}</li>`).join("")}</ul>
+          </div>
+        </div>
+      `;
+    }
   });
 </script>
 
