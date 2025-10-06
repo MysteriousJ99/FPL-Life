@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="externalstylesheet.css">
 
   <style>
-    /* Club Info Section */
+    /* Basic layout for club info section */
     .club-info {
       display: flex;
       align-items: flex-start;
@@ -46,36 +46,32 @@
       margin-bottom: 4px;
     }
 
-    /* Player Info Section */
-    .player-info {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      background-color: #e9f7ef;
+    /* Player card styling */
+    .player-card {
+      background-color: #f8f9fa;
       padding: 15px;
       border-radius: 10px;
       margin-top: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      max-width: 400px;
     }
 
-    .player-info img {
-      width: 100px;
-      height: 100px;
-      border-radius: 10px;
-      border: 2px solid #bbb;
-      object-fit: cover;
+    .player-card h3 {
+      margin-top: 0;
+      color: #004080;
     }
 
-    .player-text h4 {
-      margin: 0;
+    .player-card p {
+      margin: 4px 0;
     }
 
-    .player-text ul {
-      margin: 0.5rem 0 0;
+    .player-card ul {
+      margin-top: 8px;
       padding-left: 1.2rem;
     }
 
-    .player-text ul li {
+    .player-card ul li {
       margin-bottom: 4px;
     }
   </style>
@@ -83,14 +79,14 @@
 
 <body>
 <header>
-  <div class="logo"><img src="Logo.png" alt="Website Logo"></div>
+  <div class="logo"><img src="images/Logo.png" alt="Website Logo"></div>
   <nav>
     <a href="index.html">Home</a>
     <a href="news.html">News</a>
     <a href="matches.html">Matches</a>
     <a href="ClubsandPlayers.html" class="active">Clubs & Players</a>
-    <a href="coach&league.html">Other Leagues/Coaches</a>
-    <a href="LiveDiscussion.html">Discussion</a>
+    <a href="coaches.html">Other Leagues/Coaches</a>
+    <a href="discussion.html">Discussion</a>
   </nav>
   <div class="header-right">
     <a href="login.html">Login</a>
@@ -99,7 +95,7 @@
 </header>
 
 <main>
-  <!-- Club Selection -->
+  <!-- Section 1: Club selection -->
   <section>
     <h2>Select a Club</h2>
     <div class="search-section">
@@ -114,7 +110,7 @@
     <div class="search-result" id="clubResult">Please select a club.</div>
   </section>
 
-  <!-- Club Info -->
+  <!-- Section 1.5: Club history, image, and achievements -->
   <section>
     <h2>Club History & Achievements</h2>
     <div id="clubInfo" class="club-info" style="display:none;">
@@ -129,7 +125,7 @@
     <p id="defaultHistory">Select a club above to view its Premier League history, image, and notable achievements.</p>
   </section>
 
-  <!-- Players -->
+  <!-- Section 2: Players based on selected club -->
   <section>
     <h2>Club Players</h2>
     <div class="search-section">
@@ -138,15 +134,15 @@
         <option value="">--Select Player--</option>
       </select>
     </div>
-    <div id="playerResult">Select a club first.</div>
+    <div class="search-result" id="playerResult">Select a club first.</div>
   </section>
 </main>
 
 <footer>
   <div class="footer-left">
     <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-    <img src="https://via.placeholder.com/30" alt="Twitter Logo">
-    <img src="https://via.placeholder.com/30" alt="Instagram Logo">
+    <img src="images/Logo.png" alt="Twitter Logo">
+    <img src="images/instagram.jpg" alt="Instagram Logo">
   </div>
   <div class="footer-right">
     <p>302-555-6611</p>
@@ -155,99 +151,60 @@
 </footer>
 
 <script>
-  const clubData = {
-    "Manchester United": ["Mason Mount", "Bruno Fernandes", "Bryan Mbeumo"],
-    "Chelsea": ["Cole Palmer", "Moises Caicedo", "Reece James"],
-    "Liverpool": ["Mohamed Salah", "Virgil van Dijk", "Alexander Isak"]
-  };
-
   const clubDetails = {
     "Manchester United": {
       img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
-      history: "Manchester United are one of the most successful clubs in Premier League history, boasting 13 Premier League titles under Sir Alex Ferguson.",
-      achievements: ["13 Premier League Titles", "3 UEFA Champions League Trophies", "12 FA Cups", "21 English Top-Flight Titles (Overall)"]
+      history: "Manchester United are one of the most successful clubs in Premier League history, boasting 13 Premier League titles under Sir Alex Ferguson. Known for their attacking football and iconic players, United have maintained global dominance for decades.",
+      achievements: [
+        "13 Premier League Titles",
+        "3 UEFA Champions League Trophies",
+        "12 FA Cups",
+        "21 English Top-Flight Titles (Overall)"
+      ],
+      players: {
+        "Bruno Fernandes": { appearances: 150, goals: 55, assists: 45, achievements: ["Player of the Month (5x)", "PFA Team of the Year (2021)", "Captain of Manchester United"] },
+        "Mason Mount": { appearances: 90, goals: 15, assists: 22, achievements: ["Chelsea Academy Graduate", "UEFA Super Cup Winner (2021)"] },
+        "Bryan Mbeumo": { appearances: 80, goals: 25, assists: 18, achievements: ["Breakthrough Player (2023)", "Brentford Top Scorer 2022"] }
+      }
     },
     "Chelsea": {
       img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
-      history: "Chelsea became a Premier League powerhouse in the 2000s under Roman Abramovich’s ownership.",
-      achievements: ["5 Premier League Titles", "2 UEFA Champions League Trophies", "8 FA Cups", "2 UEFA Europa League Titles"]
+      history: "Chelsea became a Premier League powerhouse in the 2000s, rising to prominence under Roman Abramovich’s ownership. Known for tactical excellence and strong defense, they have enjoyed success domestically and in Europe.",
+      achievements: [
+        "5 Premier League Titles",
+        "2 UEFA Champions League Trophies",
+        "8 FA Cups",
+        "2 UEFA Europa League Titles"
+      ],
+      players: {
+        "Cole Palmer": { appearances: 45, goals: 18, assists: 9, achievements: ["Young Player of the Year (2024)", "Top Scorer for Chelsea 2024"] },
+        "Moises Caicedo": { appearances: 60, goals: 5, assists: 10, achievements: ["Ecuador Player of the Year (2022)", "Key Midfielder for Chelsea"] },
+        "Reece James": { appearances: 120, goals: 12, assists: 30, achievements: ["Chelsea Captain (2023)", "PFA Team of the Year (2021)"] }
+      }
     },
     "Liverpool": {
       img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
-      history: "Liverpool have one of the richest football histories in the world. Under Jürgen Klopp, they won their first Premier League title in 2020.",
-      achievements: ["1 Premier League Title (2020)", "19 English League Titles", "6 UEFA Champions League Trophies", "8 FA Cups"]
-    }
-  };
-
-  const playerStats = {
-    "Mason Mount": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p184341.png",
-      appearances: 120,
-      goals: 27,
-      assists: 22,
-      achievements: ["Chelsea Player of the Year 2022", "UEFA Champions League Winner 2021"]
-    },
-    "Bruno Fernandes": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p141746.png",
-      appearances: 160,
-      goals: 65,
-      assists: 45,
-      achievements: ["Manchester United Player of the Year 2021", "PFA Team of the Year 2020"]
-    },
-    "Bryan Mbeumo": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p242881.png",
-      appearances: 90,
-      goals: 25,
-      assists: 18,
-      achievements: ["Brentford Top Scorer 2023"]
-    },
-    "Cole Palmer": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p472715.png",
-      appearances: 40,
-      goals: 15,
-      assists: 10,
-      achievements: ["Chelsea Young Player of the Year 2024"]
-    },
-    "Moises Caicedo": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p492764.png",
-      appearances: 75,
-      goals: 3,
-      assists: 7,
-      achievements: ["Brighton Player of the Year 2023"]
-    },
-    "Reece James": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p225796.png",
-      appearances: 130,
-      goals: 10,
-      assists: 18,
-      achievements: ["Chelsea Captain 2024", "UEFA Champions League Winner 2021"]
-    },
-    "Mohamed Salah": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p118748.png",
-      appearances: 230,
-      goals: 155,
-      assists: 70,
-      achievements: ["3x Golden Boot Winner", "PFA Player of the Year 2018"]
-    },
-    "Virgil van Dijk": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p97032.png",
-      appearances: 180,
-      goals: 20,
-      assists: 7,
-      achievements: ["Premier League Player of the Season 2019", "Champions League Winner 2019"]
-    },
-    "Alexander Isak": {
-      image: "https://resources.premierleague.com/premierleague/photos/players/250x250/p223924.png",
-      appearances: 60,
-      goals: 28,
-      assists: 9,
-      achievements: ["Newcastle Top Scorer 2024"]
+      history: "Liverpool have one of the richest football histories in the world. Under Jürgen Klopp, they won their first Premier League title in 2020 and have continued to be a global force with passionate supporters and thrilling football.",
+      achievements: [
+        "1 Premier League Title (2020)",
+        "19 English League Titles (Overall)",
+        "6 UEFA Champions League Trophies",
+        "8 FA Cups"
+      ],
+      players: {
+        "Mohamed Salah": { appearances: 220, goals: 155, assists: 65, achievements: ["Golden Boot (3x)", "PFA Player of the Year (2022)", "Champions League Winner 2019"] },
+        "Virgil van Dijk": { appearances: 160, goals: 20, assists: 10, achievements: ["PFA Player of the Year (2019)", "Champions League Winner (2019)"] },
+        "Alexander Isak": { appearances: 55, goals: 28, assists: 12, achievements: ["Swedish Player of the Year (2023)", "Liverpool Top Scorer (2024)"] }
+      }
     }
   };
 
   const clubSelect = document.getElementById("clubSelect");
   const playerSelect = document.getElementById("playerSelect");
+  const clubResult = document.getElementById("clubResult");
   const playerResult = document.getElementById("playerResult");
+  const clubSearch = document.getElementById("clubSearch");
+  const playerSearch = document.getElementById("playerSearch");
   const clubInfo = document.getElementById("clubInfo");
   const clubImage = document.getElementById("clubImage");
   const clubName = document.getElementById("clubName");
@@ -255,61 +212,94 @@
   const clubAchievements = document.getElementById("clubAchievements");
   const defaultHistory = document.getElementById("defaultHistory");
 
-  clubSelect.addEventListener("change", () => {
-    const club = clubSelect.value;
+  // Filter clubs while typing
+  clubSearch.addEventListener("input", function() {
+    const filter = this.value.toLowerCase();
+    Array.from(clubSelect.options).forEach(option => {
+      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
+    });
+    updatePlayersDropdown();
+  });
+
+  // When a club is selected
+  clubSelect.addEventListener("change", function() {
+    const club = this.value;
     if (!club) {
-      clubInfo.style.display = "none";
+      clubResult.textContent = "Please select a club.";
+      playerResult.textContent = "Select a club first.";
       playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-      playerResult.innerHTML = "Select a club first.";
+      clubInfo.style.display = "none";
+      defaultHistory.style.display = "block";
       return;
     }
 
     const details = clubDetails[club];
-    clubInfo.style.display = "flex";
-    defaultHistory.style.display = "none";
-    clubImage.src = details.img;
-    clubName.textContent = club;
-    clubHistory.textContent = details.history;
-    clubAchievements.innerHTML = details.achievements.map(a => `<li>${a}</li>`).join("");
+    clubResult.textContent = `You selected: ${club}`;
+    updatePlayersDropdown();
 
+    if (details) {
+      clubInfo.style.display = "flex";
+      defaultHistory.style.display = "none";
+      clubImage.src = details.img;
+      clubName.textContent = club;
+      clubHistory.textContent = details.history;
+
+      // Update achievements
+      clubAchievements.innerHTML = "";
+      details.achievements.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        clubAchievements.appendChild(li);
+      });
+    }
+  });
+
+  function updatePlayersDropdown() {
+    const club = clubSelect.value;
     playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-    clubData[club].forEach(player => {
-      const option = document.createElement("option");
-      option.value = player;
-      option.textContent = player;
-      playerSelect.appendChild(option);
+    if (club && clubDetails[club]) {
+      Object.keys(clubDetails[club].players).forEach(player => {
+        const option = document.createElement("option");
+        option.value = player;
+        option.textContent = player;
+        playerSelect.appendChild(option);
+      });
+      playerResult.textContent = "Please select a player.";
+    } else {
+      playerResult.textContent = "Select a club first.";
+    }
+  }
+
+  // Filter players while typing
+  playerSearch.addEventListener("input", function() {
+    const filter = this.value.toLowerCase();
+    Array.from(playerSelect.options).forEach(option => {
+      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
     });
   });
 
-  playerSelect.addEventListener("change", () => {
-    const player = playerSelect.value;
-    if (!player) {
-      playerResult.innerHTML = "Please select a player.";
+  // Display selected player details
+  playerSelect.addEventListener("change", function() {
+    const club = clubSelect.value;
+    const player = this.value;
+    if (!player || !club) {
+      playerResult.textContent = "Please select a player.";
       return;
     }
 
-    const info = playerStats[player];
-    if (info) {
-      playerResult.innerHTML = `
-        <div class="player-info">
-          <img src="${info.image}" alt="${player}">
-          <div class="player-text">
-            <h4>${player}</h4>
-            <p><strong>Appearances:</strong> ${info.appearances}</p>
-            <p><strong>Goals:</strong> ${info.goals}</p>
-            <p><strong>Assists:</strong> ${info.assists}</p>
-            <h5>Personal Achievements:</h5>
-            <ul>${info.achievements.map(a => `<li>${a}</li>`).join("")}</ul>
-          </div>
-        </div>
-      `;
-    }
+    const data = clubDetails[club].players[player];
+    playerResult.innerHTML = `
+      <div class="player-card">
+        <h3>${player}</h3>
+        <p><strong>Appearances:</strong> ${data.appearances}</p>
+        <p><strong>Goals:</strong> ${data.goals}</p>
+        <p><strong>Assists:</strong> ${data.assists}</p>
+        <h4>Personal Achievements:</h4>
+        <ul>${data.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
+      </div>
+    `;
   });
 </script>
 
 </body>
 </html>
-
-
-
-
