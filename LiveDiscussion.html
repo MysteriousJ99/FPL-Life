@@ -1,78 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <title>FPL — Live Discussion</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FPL — Discussion</title>
+  <!-- Use your site-wide external stylesheet -->
   <link rel="stylesheet" href="externalstylesheet.css">
-  <!-- ===== Internal CSS (page-specific tweak) ===== -->
   <style>
-    .discussion-hero {
-      display: block;
-      max-width: 640px;
-      margin: 24px auto 8px;
-      border-radius: 6px;
-    }
-    .paging {
-      display:flex; justify-content:space-between; max-width:640px; margin:0 auto; color:#222;
-      font-weight:700;
-    }
+    /* page-specific tweaks */
+    .live-wrap{max-width:900px;margin:0 auto;padding:16px}
+    .hero-img{display:block;max-width:900px;width:100%;height:auto;border-radius:12px;margin:16px auto}
+    .pager{display:flex;justify-content:space-between;max-width:900px;margin:0 auto 16px;font-weight:700}
+    .chat{background:#f7f9fc;border:1px solid #e4e7ee;border-radius:12px;padding:16px}
+    .chat p{margin:0 0 8px}
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container navbar">
-      <div class="brand">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Letter_f.svg/120px-Letter_f.svg.png" alt="FPL logo">
-        <nav aria-label="Main navigation">
-          <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#">News</a></li>
-            <li><a href="#">Clubs &amp; Players</a></li>
-            <li><a href="coaches.html">Coaches &amp; Leagues</a></li>
-            <li><a aria-current="page" href="discussion.html">Discussion</a></li>
-            <li><a href="#" aria-label="More">•••</a></li>
-          </ul>
-        </nav>
-      </div>
-      <div class="nav-actions">
-        <button class="btn-login" style="letter-spacing:0.4px">Login</button>
-        <span aria-hidden="true">🔍</span>
-      </div>
-    </div>
-  </header>
+<header>
+  <div class="logo">
+    <a href="index.html" aria-label="Home">
+      <img src="images/Logo.png" alt="Website Logo">
+    </a>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="news.html">News</a>
+    <a href="matches.html">Matches</a>
+    <a href="ClubsandPlayers.html">Clubs & Players</a>
+    <a href="Coach&amp;League.html">Other Leagues/Coaches</a>
+    <a href="LiveDiscussion.html" class="active">Discussion</a>
+  </nav>
+  <div class="header-right">
+    <a href="login.html">Login</a>
+    <span class="search-icon" title="Search">🔍</span>
+  </div>
+</header>
 
-  <main class="container">
-    <img class="discussion-hero" src="https://images.pexels.com/photos/1171084/pexels-photo-1171084.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Supporters in a football collage">
-    <div class="paging">
-      <span>PREVIOUS LIVE</span>
-      <span>NEXT LIVE</span>
-    </div>
+<main class="live-wrap">
+  <img class="hero-img" src="https://images.pexels.com/photos/1171084/pexels-photo-1171084.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Crowd cheering in the stadium">
+  <div class="pager">
+    <span>PREVIOUS LIVE</span>
+    <span>NEXT LIVE</span>
+  </div>
 
-    <section class="discussion-post">
-      <h1 style="margin:0 0 8px 0">Live Chat</h1>
-      <div class="chat">
-        <p><strong>James:</strong> I think the coach made a stupid decision</p>
-        <p><strong>John:</strong> Nah no way man that was all on the defense</p>
-        <p><strong>Joe:</strong> That is a crazy take</p>
-        <p><strong>Peter:</strong> No way you said it was coach’s fault</p>
-        <p><strong>Brad:</strong> Bro get him off the mic</p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>Check out other links here for the official Premier League Instagram and Twitter page</div>
-      <div class="social">
-        <a href="https://twitter.com" aria-label="Twitter">𝕏</a>
-        <a href="https://instagram.com" aria-label="Instagram">IG</a>
-      </div>
-      <address>
-        Contact information: <a href="tel:3025556611" style="color:#fff;text-decoration:underline">302-555-6611</a><br>
-        <a href="mailto:wearedefinitelyreal@gmail.com" style="color:#fff;text-decoration:underline">wearedefinitelyreal@gmail.com</a>
-      </address>
+  <section aria-labelledby="liveChatHeading">
+    <h1 id="liveChatHeading">Live Chat</h1>
+    <div class="chat" role="log" aria-live="polite">
+      <p><strong>James:</strong> I think the coach made a wild sub too early.</p>
+      <p><strong>John:</strong> Nah, that one’s on the defense.</p>
+      <p><strong>Joe:</strong> That is a crazy take 😅</p>
+      <p><strong>Peter:</strong> You said it was the coach’s fault earlier!</p>
+      <p><strong>Brad:</strong> Get him off the mic 😂</p>
     </div>
-  </footer>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-left">
+    <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
+    <!-- use whatever social images you already have in /images -->
+    <a href="https://twitter.com" aria-label="Twitter">
+      <img src="images/Logo.png" alt="Twitter Logo">
+    </a>
+    <a href="https://instagram.com" aria-label="Instagram">
+      <img src="images/instagram.jpg" alt="Instagram Logo">
+    </a>
+  </div>
+  <div class="footer-right">
+    <p><a href="tel:3025556611">302-555-6611</a></p>
+    <p><a href="mailto:wearedefintelyreal@gmail.com">wearedefintelyreal@gmail.com</a></p>
+  </div>
+</footer>
 </body>
 </html>
