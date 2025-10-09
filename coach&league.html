@@ -2,108 +2,210 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>FPL — Coaches & Leagues</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="externalstylesheet.css" />
-
+  <title>FPL — Other Leagues / Coaches</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="externalstylesheet.css">
   <style>
-    /* ===== Page-Specific Internal CSS ===== */
-    .bar-title {
-      display: inline-block;
-      background: #d9d9d9;
-      padding: 8px 14px;
-      border-radius: 3px;
-      font-weight: 700;
+    /* page-specific */
+    .wrap{max-width:1000px;margin:0 auto;padding:16px}
+    .panel{background:#f7f9fc;border:1px solid #e4e7ee;border-radius:14px;padding:16px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .coach-card{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:start;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:12px}
+    .coach-card img{width:120px;height:120px;object-fit:cover;border-radius:10px;border:1px solid #ddd;background:white}
+    .coach-meta h3{margin:0 0 6px}
+    .coach-meta p{margin:0 0 6px}
+    .coach-meta ul{margin:6px 0 0 18px}
+    .select-row{display:flex;gap:10px;flex-wrap:wrap}
+    .league-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .league{background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:14px}
+    .league h3{margin:0 0 6px}
+    .muted{color:#4b5563}
+    @media (max-width:800px){
+      .row{grid-template-columns:1fr}
+      .league-grid{grid-template-columns:1fr}
+      .coach-card{grid-template-columns:1fr}
     }
   </style>
 </head>
-
 <body>
-  <header class="site-header">
-    <div class="container navbar">
-      <div class="brand">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Letter_f.svg/120px-Letter_f.svg.png" alt="FPL logo" />
-        <nav aria-label="Main navigation">
-          <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="news.html">News</a></li>
-            <li><a href="#ClubsandPlayers.html">Clubs &amp; Players</a></li>
-            <li><a href="coaches.html" aria-current="page">Coaches &amp; Leagues</a></li>
-            <li><a href="discussion.html">Discussion</a></li>
-            <li><a href="coach&league.html" aria-label="More">•••</a></li>
-          </ul>
-        </nav>
-      </div>
+<header>
+  <div class="logo">
+    <a href="index.html" aria-label="Home">
+      <img src="images/Logo.png" alt="Website Logo">
+    </a>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="news.html">News</a>
+    <a href="matches.html">Matches</a>
+    <a href="ClubsandPlayers.html">Clubs & Players</a>
+    <a href="Coach&amp;League.html" class="active">Other Leagues/Coaches</a>
+    <a href="LiveDiscussion.html">Discussion</a>
+  </nav>
+  <div class="header-right">
+    <a href="login.html">Login</a>
+    <span class="search-icon" title="Search">🔍</span>
+  </div>
+</header>
 
-      <div class="nav-actions">
-        <button class="btn-login" style="letter-spacing: 0.4px;">Login</button> <!-- Inline CSS requirement -->
-        <span aria-hidden="true">🔍</span>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <!-- ===== Coach Section ===== -->
-    <section class="hero">
-      <h1 class="upper" style="margin: 0;">Coach Search</h1>
-      <div class="row" style="margin-top: 14px;">
-        <div class="col-6">
-          <img
-            class="responsive-img"
-            src="https://images.pexels.com/photos/3775164/pexels-photo-3775164.jpeg?auto=compress&cs=tinysrgb&w=1200"
-            alt="Coach on the sideline gesturing"
-          />
-        </div>
-        <div class="col-6">
-          <p class="muted">
-            Enzo Maresca is an Italian professional football manager and former player. 
-            He is the head coach of Premier League club Chelsea. After starting out at West Bromwich Albion in 1998, 
-            he went on to play for several clubs in his country, including Juventus and Fiorentina. 
-            He retired in 2017.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Other League Info Section ===== -->
-    <section class="card center">
-      <span class="bar-title">Other League Info Search</span>
-      <div class="row" style="margin-top: 16px;">
-        <div class="col-6">
-          <p>
-            Serie A, Italy's top soccer league, was founded in 1929 as a national round-robin competition. 
-            Its golden era came in the 1980s and 1990s with clubs like Juventus, AC Milan, and Inter dominating Europe. 
-            Today it remains a cornerstone of world football.
-          </p>
-        </div>
-        <div class="col-6 center">
-          <img
-            class="responsive-img"
-            src="https://upload.wikimedia.org/wikipedia/en/3/37/Serie_A_logo_%282019%29.svg"
-            alt="Serie A logo"
-          />
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
+<main class="wrap">
+  <!-- HERO / INTRO -->
+  <section class="panel" style="margin-bottom:18px">
+    <div class="row">
       <div>
-        Check out other links here for the official Premier League Instagram and Twitter page
+        <h1 style="margin:0 0 8px">Coach Finder</h1>
+        <p class="muted">Pick a coach from the dropdown to see a photo, quick note on coaching style, and a few major achievements.</p>
+        <div class="select-row" style="margin-top:10px">
+          <label for="coachSelect" class="visually-hidden">Select Coach</label>
+          <select id="coachSelect">
+            <option value="">-- Select a coach --</option>
+            <option value="pep">Pep Guardiola</option>
+            <option value="klopp">Jürgen Klopp</option>
+            <option value="ancelotti">Carlo Ancelotti</option>
+            <option value="simeone">Diego Simeone</option>
+          </select>
+          <input id="coachFilter" type="text" placeholder="Filter name…" aria-label="Filter coach list">
+        </div>
       </div>
-      <div class="social">
-        <a href="https://twitter.com" aria-label="Twitter">𝕏</a>
-        <a href="https://instagram.com" aria-label="Instagram">IG</a>
+      <div>
+        <img src="https://images.pexels.com/photos/3775164/pexels-photo-3775164.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Coach on touchline" style="width:100%;height:auto;border-radius:12px">
       </div>
-      <address>
-        Contact information:
-        <a href="tel:3025556611" style="color: #fff; text-decoration: underline;">302-555-6611</a><br />
-        <a href="mailto:wearedefinitelyreal@gmail.com" style="color: #fff; text-decoration: underline;">
-          wearedefinitelyreal@gmail.com
-        </a>
-      </address>
     </div>
-  </footer>
+
+    <!-- coach details -->
+    <div id="coachCard" class="coach-card" style="display:none;margin-top:16px">
+      <img id="coachImg" src="" alt="">
+      <div class="coach-meta">
+        <h3 id="coachName"></h3>
+        <p id="coachStyle" class="muted"></p>
+        <strong>Achievements</strong>
+        <ul id="coachList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- OTHER TOP 5 EUROPEAN LEAGUES -->
+  <section class="panel">
+    <h2 style="margin:0 0 10px">Other Top European Leagues</h2>
+    <p class="muted" style="margin-top:0">Short descriptions and official sites for the other members of the “Top 5”.</p>
+    <div class="league-grid">
+      <article class="league">
+        <h3>La Liga (Spain)</h3>
+        <p>Spain’s top tier renowned for technique and possession play, home to Barcelona, Real Madrid, and Atlético. Intense rivalries and strong academies feed the national team’s identity.</p>
+        <p><a href="https://www.laliga.com/en-GB" target="_blank" rel="noopener">Official website</a></p>
+      </article>
+      <article class="league">
+        <h3>Serie A (Italy)</h3>
+        <p>Tactically rich and defensively disciplined, with giants like Juventus, Milan, and Inter. A blend of historic strategy and modern high press defines the league.</p>
+        <p><a href="https://www.legaseriea.it/en" target="_blank" rel="noopener">Official website</a></p>
+      </article>
+      <article class="league">
+        <h3>Bundesliga (Germany)</h3>
+        <p>High tempo, fan-centric ownership models, and elite development pipelines. Bayern and Dortmund headline, but parity and atmosphere are standouts.</p>
+        <p><a href="https://www.bundesliga.com/en/bundesliga" target="_blank" rel="noopener">Official website</a></p>
+      </article>
+      <article class="league">
+        <h3>Ligue 1 (France)</h3>
+        <p>France’s first division pairs youth development with star power, PSG leading the charge. Athleticism and transition play are hallmarks.</p>
+        <p><a href="https://www.ligue1.com/" target="_blank" rel="noopener">Official website</a></p>
+      </article>
+      <article class="league">
+        <h3>Premier League (England)</h3>
+        <p>Global reach, varied styles, and intense weekly competition. From tactical innovators to physical powerhouses, it’s the world’s most watched league.</p>
+        <p><a href="https://www.premierleague.com/" target="_blank" rel="noopener">Official website</a></p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-left">
+    <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
+    <a href="https://twitter.com" aria-label="Twitter">
+      <img src="images/Logo.png" alt="Twitter Logo">
+    </a>
+    <a href="https://instagram.com" aria-label="Instagram">
+      <img src="images/instagram.jpg" alt="Instagram Logo">
+    </a>
+  </div>
+  <div class="footer-right">
+    <p><a href="tel:3025556611">302-555-6611</a></p>
+    <p><a href="mailto:wearedefintelyreal@gmail.com">wearedefintelyreal@gmail.com</a></p>
+  </div>
+</footer>
+
+<script>
+  // coach data
+  const COACHES = {
+    pep: {
+      name: "Pep Guardiola",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Pep_2023.jpg",
+      style: "Positional play, high press, and overloads to create the free man.",
+      achievements: [
+        "Multiple Premier League titles (Man City)",
+        "2× UEFA Champions League (Barcelona)",
+        "Domestic trebles in England & Germany"
+      ]
+    },
+    klopp: {
+      name: "Jürgen Klopp",
+      img: "https://upload.wikimedia.org/wikipedia/commons/4/44/Juergen_Klopp_2019.jpg",
+      style: "Gegenpressing: win the ball back instantly, attack with width and pace.",
+      achievements: [
+        "Premier League & Champions League (Liverpool)",
+        "2× Bundesliga (Dortmund)",
+        "FIFA Club World Cup winner"
+      ]
+    },
+    ancelotti: {
+      name: "Carlo Ancelotti",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Carlo_Ancelotti_2015.jpg",
+      style: "Pragmatic flexibility; balances stars with compact, efficient systems.",
+      achievements: [
+        "Record UEFA Champions League titles as manager",
+        "League titles in Italy, England, France, Germany & Spain",
+        "Multiple domestic cups"
+      ]
+    },
+    simeone: {
+      name: "Diego Simeone",
+      img: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Diego_Simeone_2013.jpg",
+      style: "Compact 4-4-2, aggressive duels, elite transitions and mentality.",
+      achievements: [
+        "La Liga titles with Atlético Madrid",
+        "Europa League & UEFA Super Cup",
+        "Multiple Champions League finals appearances"
+      ]
+    }
+  };
+
+  const sel = document.getElementById('coachSelect');
+  const filter = document.getElementById('coachFilter');
+  const card = document.getElementById('coachCard');
+  const img = document.getElementById('coachImg');
+  const nameEl = document.getElementById('coachName');
+  const styleEl = document.getElementById('coachStyle');
+  const listEl = document.getElementById('coachList');
+
+  filter.addEventListener('input', () => {
+    const q = filter.value.toLowerCase();
+    Array.from(sel.options).forEach(o => {
+      if (!o.value) return;
+      o.style.display = o.text.toLowerCase().includes(q) ? 'block' : 'none';
+    });
+  });
+
+  sel.addEventListener('change', () => {
+    const key = sel.value;
+    if (!key || !COACHES[key]) { card.style.display = 'none'; return; }
+    const c = COACHES[key];
+    img.src = c.img;
+    img.alt = c.name;
+    nameEl.textContent = c.name;
+    styleEl.textContent = c.style;
+    listEl.innerHTML = c.achievements.map(a => `<li>${a}</li>`).join('');
+    card.style.display = 'grid';
+  });
+</script>
 </body>
 </html>
