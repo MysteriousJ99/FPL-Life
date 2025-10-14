@@ -8,34 +8,68 @@
     <!-- Makes the website responsive by scaling it properly on mobile devices. -->
 <link rel="stylesheet" href="externalstylesheet.css">
     <title>Soccer News Hub</title> <!-- The title that shows in the browser tab. -->
+<style>
+    /* Main sections */
+    .top-sections, .bottom-sections {
+      display: flex;
+      gap: 20px;
+    }
 
+    .top-sections section {
+      flex: 1;
+      padding: 20px;
+      background-color: #4ac2cd;
+      border-radius: 8px;
+      min-height: 200px;
+    }
+
+    .bottom-sections section {
+      flex: 1;
+      padding: 15px;
+      background-color: #c7712a;
+      border-radius: 6px;
+      min-height: 150px;
+    }
+
+    /* Make links cover whole section */
+    .section-link {
+      text-decoration: none;   /* remove underline */
+      color: inherit;          /* inherit text color */
+      display: block;          /* make link wrap the section */
+    }
+
+    .section-link section {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .section-link section:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .top-sections, .bottom-sections {
+        flex-direction: column;
+      }
+    }
+
+    /* Story image style */
+    .story-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+  </style>
+
+  
     <!-- External CSS file links -->
-<nav>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="mls.html">MLS</a></li>
-        <li><a href="espn.html">ESPN Soccer</a></li>
-        <li><a href="premierleague.html">Premier League</a></li>
-    </ul>
-</nav>
   
 </head>
 <body>
-    <!-- HEADER SECTION: Contains site title and navigation bar -->
-    <header>
-        <h1>Soccer News Hub</h1> <!-- Main site heading -->
-
-        <!-- Navigation menu -->
-        <nav>
-            <ul> <!-- Unordered list used for navigation links -->
-                <li><a href="#">Home</a></li> <!-- "#" is a placeholder link -->
-                <li><a href="#">MLS</a></li>
-                <li><a href="#">ESPN Soccer</a></li>
-                <li><a href="#">Premier League</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <!-- MAIN SECTION: Holds the main content of the page -->
     <main>
         <!-- FEATURED HEADLINE SECTION -->
@@ -71,6 +105,16 @@
             </article>
         </section>
     </main>
+
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="news.html">News</a>
+    <a href="matches.html">Matches</a>
+    <a href="ClubsandPlayers.html">Clubs & Players</a>
+    <a href="coach&league.html">Other Leagues/Coaches</a>
+    <a href="LiveDiscussion.html">Discussion</a>
+  </nav>
+  
 
     <!-- FOOTER SECTION -->
         <!-- © symbol for copyright -->
