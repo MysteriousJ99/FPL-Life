@@ -61,6 +61,17 @@
       margin-top: 10px;
       border-radius: 6px;
     }
+
+    footer img {
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+footer img:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
   </style>
 </head>
 <body>
@@ -131,7 +142,7 @@
 
     <a href="https://www.skysports.com/football/news/11727/13445467/nottingham-forest-boss-ange-postecoglou-to-hold-talks-with-club-hierarchy-over-winless-start" class="section-link">
       <section>
-        <p>Nottengham Forest Manager, Ange Postecoglou will have  talks with upper management 
+        <p>Nottingham Forest Manager, Ange Postecoglou will have  talks with upper management 
           about the clubs 7 match winless start, leaving doubts as too his future with the club.
         </p>
         <img src="images/ange.jpg" alt="Coach News" width="200">
@@ -139,6 +150,47 @@
     </a>
   </div>
 </main>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Select existing images
+    const twitterLogo = document.querySelector('img[alt="Twitter Logo"]');
+    const instagramLogo = document.querySelector('img[alt="Instagram Logo"]');
+    const footerLeft = document.querySelector('.footer-left');
+
+    // Create TikTok logo (if not already added)
+    const tiktokLogo = document.createElement('img');
+    tiktokLogo.src = "images/tiktok.jpg"; // replace with your TikTok image
+    tiktokLogo.alt = "TikTok Logo";
+    tiktokLogo.title = "Visit our TikTok";
+    tiktokLogo.style.width = "50px";
+    tiktokLogo.style.marginLeft = "10px";
+    tiktokLogo.style.cursor = "pointer";
+    footerLeft.appendChild(tiktokLogo);
+
+    // Add tooltips (title attributes)
+    twitterLogo.title = "Visit our Twitter (X)";
+    instagramLogo.title = "Visit our Instagram";
+
+    // Add pointer cursor for all
+    twitterLogo.style.cursor = "pointer";
+    instagramLogo.style.cursor = "pointer";
+
+    // Add click functionality
+    twitterLogo.addEventListener("click", () => {
+      window.open("https://x.com/premierleague", "_blank");
+    });
+
+    instagramLogo.addEventListener("click", () => {
+      window.open("https://www.instagram.com/premierleague/", "_blank");
+    });
+
+    tiktokLogo.addEventListener("click", () => {
+      window.open("https://www.tiktok.com/@premierleague", "_blank");
+    });
+  });
+</script>
+
 
 <footer>
   <div class="footer-left">
@@ -154,6 +206,7 @@
 
 </body>
 </html>
+
 
 
 
