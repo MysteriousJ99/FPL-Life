@@ -2,117 +2,347 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Fast Premier Life</title>
+  <title>Matches — Fast Premier Life</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="externalstylesheet.css">
+
+  <!-- Google font (same as news.html) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Main sections */
-    .top-sections, .bottom-sections {
+    /* ---------- Global Styles (from news.html) ---------- */
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background-color: #fff;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: #4e55ff;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0 0 10px;
+    }
+
+    /* ---------- Header ---------- */
+    header.main-header {
       display: flex;
-      gap: 20px;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f7f3ee;
+      padding: 15px 40px;
+      border-bottom: 2px solid #ddd;
     }
 
-    .top-sections section {
-      flex: 1;
-      padding: 20px;
-      background-color: #4ac2cd;
-      border-radius: 8px;
-      min-height: 200px;
+    header .logo img {
+      height: 40px;
     }
 
-    .bottom-sections section {
-      flex: 1;
-      padding: 15px;
-      background-color: #c7712a;
-      border-radius: 6px;
-      min-height: 150px;
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+      align-items: center;
     }
 
-    /* Make links cover whole section */
-    .section-link {
-      text-decoration: none;   /* remove underline */
-      color: inherit;          /* inherit text color */
-      display: block;          /* make link wrap the section */
+    nav a {
+      font-weight: 500;
+      color: #000;
     }
 
-    .section-link section {
+    nav a.active {
+      border-bottom: 3px solid #000;
+      font-weight: 700;
+    }
+
+    .login-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .search-icon {
+      font-size: 1.2rem;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .section-link section:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    /* ---------- Main Content ---------- */
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
-   
-    /* Story image style */
-    .story-img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin-top: 10px;
-      border-radius: 6px;
+
+    .search-bar {
+      text-align: center;
+      margin-bottom: 30px;
     }
+
+    .search-bar input {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 1em;
+    }
+
+    /* ---------- Featured Article (not used here but kept for parity) ---------- */
+    .featured-article {
+      background-color: #f9f4ef;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+    }
+
+    .featured-article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .featured-images {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .featured-article h3 {
+      font-weight: 600;
+    }
+
+    /* ---------- Articles + Sidebar (kept for parity) ---------- */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .articles article {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    .articles h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .articles p {
+      font-size: 0.95rem;
+    }
+
+    /* ---------- Newsletter Sidebar ---------- */
+    .newsletter {
+      background-color: #f7f3ee;
+      border: 1px solid #ccc;
+      padding: 25px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .newsletter h4 {
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .newsletter button {
+      background-color: #cbb2ff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .newsletter button:hover {
+      background-color: #b69eff;
+    }
+
+    /* ---------- Footer ---------- */
+    footer.main-footer {
+      background-color: #3eafc5;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 25px 40px;
+      font-size: 0.9em;
+    }
+
+    .footer-left p {
+      margin: 0 0 10px;
+    }
+
+    .social-icons img {
+      width: 28px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .footer-right p {
+      margin: 0;
+      text-align: right;
+    }
+
+    @media (max-width: 800px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-right {
+        text-align: left;
+        margin-top: 15px;
+      }
+    }
+
+    /* ---------- Matches-specific styles (to make cards match the site look) ---------- */
+    .matches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .match-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .match-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+
+    .match-card p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    .match-card button {
+      margin-top: 8px;
+      align-self: stretch;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4e55ff;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .match-card button:hover {
+      background-color: #3b42d1;
+    }
+
+    /* small helper to make the page title section consistent */
+    .page-header {
+      margin-bottom: 20px;
+    }
+
   </style>
 </head>
 <body>
 
-<nav>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="mls.html">MLS</a></li>
-        <li><a href="espn.html">ESPN Soccer</a></li>
-        <li><a href="premierleague.html">Premier League</a></li>
-        <li><a href="matches.html">Matches</a></li> <!-- New link added -->
-    </ul>
-</nav>
-
-  <!-- Main heading -->
-  <h1>Schedule</h1>
-  <h2>Upcoming Schedule</h2>
-
-  <!-- Section containing all match cards -->
-  <section class="matches">
-
-    <!-- Match Card #1 -->
-    <div class="match-card">
-      <h3>USA vs ECU</h3>
-      <p>Oct 10 2025 - 8:30PM EDT</p>
-      <p>Q2 Stadium, Austin, TX, USA</p>
-      <button>BUY TICKETS</button>
+  <!-- HEADER (matches news.html header structure) -->
+  <header class="main-header">
+    <div class="logo">
+      <!-- Put your logo image here if available -->
+      <!-- <img src="images/Logo.png" alt="Website Logo"> -->
     </div>
 
-    <!-- Match Card #2 -->
-    <div class="match-card">
-      <h3>USA vs AUS</h3>
-      <p>Oct 14 2025 - 9:00PM EDT</p>
-      <p>DICK'S Sporting Goods Park, Commerce City, CO, USA</p>
-      <button>BUY TICKETS</button>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="matches.html" class="active">Matches</a>
+      <a href="ClubsandPlayers.html">Clubs & Players</a>
+      <a href="coach&league.html">Other Leagues/Coaches</a>
+      <a href="LiveDiscussion.html">Discussion</a>
+    </nav>
+
+    <div class="login-section">
+      <a href="#">Login</a>
+      <span class="search-icon">🔍</span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="page-header">
+      <h1>Schedule</h1>
+      <h2>Upcoming Schedule</h2>
     </div>
 
-    <!-- Match Card #3 -->
-    <div class="match-card">
-      <h3>USA vs POR</h3>
-      <p>Oct 23 2025 - 7:00PM EDT</p>
-      <p>Subaru Park, Chester, PA, USA</p>
-      <button>BUY TICKETS</button>
+    <!-- Optional: search bar (kept from news.html) -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search matches, teams, or venues">
     </div>
-  </section>
 
-  <!-- Footer at the bottom of the page -->
-   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>Check out other links here for the official Premier League Instagram and Twitter page</div>
-      <div class="social">
-        <a href="https://twitter.com" aria-label="Twitter">𝕏</a>
-        <a href="https://instagram.com" aria-label="Instagram">IG</a>
+    <!-- Matches grid -->
+    <section class="matches">
+      <!-- Match Card #1 -->
+      <div class="match-card">
+        <h3>USA vs ECU</h3>
+        <p>Oct 10, 2025 - 8:30 PM EDT</p>
+        <p>Q2 Stadium, Austin, TX, USA</p>
+        <button>BUY TICKETS</button>
       </div>
-      <address>
-        Contact information: <a href="tel:3025556611" style="color:#fff;text-decoration:underline">302-555-6611</a><br>
-        <a href="mailto:wearedefinitelyreal@gmail.com" style="color:#fff;text-decoration:underline">wearedefinitelyreal@gmail.com</a>
-      </address>
+
+      <!-- Match Card #2 -->
+      <div class="match-card">
+        <h3>USA vs AUS</h3>
+        <p>Oct 14, 2025 - 9:00 PM EDT</p>
+        <p>DICK'S Sporting Goods Park, Commerce City, CO, USA</p>
+        <button>BUY TICKETS</button>
+      </div>
+
+      <!-- Match Card #3 -->
+      <div class="match-card">
+        <h3>USA vs POR</h3>
+        <p>Oct 23, 2025 - 7:00 PM EDT</p>
+        <p>Subaru Park, Chester, PA, USA</p>
+        <button>BUY TICKETS</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER (now using main-footer so styles apply) -->
+  <footer class="main-footer">
+    <div class="footer-left">
+      <p>Check out other links here for the official Premier League Instagram and Twitter page</p>
+      <div class="social-icons">
+        <!-- If you have images, uncomment and use the image tags -->
+        <!-- <img src="images/instagram.png" alt="Instagram"> -->
+        <!-- <img src="images/twitter.png" alt="Twitter"> -->
+        <a href="https://twitter.com" aria-label="Twitter" style="color:#fff;margin-right:12px">𝕏</a>
+        <a href="https://instagram.com" aria-label="Instagram" style="color:#fff">IG</a>
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <p>Contact information: 302-555-6611<br>wearedefinitelyreal@gmail.com</p>
     </div>
   </footer>
+
 </body>
 </html>
+
+
