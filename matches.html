@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Page-level spacing and PL palette helpers */
+    /* Palette and helpers (matches news.html) */
     :root{
       --pl-purple: #38003c;
       --pl-purple-2: #5a0065;
@@ -23,7 +23,10 @@
       --muted:#666;
       --card-bg:#fff;
       --page-pad:20px;
+      --footer-teal: #3eafc5;
+      --header-bg: #f7f3ee;
     }
+
     html,body{height:100%}
     body{
       font-family:"Poppins",sans-serif;
@@ -35,127 +38,111 @@
       -moz-osx-font-smoothing:grayscale;
     }
 
+    /* ---------- Header (styled same as news.html) ---------- */
     header.main-header{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:14px 20px;
-      background:#f7f3ee;
-      border-bottom:2px solid #ddd;
+      background-color: var(--header-bg);
+      padding:15px 40px;
+      border-bottom: 2px solid #ddd;
     }
 
-    .logo img{height:40px; display:block;}
+    header .logo img{
+      height:40px;
+      display:block;
+    }
 
-    nav{display:flex; gap:16px; align-items:center;}
-    nav a{color:inherit; text-decoration:none; font-weight:500; padding-bottom:6px;}
-    nav a.active{border-bottom:3px solid var(--pl-purple); font-weight:700;}
-    .login-section{display:flex; gap:12px; align-items:center;}
+    nav{
+      display:flex;
+      gap:20px;
+      align-items:center;
+    }
+    nav a{
+      font-weight:500;
+      color:#000;
+      text-decoration:none;
+      padding-bottom:6px;
+    }
+    nav a:hover { text-decoration:underline; }
+    nav a.active{
+      border-bottom:3px solid var(--pl-purple);
+      font-weight:700;
+    }
 
-    main{max-width:1200px; margin:28px auto; padding:0 20px;}
+    .login-section{
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+
+    .search-icon{ font-size:1.2rem; cursor:pointer; }
+
+    /* ---------- Main layout (kept from prior page) ---------- */
+    main{max-width:1200px; margin:40px auto; padding:0 20px;}
 
     .page-header{margin-bottom:18px;}
     .page-header h1{font-size:1.6rem; margin-bottom:6px;}
     .page-header h2{font-size:1rem; color:var(--muted); margin:0;}
 
-    /* Controls area */
-    .controls {
+    .controls { display:flex; gap:12px; align-items:center; margin-bottom:18px; flex-wrap:wrap; }
+    .btn { background: var(--pl-purple); color:#fff; border:none; padding:8px 12px; border-radius:8px; font-weight:600; cursor:pointer; transition:background .15s; }
+    .btn:hover { background: var(--pl-purple-2); }
+    .btn.secondary { background:transparent; color:var(--pl-purple); border:1px solid rgba(56,0,60,0.12); }
+
+    .input, .text { padding:8px 10px; border-radius:8px; border:1px solid #ddd; font-size:0.95rem; }
+    label.file-label{ display:inline-block; padding:8px 12px; background:#fff; border:1px dashed #ddd; border-radius:8px; cursor:pointer; }
+
+    /* ---------- Calendar & matches styles (kept from prior) ---------- */
+    .calendar-wrap{ background:var(--card-bg); padding:16px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.06); margin-bottom:20px; }
+    .cal-header{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
+    .month-year{ font-weight:700; }
+    .cal-controls{ display:flex; gap:8px; align-items:center; }
+
+    .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+    .cal-weekday{ text-align:center; font-weight:600; color:#555; padding:6px 0; }
+    .cal-day{ min-height:84px; background:#f9f9fb; border-radius:8px; padding:8px; position:relative; cursor:pointer; display:flex; flex-direction:column; }
+    .cal-day.outside{ opacity:0.35; }
+    .date-num{ font-weight:700; margin-bottom:8px; }
+    .dot{ position:absolute; bottom:8px; left:8px; width:10px; height:10px; border-radius:50%; background:var(--pl-red); }
+    .cal-day.selected{ background:linear-gradient(180deg,#fff7ff,#f4ecff); border:1px solid var(--pl-purple); }
+    .cal-day.today{ outline:3px solid rgba(56,0,60,0.06); }
+
+    .events-list{ margin-top:14px; border-top:1px dashed #eee; padding-top:12px; }
+    .event-item{ background:#fff; border-left:4px solid var(--pl-blue); padding:10px; border-radius:6px; margin-bottom:10px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+    .event-item .time{ font-weight:700; margin-right:8px; color:#333; }
+
+    .matches{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin-top:20px; }
+    .match-card{ background:#fff; border-radius:10px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); display:flex; flex-direction:column; gap:8px; }
+    .match-card h3{ font-size:1.1rem; margin:0; }
+    .match-card p{ margin:0; color:#333; font-size:0.95rem; }
+    .match-card .buy{ margin-top:8px; padding:8px 10px; border-radius:8px; border:none; background:var(--pl-blue); color:#fff; font-weight:600; cursor:pointer; }
+    .match-card .buy:hover{ background:#3b42d1; }
+
+    .form-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:8px; }
+    .muted{ color:var(--muted); font-size:0.9rem; }
+
+    /* ---------- Footer (match news look) ---------- */
+    footer.main-footer{
+      background-color: var(--footer-teal);
+      color: #fff;
       display:flex;
-      gap:12px;
-      align-items:center;
-      margin-bottom:18px;
+      justify-content:space-between;
       flex-wrap:wrap;
-    }
-    .controls > * { margin: 4px 0; }
-
-    .btn {
-      background: var(--pl-purple);
-      color:#fff;
-      border:none;
-      padding:8px 12px;
-      border-radius:8px;
-      font-weight:600;
-      cursor:pointer;
-      transition:background .15s;
-    }
-    .btn:hover{background:var(--pl-purple-2)}
-    .btn.secondary{
-      background:transparent;color:var(--pl-purple);border:1px solid rgba(56,0,60,0.12);
+      align-items:center;
+      padding:25px 40px;
+      font-size:0.9em;
     }
 
-    input[type="file"]{display:none;}
-    label.file-label{
-      display:inline-block;
-      padding:8px 12px;
-      background:#fff;border:1px dashed #ddd;border-radius:8px;cursor:pointer;
-    }
-
-    .input, .text {
-      padding:8px 10px;
-      border-radius:8px;
-      border:1px solid #ddd;
-      font-size:0.95rem;
-    }
-    .small{font-size:0.9rem;padding:6px 8px}
-
-    /* Calendar container */
-    .calendar-wrap{
-      background:var(--card-bg);
-      padding:16px;
-      border-radius:10px;
-      box-shadow:0 2px 10px rgba(0,0,0,0.06);
-      margin-bottom:20px;
-    }
-    .cal-header{
-      display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;
-    }
-    .month-year{font-weight:700}
-    .cal-controls{display:flex; gap:8px; align-items:center;}
-
-    .cal-grid{
-      display:grid;
-      grid-template-columns:repeat(7,1fr);
-      gap:8px;
-    }
-    .cal-weekday{text-align:center;font-weight:600;color:#555;padding:6px 0}
-    .cal-day{
-      min-height:84px;
-      background:#f9f9fb;border-radius:8px;padding:8px;position:relative;cursor:pointer;
-      display:flex;flex-direction:column;
-    }
-    .cal-day.outside{opacity:0.35}
-    .date-num{font-weight:700;margin-bottom:8px}
-    .dot{position:absolute;bottom:8px;left:8px;width:10px;height:10px;border-radius:50%;background:var(--pl-red);}
-    .cal-day.selected{background:linear-gradient(180deg,#fff7ff,#f4ecff);border:1px solid var(--pl-purple)}
-    .cal-day.today{outline:3px solid rgba(56,0,60,0.06)}
-
-    /* events list */
-    .events-list{margin-top:14px;border-top:1px dashed #eee;padding-top:12px}
-    .event-item{background:#fff;border-left:4px solid var(--pl-blue);padding:10px;border-radius:6px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
-    .event-item .time{font-weight:700;margin-right:8px;color:#333}
-
-    /* matches grid (auto-generated cards) */
-    .matches{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:20px;
-      margin-top:20px;
-    }
-    .match-card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:8px}
-    .match-card h3{font-size:1.1rem;margin:0}
-    .match-card p{margin:0;color:#333;font-size:0.95rem}
-    .match-card .buy{margin-top:8px;padding:8px 10px;border-radius:8px;border:none;background:var(--pl-blue);color:#fff;font-weight:600;cursor:pointer}
-    .match-card .buy:hover{background:#3b42d1}
-
-    /* small forms area */
-    .form-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
-    .muted{color:var(--muted);font-size:0.9rem}
-
-    footer.main-footer{background:var(--pl-blue);color:#fff;padding:20px;margin-top:32px;border-radius:8px}
+    .footer-left p{ margin:0 0 10px; }
+    .social-icons img{ width:28px; height:28px; margin-right:10px; vertical-align:middle; object-fit:contain; }
+    .footer-right p{ margin:0; text-align:right; }
 
     @media (max-width:900px){
-      .cal-grid{gap:6px}
-      .cal-day{min-height:64px}
-      .controls{flex-direction:column;align-items:stretch}
+      .cal-grid{ gap:6px; }
+      .cal-day{ min-height:64px; }
+      .controls{ flex-direction:column; align-items:stretch; }
+      footer.main-footer{ padding:18px; }
     }
   </style>
 </head>
@@ -188,26 +175,21 @@
       <h2>Upcoming & Past Matches — view by calendar or list</h2>
     </div>
 
-    <!-- Controls: CSV import / Google Calendar import / Add event -->
+    <!-- Controls -->
     <div class="controls" aria-label="Event import and controls">
-      <!-- CSV import -->
       <label class="file-label" title="Upload CSV (title,date,time,venue,url)">
         Import CSV
         <input type="file" id="csvFile" accept=".csv,text/csv">
       </label>
 
-      <!-- iCal import -->
       <input type="text" id="icalUrl" class="input" placeholder="Paste public Google Calendar ICS URL (https://.../basic.ics)">
       <button class="btn" id="importIcalBtn">Import iCal</button>
-
-      <!-- quick add form toggle -->
       <button class="btn secondary" id="toggleAdd">Add Event</button>
-
       <button class="btn" id="clearStorage" title="Remove imported events from local storage">Clear Saved Events</button>
     </div>
 
-    <!-- quick add event (hidden by default) -->
-    <div id="addForm" style="display:none; margin-bottom:14px; background:#fff;padding:12px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+    <!-- quick add -->
+    <div id="addForm" style="display:none; margin-bottom:14px; background:#fff; padding:12px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
       <div class="form-row">
         <input id="addTitle" class="input" placeholder="Title (Team A vs Team B)">
         <input id="addDate" class="input" placeholder="YYYY-MM-DD">
@@ -257,15 +239,22 @@
 
   </main>
 
+  <!-- FOOTER styled to match news.html -->
   <footer class="main-footer">
     <div class="footer-left">
-      <p>Check out official Premier League links</p>
+      <p>Check out other links here for the official Premier League Instagram and Twitter page</p>
+      <div class="social-icons">
+        <img src="images/twitter page.jpg" alt="Twitter" />
+        <img src="images/instagram.jpg" alt="Instagram" />
+      </div>
     </div>
+
     <div class="footer-right">
-      <p>Contact: 302-555-6611 · wearedefinitelyreal@gmail.com</p>
+      <p>Contact information: 302-555-6611<br>wearedefinitelyreal@gmail.com</p>
     </div>
   </footer>
 
+  <!-- Keep existing script (no functional changes) -->
   <script>
   /********************************************************
    * Matches page script
@@ -274,7 +263,6 @@
    * - Imports from CSV and public iCal (.ics)
    *********************************************************/
 
-  // initial sample events (you can remove/modify)
   const seedEvents = [
     { id: 1, title: "Liverpool vs Man United", date: "2025-09-15", time: "16:30", venue: "Anfield, Liverpool, UK", url: "" },
     { id: 2, title: "Arsenal vs Chelsea", date: "2025-09-20", time: "19:45", venue: "Emirates Stadium, London, UK", url: "" },
@@ -284,7 +272,6 @@
     { id: 6, title: "Liverpool vs Brighton", date: "2025-11-02", time: "15:00", venue: "Anfield, Liverpool, UK", url: "" }
   ];
 
-  // load events from localStorage if present, otherwise seed
   const STORAGE_KEY = 'fpl_events_v1';
   let events = loadEvents();
 
@@ -296,7 +283,6 @@
         if(Array.isArray(parsed) && parsed.length) return parsed;
       }
     } catch(e){ console.warn('Could not parse events from storage', e); }
-    // return clone of seedEvents
     return JSON.parse(JSON.stringify(seedEvents));
   }
 
@@ -306,17 +292,14 @@
     } catch(e){ console.warn('Could not save events', e); }
   }
 
-  // utility helpers
   const pad = n => n < 10 ? '0'+n : n;
   function toISODate(d){ const y=d.getFullYear(), m=pad(d.getMonth()+1), day=pad(d.getDate()); return `${y}-${m}-${day}`; }
 
-  // calendar state
   let today = new Date();
   let currentMonth = today.getMonth();
   let currentYear = today.getFullYear();
   let selectedDateISO = null;
 
-  // DOM refs
   const monthYearNode = document.getElementById('monthYear');
   const calendarGrid = document.getElementById('calendarGrid');
   const eventsList = document.getElementById('eventsList');
@@ -325,7 +308,6 @@
   const matchSearch = document.getElementById('matchSearch');
   const matchesGrid = document.getElementById('matchesGrid');
 
-  // controls
   const csvFile = document.getElementById('csvFile');
   const icalUrl = document.getElementById('icalUrl');
   const importIcalBtn = document.getElementById('importIcalBtn');
@@ -339,10 +321,8 @@
   const addUrl = document.getElementById('addUrl');
   const clearStorageBtn = document.getElementById('clearStorage');
 
-  // small helper: ensure unique id
   function nextId(){ return events.reduce((m,e)=>Math.max(m,e.id||0),0)+1; }
 
-  // find events for iso date
   function eventsForDate(iso){
     return events.filter(e => e.date === iso).sort((a,b)=> (a.time||'').localeCompare(b.time||''));
   }
@@ -382,7 +362,6 @@
       dateNum.textContent = displayDay;
       cell.appendChild(dateNum);
 
-      // compute ISO
       let cellDateISO;
       if(inCurrentMonth){
         cellDateISO = `${year}-${pad(month+1)}-${pad(displayDay)}`;
@@ -397,16 +376,13 @@
         cellDateISO = `${cellYear}-${pad(cellMonth+1)}-${pad(displayDay)}`;
       }
 
-      // mark today
       if(cellDateISO === toISODate(new Date())) cell.classList.add('today');
 
-      // dot if events exist
       const dayEvents = eventsForDate(cellDateISO);
       if(dayEvents.length){
         const dot = document.createElement('div'); dot.className='dot'; cell.appendChild(dot);
       }
 
-      // click select
       (function(iso, node){
         node.addEventListener('click', () => {
           document.querySelectorAll('.cal-day.selected').forEach(n=>n.classList.remove('selected'));
@@ -419,9 +395,7 @@
       calendarGrid.appendChild(cell);
     }
 
-    // optionally auto-select today if visible
     if(toISODate(new Date()).startsWith(`${currentYear}-${pad(currentMonth+1)}`)){
-      // find node with .today and select
       const nodes = document.querySelectorAll('#calendarGrid .cal-day.today');
       if(nodes && nodes.length){
         nodes[0].classList.add('selected');
@@ -429,7 +403,6 @@
         renderEventsForSelectedDate();
       }
     } else {
-      // clear selection
       selectedDateISO = null;
       eventsList.innerHTML = '<p class="muted">Select a day to view matches.</p>';
     }
@@ -456,7 +429,6 @@
   function renderMatchCards(filter=''){
     matchesGrid.innerHTML = '';
     const q = filter ? filter.toLowerCase().trim() : '';
-    // sort events ascending by date/time
     const sorted = events.slice().sort((a,b)=>{
       if(a.date !== b.date) return a.date.localeCompare(b.date);
       return (a.time||'').localeCompare(b.time||'');
@@ -475,7 +447,6 @@
       matchesGrid.appendChild(card);
     });
 
-    // attach buy button handlers (example)
     document.querySelectorAll('.match-card .buy').forEach(btn=>{
       btn.addEventListener('click', (e)=>{
         const id = Number(e.currentTarget.dataset.id);
@@ -486,7 +457,6 @@
     });
   }
 
-  // navigation handlers
   document.getElementById('prevMonth').addEventListener('click', ()=>{
     if(currentMonth === 0){ currentMonth = 11; currentYear--; } else currentMonth--;
     renderCalendar(currentMonth, currentYear);
@@ -496,10 +466,8 @@
     renderCalendar(currentMonth, currentYear);
   });
 
-  // search filter
   matchSearch.addEventListener('input', (e)=> renderMatchCards(e.target.value) );
 
-  // CSV import
   csvFile.addEventListener('change', (e)=>{
     const f = e.target.files[0];
     if(!f) return;
@@ -508,10 +476,8 @@
       try {
         const text = ev.target.result;
         const parsed = parseCSV(text);
-        // parsed is array of objects
         let added = 0;
         parsed.forEach(obj=>{
-          // normalize keys: title,date,time,venue,url
           const title = obj.title || obj.Title || obj.NAME || obj.name || '';
           const date = (obj.date || obj.Date || '').trim();
           const time = (obj.time || obj.Time || '').trim();
@@ -528,13 +494,10 @@
       } catch(err){ alert('Error parsing CSV: ' + err.message); }
     };
     reader.readAsText(f);
-    // clear file so same file can be re-picked
     e.target.value = '';
   });
 
-  // CSV parsing (simple; handles header row)
   function parseCSV(text){
-    // split lines (handles \r\n and \n)
     const lines = text.split(/\r?\n/).filter(l=>l.trim()!=='');
     if(!lines.length) return [];
     const delimiter = detectDelimiter(lines[0]);
@@ -542,9 +505,8 @@
     const rows = lines.slice(1);
     const out = [];
     rows.forEach(r=>{
-      const cols = r.split(delimiter);
+      let cols = r.split(delimiter);
       if(cols.length === 1 && cols[0].indexOf(',') !== -1){
-        // fallback to comma
         cols = r.split(',');
       }
       if(cols.length < 1) return;
@@ -552,14 +514,11 @@
       for(let i=0;i<headers.length;i++){
         obj[headers[i]] = (cols[i] || '').trim();
       }
-      // if header not present (no header row), assume column order: title,date,time,venue,url
       out.push(obj);
     });
-    // If header looks like data (no known fields), try to detect headerless CSV
     const known = ['title','date','time','venue','url','Title','Date','Time','Venue','URL'];
     const headerHasKnown = headers.some(h => known.includes(h));
     if(!headerHasKnown){
-      // treat first line as data, map by column position
       const arr = text.split(/\r?\n/).filter(l=>l.trim()!=='');
       const res = [];
       arr.forEach(line=>{
@@ -583,7 +542,6 @@
     return ',';
   }
 
-  // iCal import (simple ICS parser)
   importIcalBtn.addEventListener('click', async ()=>{
     const url = icalUrl.value.trim();
     if(!url){ alert('Paste a public Google Calendar ICS URL into the input first.'); return; }
@@ -591,14 +549,11 @@
       const resp = await fetch(url);
       if(!resp.ok) throw new Error('Network response not ok ('+resp.status+')');
       const text = await resp.text();
-      const parsed = parseICS(text); // returns array of events {title,start, end, location, url}
+      const parsed = parseICS(text);
       let added = 0;
       parsed.forEach(it=>{
-        // parse date/time into YYYY-MM-DD and HH:MM
-        // DTSTART may be in formats: 20251010T203000Z or 20251010
         let dt = it.start;
         if(!dt) return;
-        // remove timezone suffix Z if present for simplicity
         const dts = dt.replace(/Z$/,'');
         let y = dts.substr(0,4), m=dts.substr(4,2), dd=dts.substr(6,2);
         let hh = dts.length >= 9 ? dts.substr(9,2) : '';
@@ -620,10 +575,8 @@
     }
   });
 
-  // simple ICS parser (very small, handles VEVENT blocks and a few properties)
   function parseICS(text){
     const events = [];
-    // normalize line breaks and unfold folded lines (RFC 5545: lines may be folded with CRLF + space)
     const unfolded = text.replace(/\r\n[ \t]/g,'');
     const vevents = unfolded.split(/BEGIN:VEVENT/i).slice(1);
     vevents.forEach(block=>{
@@ -635,7 +588,6 @@
         const m = content.match(re);
         if(!m) return null;
         const line = m[0];
-        // strip property name and parameters
         const idx = line.indexOf(':');
         return idx>-1 ? line.substring(idx+1).trim() : line.replace(/^.*?:/,'').trim();
       };
@@ -649,7 +601,6 @@
     return events;
   }
 
-  // Add event via form
   toggleAdd.addEventListener('click', ()=> addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none');
   addEventBtn.addEventListener('click', ()=>{
     const title = addTitle.value.trim(); const date = addDate.value.trim(); const time = addTime.value.trim();
@@ -661,7 +612,6 @@
     addForm.style.display = 'none';
   });
 
-  // Clear stored events (reset to seed)
   clearStorageBtn.addEventListener('click', ()=>{
     if(!confirm('Clear saved events and reset to default sample events?')) return;
     localStorage.removeItem(STORAGE_KEY);
@@ -669,22 +619,14 @@
     renderCalendar(currentMonth,currentYear); renderMatchCards('');
   });
 
-  // initial render
   renderCalendar(currentMonth, currentYear);
   renderMatchCards();
 
-  // keyboard accessible: enter on ical field triggers import
   icalUrl.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') importIcalBtn.click(); });
 
-  /***************
-   * Developer notes:
-   * - If public Google Calendar import fails due to CORS, download the ICS and either:
-   *    - upload the CSV version (title,date,time,venue,url), OR
-   *    - host the ICS on a server with permissive CORS headers.
-   * - You can persist events server-side later by POSTing `events` to your backend.
-   ***************/
   </script>
 
 </body>
 </html>
+
 
