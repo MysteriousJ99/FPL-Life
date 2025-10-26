@@ -38,14 +38,84 @@
       font-weight: 700;
     }
 
-    .story-img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 6px;
-      display: block;
+    /* Featured images layout */
+    .featured-images {
+      display:flex;
+      gap:10px;
+      margin-bottom:15px;
+      align-items:stretch;
     }
 
-    /* ---------- Social Share Buttons ---------- */
+    .featured-item {
+      position:relative;
+      flex: 1 1 0;
+      overflow: hidden;
+      border-radius:8px;
+      background:#efefef;
+      min-height:150px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .featured-item img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition: transform .25s ease;
+      cursor:pointer;
+    }
+
+    .featured-item:focus-within img,
+    .featured-item:hover img {
+      transform: scale(1.03);
+    }
+
+    .featured-caption {
+      position:absolute;
+      left:10px;
+      right:10px;
+      bottom:8px;
+      padding:6px 8px;
+      background: rgba(0,0,0,0.5);
+      color:#fff;
+      border-radius:6px;
+      font-size:0.95rem;
+      backdrop-filter: blur(2px);
+    }
+
+    /* controls for slideshow */
+    .featured-controls {
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .btn {
+      background: #38003c;
+      color:#fff;
+      border:none;
+      padding:8px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    .btn.secondary {
+      background:#fff;
+      color:#38003c;
+      border:1px solid rgba(56,0,60,0.12);
+    }
+
+    /* small responsive tweak */
+    @media (max-width:700px){
+      .featured-images { flex-direction: column; }
+      .featured-item { min-height:140px; }
+    }
+
+    /* Social Share Buttons */
     .social-sharing {
       margin-top: 25px;
       display: flex;
@@ -63,40 +133,35 @@
       transition: all 0.2s;
     }
 
-    /* Premier League color palette */
-    #share-facebook {
-      background-color: #38003c; /* Deep PL purple */
+    #share-facebook{ background-color:#38003c }
+    #share-twitter{ background-color:#00a3e0 }
+    #share-youtube{ background-color:#d81920 }
+
+    /* Footer consistent with original */
+    footer {
+      background-color: #3eafc5;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 25px 40px;
+      font-size: 0.9em;
     }
 
-    #share-facebook:hover {
-      background-color: #5a0065;
+    .footer-left p {
+      margin: 0 0 10px;
     }
 
-    #share-twitter {
-      background-color: #00a3e0; /* Sky blue accent */
+    .footer-left img, .footer-right img {
+      width: 60px;
+      margin-right: 10px;
+      vertical-align: middle;
     }
 
-    #share-twitter:hover {
-      background-color: #008cc6;
-    }
-
-    #share-youtube {
-      background-color: #d81920; /* PL red for YouTube */
-    }
-
-    #share-youtube:hover {
-      background-color: #b2161b;
-    }
-
-    /* Footer image hover */
-    footer img {
-      cursor: pointer;
-      transition: transform 0.2s, filter 0.2s;
-    }
-
-    footer img:hover {
-      transform: scale(1.1);
-      filter: brightness(1.1);
+    .footer-right p {
+      margin: 0;
+      text-align: right;
     }
   </style>
 </head>
@@ -107,7 +172,7 @@
   <header>
     <div class="logo">
       <a href="index.html">
-        <img src="images/Logo.png" alt="Website Logo">
+        <img id="siteLogo" src="images/Logo.png" alt="Website Logo">
       </a>
     </div>
 
@@ -131,22 +196,27 @@
     <h1>News</h1>
 
     <div class="search-bar" style="text-align:center; margin:20px 0;">
-      <input type="text" placeholder="Hinted search text" style="width:80%; padding:10px; border-radius:20px; border:1px solid #ccc;">
+      <input id="siteSearch" type="text" placeholder="Hinted search text" style="width:80%; padding:10px; border-radius:20px; border:1px solid #ccc;">
     </div>
 
     <!-- FEATURED ARTICLE -->
     <section class="featured-article" style="background-color:#f9f4ef; padding:20px; border-radius:10px;">
-      <h2>Analysis: Four tactical trends emerging in 2025/26 so far</h2>
+      <h2 id="featuredTitle">Analysis: Four tactical trends emerging in 2025/26 so far</h2>
 
-      <div class="featured-images" style="display:flex; gap:10px; margin:12px 0;">
-        <img src="soccer-player-jumping-to-ball-multiple-stanislaw-pytel.webp" alt="Image 1" class="story-img">
-        <img src="images/news2.jpg" alt="Image 2" class="story-img">
-        <img src="images/news3.jpg" alt="Image 3" class="story-img">
+      <!-- Featured images area: will be populated from articles[] by JS -->
+      <div class="featured-images" id="featuredImages" aria-live="polite">
+        <!-- three items will be injected here -->
       </div>
 
-      <h3>From long throws and long goal-kicks, Opta Analyst identifies key changes in strategy and style</h3>
-      <p><a href="#">Opta Analyst</a>’s Ali Tweedale looks at four emerging trends across the Premier League so far this season.</p>
-      <p>It might only be three matches into the new campaign, but a few things are happening that suggest Premier League football is changing.</p>
+      <!-- slideshow controls -->
+      <div class="featured-controls" style="justify-content:flex-end;">
+        <button class="btn secondary" id="prevFeature" aria-label="Previous featured">Prev</button>
+        <button class="btn" id="nextFeature" aria-label="Next featured">Next</button>
+      </div>
+
+      <h3 id="featuredSub">From long throws and long goal-kicks, Opta Analyst identifies key changes in strategy and style</h3>
+      <p><a id="featuredAuthor" href="#">Opta Analyst</a>’s Ali Tweedale looks at four emerging trends across the Premier League so far this season.</p>
+      <p id="featuredExcerpt">It might only be three matches into the new campaign, but a few things are happening that suggest Premier League football is changing.</p>
 
       <!-- Social Share Buttons -->
       <h3>Share this article:</h3>
@@ -159,7 +229,7 @@
 
     <!-- ARTICLE GRID -->
     <div class="content-grid" style="display:grid; grid-template-columns:2fr 1fr; gap:30px; margin-top:30px;">
-      <section class="articles">
+      <section class="articles" id="articleList">
         <article style="background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:20px;">
           <h3>Analysis: What to expect from Postecoglou at Nottingham Forest</h3>
           <p><strong>Alex Keble</strong> analyses Australian’s tactics and the players who could thrive under his stewardship.</p>
@@ -170,7 +240,7 @@
           <p>Nottingham Forest announced the appointment of <a href="#">Ange Postecoglou</a> as head coach, following the departure of Nuno Espírito Santo.</p>
         </article>
 
-        <article style="background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <article id="kitsArticle" style="background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
           <h3>Premier League Club Kits for 2025/26</h3>
           <p>See every Premier League club’s new threads for the 2025/26 season. Liverpool were the last club to reveal their sea-green third kit.</p>
         </article>
@@ -184,44 +254,259 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
+  <!-- FOOTER — kept same structure and content as earlier -->
   <footer>
     <div class="footer-left">
       <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-      <img src="images/twitter page.jpg" alt="Twitter Logo" width="60">
-      <img src="images/instagram.jpg" alt="Instagram Logo" width="60">
+      <img id="twitterFooter" src="images/twitter page.jpg" alt="Twitter Logo" width="60">
+      <img id="instagramFooter" src="images/instagram.jpg" alt="Instagram Logo" width="60">
     </div>
     <div class="footer-right">
       <p>302-555-6611</p>
-      <p>wearedefintelyreal@gmail.com</p>
+      <p>wearedefinitelyreal@gmail.com</p>
     </div>
   </footer>
 
-  <!-- Social Sharing Script -->
+  <!-- Social Sharing + Featured images Script -->
   <script>
-    // URL and title to share
-    const pageUrl = encodeURIComponent(window.location.href);
-    const pageTitle = encodeURIComponent(document.title);
+    // ---------- Sample articles array (replace or update dynamically) ----------
+    // Each object: { id, title, img (path), url, excerpt, author, date }
+    let articles = [
+      {
+        id: 1,
+        title: "Analysis: Four tactical trends emerging in 2025/26 so far",
+        img: "soccer-player-jumping-to-ball-multiple-stanislaw-pytel.webp",
+        url: "#",
+        excerpt: "It might only be three matches into the new campaign, but a few things are happening that suggest Premier League football is changing.",
+        author: "Opta Analyst",
+        date: "2025-10-01"
+      },
+      {
+        id: 2,
+        title: "Postecoglou replaces Nuno as Nottingham Forest head coach",
+        img: "images/news2.jpg",
+        url: "#",
+        excerpt: "Nottingham Forest announced the appointment of Ange Postecoglou as head coach.",
+        author: "Club Press",
+        date: "2025-10-05"
+      },
+      {
+        id: 3,
+        title: "Premier League Club Kits for 2025/26",
+        img: "images/news3.jpg",
+        url: "#",
+        excerpt: "See every Premier League club's new threads for the 2025/26 season.",
+        author: "Kit Watch",
+        date: "2025-09-28"
+      }
+    ];
 
-    // Facebook
+    // Placeholder fallback image (create this file or update the path)
+    const placeholderImg = 'images/placeholder-news.jpg';
+
+    // DOM refs
+    const featuredImagesNode = document.getElementById('featuredImages');
+    const featuredTitle = document.getElementById('featuredTitle');
+    const featuredSub = document.getElementById('featuredSub');
+    const featuredAuthor = document.getElementById('featuredAuthor');
+    const featuredExcerpt = document.getElementById('featuredExcerpt');
+    const articleList = document.getElementById('articleList');
+
+    // slideshow state
+    let featureIndex = 0;
+    let autoRotateTimer = null;
+    const ROTATE_INTERVAL = 7000; // ms
+
+    // Safe image setter for featured and footer images
+    function setImageWithFallback(imgEl, src, alt){
+      imgEl.alt = alt || '';
+      imgEl.src = src;
+      imgEl.onerror = () => {
+        if(imgEl.src !== placeholderImg) imgEl.src = placeholderImg;
+      };
+    }
+
+    // Render featured images
+    function renderFeatured(startIndex=0){
+      featuredImagesNode.innerHTML = '';
+      // pick up to 3 articles starting at startIndex
+      const items = [];
+      for(let i=0;i<3;i++){
+        const idx = startIndex + i;
+        if(idx < articles.length) items.push(articles[idx]);
+      }
+      // fill placeholders if fewer than 3
+      while(items.length < 3){
+        items.push({ id: 'ph'+items.length, title: 'No article', img: placeholderImg, url:'#', excerpt:'', author:'', date:''});
+      }
+
+      items.forEach((art) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'featured-item';
+        wrap.tabIndex = 0;
+        wrap.setAttribute('role','link');
+        wrap.setAttribute('aria-label', art.title || 'Featured article');
+
+        const img = document.createElement('img');
+        setImageWithFallback(img, art.img || placeholderImg, art.title || 'Featured image');
+
+        const cap = document.createElement('div');
+        cap.className = 'featured-caption';
+        cap.textContent = art.title || '';
+
+        // click: open article URL (if provided) or populate main featured
+        wrap.addEventListener('click', (e) => {
+          if(art.url && art.url !== '#') window.open(art.url, "_blank");
+          else { populateMainFeatured(art); }
+        });
+
+        wrap.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrap.click(); }
+        });
+
+        wrap.appendChild(img);
+        wrap.appendChild(cap);
+        featuredImagesNode.appendChild(wrap);
+      });
+
+      // update main textual featured with the lead article (startIndex)
+      const lead = articles[startIndex] || items[0];
+      populateMainFeatured(lead);
+    }
+
+    function populateMainFeatured(art){
+      if(!art) return;
+      featuredTitle.textContent = art.title || '';
+      featuredSub.textContent = art.excerpt || '';
+      featuredAuthor.textContent = art.author || '';
+      featuredAuthor.href = art.url || '#';
+      featuredExcerpt.textContent = art.excerpt || '';
+      currentShareUrl = art.url && art.url !== '#' ? art.url : window.location.href;
+      currentShareTitle = art.title || document.title;
+    }
+
+    // slideshow controls
+    document.getElementById('prevFeature').addEventListener('click', ()=>{
+      if(featureIndex <= 0) featureIndex = Math.max(0, articles.length - 3);
+      else featureIndex--;
+      renderFeatured(featureIndex);
+      restartAutoRotate();
+    });
+
+    document.getElementById('nextFeature').addEventListener('click', ()=>{
+      if(featureIndex + 3 < articles.length) featureIndex++;
+      else featureIndex = 0;
+      renderFeatured(featureIndex);
+      restartAutoRotate();
+    });
+
+    function startAutoRotate(){
+      stopAutoRotate();
+      autoRotateTimer = setInterval(()=>{
+        if(featureIndex + 3 < articles.length) featureIndex++;
+        else featureIndex = 0;
+        renderFeatured(featureIndex);
+      }, ROTATE_INTERVAL);
+    }
+    function stopAutoRotate(){ if(autoRotateTimer) clearInterval(autoRotateTimer); autoRotateTimer = null; }
+    function restartAutoRotate(){ stopAutoRotate(); startAutoRotate(); }
+
+    // Render extra article list entries (beyond first three)
+    function renderArticleList(){
+      document.querySelectorAll('.articles .dynamic-article').forEach(n => n.remove());
+      for(let i=3;i<articles.length;i++){
+        const art = articles[i];
+        const el = document.createElement('article');
+        el.className = 'dynamic-article';
+        el.style = "background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:20px;";
+        el.innerHTML = `<h3>${art.title}</h3>
+          <p><strong>${art.author || ''}</strong> • ${art.date || ''}</p>
+          <p>${art.excerpt || ''}</p>
+          ${art.url && art.url !== '#' ? `<p><a href="${art.url}" target="_blank">Read more</a></p>` : ''}`;
+        articleList.appendChild(el);
+      }
+    }
+
+    // Social share state
+    let currentShareUrl = window.location.href;
+    let currentShareTitle = document.title;
+
     document.getElementById("share-facebook").addEventListener("click", () => {
-      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
       window.open(facebookUrl, "_blank");
     });
 
-    // Twitter (X)
     document.getElementById("share-twitter").addEventListener("click", () => {
-      const twitterUrl = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}`;
+      const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(currentShareTitle)}`;
       window.open(twitterUrl, "_blank");
     });
 
-    // YouTube (Redirect to YouTube search for Premier League content)
     document.getElementById("share-youtube").addEventListener("click", () => {
-      const youtubeUrl = `https://www.youtube.com/results?search_query=Premier+League+${pageTitle}`;
+      const youtubeUrl = `https://www.youtube.com/results?search_query=Premier+League+${encodeURIComponent(currentShareTitle)}`;
       window.open(youtubeUrl, "_blank");
     });
+
+    // Make footer images have fallback too
+    function setupFooterImages(){
+      const tw = document.getElementById('twitterFooter');
+      const ig = document.getElementById('instagramFooter');
+      // fallback images (use placeholder if real ones missing)
+      const footerPlaceholder = 'images/placeholder-social.jpg';
+      setImageWithFallback(tw, tw.src || 'images/twitter page.jpg', 'Twitter Logo');
+      setImageWithFallback(ig, ig.src || 'images/instagram.jpg', 'Instagram Logo');
+
+      // optional: click to open official pages
+      tw.style.cursor = 'pointer';
+      ig.style.cursor = 'pointer';
+      tw.addEventListener('click', ()=> window.open('https://x.com/premierleague', '_blank'));
+      ig.addEventListener('click', ()=> window.open('https://www.instagram.com/premierleague/', '_blank'));
+    }
+
+    // Public function to update featured articles from outside (importer/CMS)
+    function updateFeatured(newArticles){
+      if(Array.isArray(newArticles) && newArticles.length){
+        articles = newArticles.slice();
+      }
+      featureIndex = Math.min(featureIndex, Math.max(0, articles.length - 1));
+      renderFeatured(featureIndex);
+      renderArticleList();
+      restartAutoRotate();
+    }
+    window.updateFeatured = updateFeatured;
+
+    // initial render + safety
+    renderFeatured(0);
+    renderArticleList();
+    startAutoRotate();
+    setupFooterImages();
+
+    // Optional: expose an addArticle helper
+    function addArticle(article){
+      article.id = article.id || (articles.length ? Math.max(...articles.map(a=>a.id||0))+1 : 1);
+      articles.unshift(article);
+      updateFeatured(articles);
+    }
+    window.addArticle = addArticle;
+
+    // siteSearch filters dynamic list entries
+    document.getElementById('siteSearch').addEventListener('input', (e)=>{
+      const q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll('.dynamic-article').forEach(node=>{
+        node.style.display = q ? (node.textContent.toLowerCase().includes(q) ? '' : 'none') : '';
+      });
+      // small UX: if query matches a featured article title, highlight by populating main featured
+      if(q){
+        const found = articles.find(a => (a.title||'').toLowerCase().includes(q));
+        if(found) populateMainFeatured(found);
+      }
+    });
+
+    // Accessibility: pause rotation when user focuses the featured region
+    featuredImagesNode.addEventListener('focusin', stopAutoRotate);
+    featuredImagesNode.addEventListener('focusout', restartAutoRotate);
   </script>
 
 </body>
 </html>
+
 
