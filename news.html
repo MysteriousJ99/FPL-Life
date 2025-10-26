@@ -52,7 +52,8 @@
       overflow: hidden;
       border-radius:8px;
       background:#efefef;
-      min-height:150px;
+      min-height:170px;              /* enforce visible height */
+      max-height:260px;             /* limit tall images on wide screens */
       display:flex;
       align-items:center;
       justify-content:center;
@@ -61,7 +62,7 @@
     .featured-item img {
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit:cover;              /* preserves aspect, crops if needed */
       display:block;
       transition: transform .25s ease;
       cursor:pointer;
@@ -78,7 +79,7 @@
       right:10px;
       bottom:8px;
       padding:6px 8px;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.55);
       color:#fff;
       border-radius:6px;
       font-size:0.95rem;
@@ -112,7 +113,7 @@
     /* small responsive tweak */
     @media (max-width:700px){
       .featured-images { flex-direction: column; }
-      .featured-item { min-height:140px; }
+      .featured-item { min-height:140px; max-height:none; }
     }
 
     /* Social Share Buttons */
@@ -137,7 +138,7 @@
     #share-twitter{ background-color:#00a3e0 }
     #share-youtube{ background-color:#d81920 }
 
-    /* Footer consistent with original */
+    /* Footer consistent with original (but smaller icons) */
     footer {
       background-color: #3eafc5;
       color: #fff;
@@ -153,9 +154,12 @@
       margin: 0 0 10px;
     }
 
+    /* smaller social icons for footer */
     .footer-left img, .footer-right img {
-      width: 60px;
-      margin-right: 10px;
+      width: 28px;                 /* reduced size */
+      height: 28px;
+      object-fit:contain;
+      margin-right: 8px;
       vertical-align: middle;
     }
 
@@ -163,6 +167,9 @@
       margin: 0;
       text-align: right;
     }
+
+    /* Accessibility: focus outline for keyboard users */
+    .featured-item:focus { outline: 3px solid rgba(56,0,60,0.12); }
   </style>
 </head>
 
@@ -254,28 +261,28 @@
     </div>
   </main>
 
-  <!-- FOOTER — kept same structure and content as earlier -->
+  <!-- FOOTER — kept same structure and content as earlier but with smaller icons -->
   <footer>
     <div class="footer-left">
       <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-      <img id="twitterFooter" src="images/twitter page.jpg" alt="Twitter Logo" width="60">
-      <img id="instagramFooter" src="images/instagram.jpg" alt="Instagram Logo" width="60">
+      <img id="twitterFooter" src="images/twitter page.jpg" alt="Twitter Logo" width="28" height="28">
+      <img id="instagramFooter" src="images/instagram.jpg" alt="Instagram Logo" width="28" height="28">
     </div>
     <div class="footer-right">
       <p>302-555-6611</p>
-      <p>wearedefinitelyreal@gmail.com</p>
+      <p>wearedefintelyreal@gmail.com</p>
     </div>
   </footer>
 
   <!-- Social Sharing + Featured images Script -->
   <script>
     // ---------- Sample articles array (replace or update dynamically) ----------
-    // Each object: { id, title, img (path), url, excerpt, author, date }
+    // IMPORTANT: use 'images/...' paths (or adjust to match your folder)
     let articles = [
       {
         id: 1,
         title: "Analysis: Four tactical trends emerging in 2025/26 so far",
-        img: "soccer-player-jumping-to-ball-multiple-stanislaw-pytel.webp",
+        img: "images/soccer-player-jumping-to-ball-multiple-stanislaw-pytel.webp",
         url: "#",
         excerpt: "It might only be three matches into the new campaign, but a few things are happening that suggest Premier League football is changing.",
         author: "Opta Analyst",
@@ -301,8 +308,9 @@
       }
     ];
 
-    // Placeholder fallback image (create this file or update the path)
+    // Placeholder fallback images - ensure these files exist in images/
     const placeholderImg = 'images/placeholder-news.jpg';
+    const footerPlaceholder = 'images/placeholder-social.jpg';
 
     // DOM refs
     const featuredImagesNode = document.getElementById('featuredImages');
@@ -446,16 +454,22 @@
       window.open(youtubeUrl, "_blank");
     });
 
-    // Make footer images have fallback too
+    // Make footer images have fallback + click handlers
     function setupFooterImages(){
       const tw = document.getElementById('twitterFooter');
       const ig = document.getElementById('instagramFooter');
-      // fallback images (use placeholder if real ones missing)
-      const footerPlaceholder = 'images/placeholder-social.jpg';
-      setImageWithFallback(tw, tw.src || 'images/twitter page.jpg', 'Twitter Logo');
-      setImageWithFallback(ig, ig.src || 'images/instagram.jpg', 'Instagram Logo');
 
-      // optional: click to open official pages
+      // apply fallback (if images missing) - use placeholder if not found
+      tw.onerror = () => { if(tw.src !== footerPlaceholder) tw.src = footerPlaceholder; };
+      ig.onerror = () => { if(ig.src !== footerPlaceholder) ig.src = footerPlaceholder; };
+
+      // ensure small size (in case width attr missing)
+      tw.style.width = '28px';
+      tw.style.height = '28px';
+      ig.style.width = '28px';
+      ig.style.height = '28px';
+
+      // click handlers for social
       tw.style.cursor = 'pointer';
       ig.style.cursor = 'pointer';
       tw.addEventListener('click', ()=> window.open('https://x.com/premierleague', '_blank'));
@@ -480,7 +494,7 @@
     startAutoRotate();
     setupFooterImages();
 
-    // Optional: expose an addArticle helper
+    // expose helper to add article dynamically
     function addArticle(article){
       article.id = article.id || (articles.length ? Math.max(...articles.map(a=>a.id||0))+1 : 1);
       articles.unshift(article);
@@ -494,7 +508,6 @@
       document.querySelectorAll('.dynamic-article').forEach(node=>{
         node.style.display = q ? (node.textContent.toLowerCase().includes(q) ? '' : 'none') : '';
       });
-      // small UX: if query matches a featured article title, highlight by populating main featured
       if(q){
         const found = articles.find(a => (a.title||'').toLowerCase().includes(q));
         if(found) populateMainFeatured(found);
@@ -508,5 +521,6 @@
 
 </body>
 </html>
+
 
 
