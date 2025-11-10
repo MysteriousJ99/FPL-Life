@@ -8,63 +8,107 @@
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
   <style>
-    /* Main sections */
-    .top-sections, .bottom-sections {
+    /* Layout Containers */
+    main {
       display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    /* Left column for Premier League news */
+    .left-column {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
       gap: 20px;
     }
 
-    .top-sections section {
+    /* Right column for Match + Player of the Week */
+    .right-column {
       flex: 1;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Section Styles */
+    section {
       padding: 20px;
-      background-color: #4ac2cd;
       border-radius: 8px;
-      min-height: 200px;
+      background-color: #4ac2cd;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .bottom-sections section {
-      flex: 1;
-      padding: 15px;
-      background-color: #c7712a;
-      border-radius: 6px;
-      min-height: 150px;
+    section:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* Make links cover whole section */
     .section-link {
       text-decoration: none;
       color: inherit;
       display: block;
     }
 
-    .section-link section {
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+    /* Section Headers */
+    h2.section-header {
+      margin-bottom: 10px;
+      font-size: 1.5em;
+      border-bottom: 3px solid #222;
+      display: inline-block;
+      padding-bottom: 4px;
     }
 
-    .section-link section:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    /* Match of the Week uses distinct color */
+    .match-section {
+      background-color: #c7712a;
+      color: #fff;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 900px) {
-      .top-sections, .bottom-sections {
-        flex-direction: column;
-      }
+    /* Player of the Week styling */
+    .player-section {
+      background-color: #363636;
+      color: #fff;
     }
 
-    /* Image styles */
-    .story-img,
-    .top-sections img,
-    .bottom-sections img {
+    .player-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .player-info img {
       max-width: 100%;
       height: auto;
-      display: block;
-      margin-top: 10px;
       border-radius: 6px;
     }
 
+    .player-stats {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .player-stats span {
+      display: inline-block;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+      }
+      .right-column, .left-column {
+        width: 100%;
+      }
+    }
+
+    /* Footer Hover */
     footer img {
       cursor: pointer;
       transition: transform 0.2s, filter 0.2s;
@@ -101,60 +145,66 @@
   <main>
     <h1>Home</h1>
 
-    <!-- Top two large sections -->
-    <div class="top-sections">
-      <a href="https://www.skysports.com/football/dynamo-kyiv-vs-c-palace/report/548310" class="section-link">
+    <!-- Left column with Premier League news -->
+    <div class="left-column">
+      <h2 class="section-header">Prem News</h2>
+
+      <!-- Newcastle Story -->
+      <a href="https://www.skysports.com/football/news/11095/13445567/newcastle-united-return-to-top-four-after-victory" class="section-link">
         <section>
           <p>
-            Crystal Palace have set a record unbeaten run after a win over 
-            Dynamo Kyiv.
+            Newcastle United rise back into the Premier League top four after a commanding 
+            3–0 victory, sparking renewed hope among fans.
           </p>
-          <img src="images/crystal-palace-story.jpg" alt="Crystal Palace celebrating win over Dynamo Kyiv" class="story-img">
-          <p>Click to read more</p>
+          <img src="images/newcastle.jpg" alt="Newcastle United players celebrating" class="story-img">
         </section>
       </a>
 
-      <a href="https://www.premierleague.com/en/match/2561969/liverpool-vs-manchester-united?tab=preview" class="section-link">
+      <!-- Haaland Story -->
+      <a href="https://www.mancity.com/news/mens/haaland-post-brentford-reaction-5-oct-63895283" class="section-link">
         <section>
           <p>
-            This week’s most anticipated match is between Liverpool and Manchester United. 
-            Click for full preview and stats.
+            “I am in the greatest form of my life,” says Manchester City striker Erling Haaland, 
+            whose remarkable run continued after their 1–0 win against Brentford.
           </p>
-          <img src="images/motw.jpg" alt="Liverpool vs Manchester United Match of the Week" class="story-img">
+          <img src="images/haaland.jpg" alt="Erling Haaland celebrating a goal" class="story-img">
         </section>
       </a>
     </div>
 
-    <!-- Bottom three smaller sections -->
-    <div class="bottom-sections">
-      <a href="https://www.bbc.com/sport/football/articles/c4gwrplwyz8o" class="section-link">
-        <section>
+    <!-- Right column with Match and Player of the Week -->
+    <div class="right-column">
+
+      <!-- Match of the Week -->
+      <a href="https://www.premierleague.com/en/match/2561969/liverpool-vs-manchester-united?tab=preview" class="section-link">
+        <section class="match-section">
+          <h2 class="section-header">Match of the Week</h2>
           <p>
-            Celtic Football Club has released manager Roberts after only 17 matches in charge.
+            The Premier League’s most anticipated clash — <strong>Liverpool vs Manchester United</strong>. 
+            Catch pre-match stats, key players, and predictions for this blockbuster showdown.
           </p>
-          <img src="images/martin.jpg" alt="Celtic manager Roberts" class="story-img">
+          <img src="images/motw.jpg" alt="Liverpool vs Manchester United" class="story-img">
         </section>
       </a>
 
-      <a href="https://www.mancity.com/news/mens/haaland-post-brentford-reaction-5-oct-63895283" class="section-link">
-        <section>
+      <!-- Player of the Week -->
+      <section class="player-section">
+        <h2 class="section-header">Player of the Week</h2>
+        <div class="player-info">
+          <img src="images/haaland-player.jpg" alt="Erling Haaland Player of the Week">
+          <div class="player-stats">
+            <span>Overall Rating: 9.4</span>
+            <span>Goals: 2</span>
+            <span>Assists: 1</span>
+          </div>
           <p>
-            "I am in the greatest form of my life," says Manchester City striker Erling Haaland, 
-            whose run of form continued after their 1–0 win against Brentford last Saturday.
+            Erling Haaland was unstoppable in Manchester City's 3–1 victory, scoring twice 
+            and assisting another. His relentless movement and finishing made the difference, 
+            reaffirming his status as one of the league’s most dominant forwards.
           </p>
-          <img src="images/haaland.jpg" alt="Erling Haaland celebrating" class="story-img">
-        </section>
-      </a>
+        </div>
+      </section>
 
-      <a href="https://www.skysports.com/football/news/11727/13445467/nottingham-forest-boss-ange-postecoglou-to-hold-talks-with-club-hierarchy-over-winless-start" class="section-link">
-        <section>
-          <p>
-            Nottingham Forest manager Ange Postecoglou will hold talks with club management 
-            about their seven-match winless run, raising doubts about his future with the team.
-          </p>
-          <img src="images/ange.jpg" alt="Nottingham Forest manager Ange Postecoglou" class="story-img">
-        </section>
-      </a>
     </div>
   </main>
 
