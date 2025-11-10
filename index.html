@@ -5,6 +5,7 @@
   <title>Fast Premier Life</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="externalstylesheet.css">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
   <style>
     /* Main sections */
@@ -31,9 +32,9 @@
 
     /* Make links cover whole section */
     .section-link {
-      text-decoration: none;   /* remove underline */
-      color: inherit;          /* inherit text color */
-      display: block;          /* make link wrap the section */
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
 
     .section-link section {
@@ -53,8 +54,10 @@
       }
     }
 
-    /* Story image style */
-    .story-img {
+    /* Image styles */
+    .story-img,
+    .top-sections img,
+    .bottom-sections img {
       max-width: 100%;
       height: auto;
       display: block;
@@ -63,152 +66,148 @@
     }
 
     footer img {
-  cursor: pointer;
-  transition: transform 0.2s, filter 0.2s;
-}
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+    }
 
-footer img:hover {
-  transform: scale(1.1);
-  filter: brightness(1.1);
-}
-
+    footer img:hover {
+      transform: scale(1.1);
+      filter: brightness(1.1);
+    }
   </style>
 </head>
+
 <body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Fast Premier Life Logo">
+    </div>
 
-<header>
-  <div class="logo">
-    <img src="images/Logo.png" alt="Website Logo">
-  </div>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="news.html">News</a>
+      <a href="matches.html">Matches</a>
+      <a href="clubs-and-players.html">Clubs & Players</a>
+      <a href="coaches-and-leagues.html">Other Leagues/Coaches</a>
+      <a href="live-discussion.html">Discussion</a>
+    </nav>
 
-  <nav>
-    <a href="index.html" class="active">Home</a>
-    <a href="news.html">News</a>
-    <a href="matches.html">Matches</a>
-    <a href="ClubsandPlayers.html">Clubs & Players</a>
-    <a href="coach&league.html">Other Leagues/Coaches</a>
-    <a href="LiveDiscussion.html">Discussion</a>
-  </nav>
+    <div class="header-right">
+      <a href="login.html">Login</a>
+      <span class="search-icon" title="Search">🔍</span>
+    </div>
+  </header>
 
-  <div class="header-right">
-    <a href="login.html">Login</a>
-    <span class="search-icon" title="Search">🔍</span>
-  </div>
-</header>
+  <main>
+    <h1>Home</h1>
 
-<main>
-  <h1>Home</h1>
+    <!-- Top two large sections -->
+    <div class="top-sections">
+      <a href="https://www.skysports.com/football/dynamo-kyiv-vs-c-palace/report/548310" class="section-link">
+        <section>
+          <p>
+            Crystal Palace have set a record unbeaten run after a win over 
+            Dynamo Kyiv.
+          </p>
+          <img src="images/crystal-palace-story.jpg" alt="Crystal Palace celebrating win over Dynamo Kyiv" class="story-img">
+          <p>Click to read more</p>
+        </section>
+      </a>
 
-  <!-- Top two large sections -->
-  <div class="top-sections">
-    <a href="https://www.skysports.com/football/dynamo-kyiv-vs-c-palace/report/548310" class="section-link">
-      <section>
-        <p>
-          The club Crystal Palace have set a record unbeaten run after a win over 
-          Russian side Dynamo Kyiv.
-        </p>
-        <img src="images/Crystal-Palace-Story.jpg" alt="Crystal Palace story" class="story-img" width="300">
-        <p>Click to read more</p>
-      </section>
-    </a>
+      <a href="https://www.premierleague.com/en/match/2561969/liverpool-vs-manchester-united?tab=preview" class="section-link">
+        <section>
+          <p>
+            This week’s most anticipated match is between Liverpool and Manchester United. 
+            Click for full preview and stats.
+          </p>
+          <img src="images/motw.jpg" alt="Liverpool vs Manchester United Match of the Week" class="story-img">
+        </section>
+      </a>
+    </div>
 
-    <a href="https://www.premierleague.com/en/match/2561969/liverpool-vs-manchester-united?tab=preview" class="section-link">
-      <section>
-        <p>This week most anticipated match is between Liverpool and Manchester United,
-           for more informaton go here</p>
-        <img src="images/MOTW.jpg" alt="Match of the week" width="300">
-      </section>
-    </a>
-  </div>
+    <!-- Bottom three smaller sections -->
+    <div class="bottom-sections">
+      <a href="https://www.bbc.com/sport/football/articles/c4gwrplwyz8o" class="section-link">
+        <section>
+          <p>
+            Celtic Football Club has released manager Roberts after only 17 matches in charge.
+          </p>
+          <img src="images/martin.jpg" alt="Celtic manager Roberts" class="story-img">
+        </section>
+      </a>
 
-  <!-- Bottom three smaller sections side by side -->
-  <div class="bottom-sections">
-    <a href="https://www.bbc.com/sport/football/articles/c4gwrplwyz8o" class="section-link">
-      <section>
-        <p>Celtic Football club has released manager Roberts after only 17 matches played.
-        </p>
-        <img src="images/Martin.jpg" alt="Story of the week" width="200">
-      </section>
-    </a>
+      <a href="https://www.mancity.com/news/mens/haaland-post-brentford-reaction-5-oct-63895283" class="section-link">
+        <section>
+          <p>
+            "I am in the greatest form of my life," says Manchester City striker Erling Haaland, 
+            whose run of form continued after their 1–0 win against Brentford last Saturday.
+          </p>
+          <img src="images/haaland.jpg" alt="Erling Haaland celebrating" class="story-img">
+        </section>
+      </a>
 
-    <a href="https://www.mancity.com/news/mens/haaland-post-brentford-reaction-5-oct-63895283" class="section-link">
-      <section>
-        <p>"I am in the Greatest Form of my life" says Manchester City Striker Erling Haaland,
-          whos run of form has continued after their 1-0 win against Brentford last saturday.
-        </p>
-        <img src="images/Haaland.jpg" alt="Club Story of the week" width="200">
-      </section>
-    </a>
+      <a href="https://www.skysports.com/football/news/11727/13445467/nottingham-forest-boss-ange-postecoglou-to-hold-talks-with-club-hierarchy-over-winless-start" class="section-link">
+        <section>
+          <p>
+            Nottingham Forest manager Ange Postecoglou will hold talks with club management 
+            about their seven-match winless run, raising doubts about his future with the team.
+          </p>
+          <img src="images/ange.jpg" alt="Nottingham Forest manager Ange Postecoglou" class="story-img">
+        </section>
+      </a>
+    </div>
+  </main>
 
-    <a href="https://www.skysports.com/football/news/11727/13445467/nottingham-forest-boss-ange-postecoglou-to-hold-talks-with-club-hierarchy-over-winless-start" class="section-link">
-      <section>
-        <p>Nottingham Forest Manager, Ange Postecoglou will have  talks with upper management 
-          about the clubs 7 match winless start, leaving doubts as too his future with the club.
-        </p>
-        <img src="images/ange.jpg" alt="Coach News" width="200">
-      </section>
-    </a>
-  </div>
-</main>
+  <footer>
+    <div class="footer-left">
+      <p>Follow the official Premier League social pages:</p>
+      <img src="images/twitter-page.jpg" alt="Twitter Logo">
+      <img src="images/instagram.jpg" alt="Instagram Logo">
+    </div>
+
+    <div class="footer-right">
+      <p>302-555-6611</p>
+      <p>wearedefinitelyreal@gmail.com</p>
+    </div>
+  </footer>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Select existing images
-    const twitterLogo = document.querySelector('img[alt="Twitter Logo"]');
-    const instagramLogo = document.querySelector('img[alt="Instagram Logo"]');
-    const footerLeft = document.querySelector('.footer-left');
+    document.addEventListener("DOMContentLoaded", () => {
+      const twitterLogo = document.querySelector('img[alt="Twitter Logo"]');
+      const instagramLogo = document.querySelector('img[alt="Instagram Logo"]');
+      const footerLeft = document.querySelector('.footer-left');
 
-    // Create TikTok logo (if not already added)
-    const tiktokLogo = document.createElement('img');
-    tiktokLogo.src = "images/tiktok.jpg"; // replace with your TikTok image
-    tiktokLogo.alt = "TikTok Logo";
-    tiktokLogo.title = "Visit our TikTok";
-    tiktokLogo.style.width = "50px";
-    tiktokLogo.style.marginLeft = "10px";
-    tiktokLogo.style.cursor = "pointer";
-    footerLeft.appendChild(tiktokLogo);
+      if (footerLeft) {
+        const tiktokLogo = document.createElement('img');
+        tiktokLogo.src = "images/tiktok.jpg";
+        tiktokLogo.alt = "TikTok Logo";
+        tiktokLogo.title = "Visit our TikTok";
+        tiktokLogo.style.width = "50px";
+        tiktokLogo.style.marginLeft = "10px";
+        tiktokLogo.style.cursor = "pointer";
+        footerLeft.appendChild(tiktokLogo);
 
-    // Add tooltips (title attributes)
-    twitterLogo.title = "Visit our Twitter (X)";
-    instagramLogo.title = "Visit our Instagram";
+        tiktokLogo.addEventListener("click", () => {
+          window.open("https://www.tiktok.com/@premierleague", "_blank");
+        });
+      }
 
-    // Add pointer cursor for all
-    twitterLogo.style.cursor = "pointer";
-    instagramLogo.style.cursor = "pointer";
+      if (twitterLogo) {
+        twitterLogo.title = "Visit our Twitter (X)";
+        twitterLogo.style.cursor = "pointer";
+        twitterLogo.addEventListener("click", () => {
+          window.open("https://x.com/premierleague", "_blank");
+        });
+      }
 
-    // Add click functionality
-    twitterLogo.addEventListener("click", () => {
-      window.open("https://x.com/premierleague", "_blank");
+      if (instagramLogo) {
+        instagramLogo.title = "Visit our Instagram";
+        instagramLogo.style.cursor = "pointer";
+        instagramLogo.addEventListener("click", () => {
+          window.open("https://www.instagram.com/premierleague/", "_blank");
+        });
+      }
     });
-
-    instagramLogo.addEventListener("click", () => {
-      window.open("https://www.instagram.com/premierleague/", "_blank");
-    });
-
-    tiktokLogo.addEventListener("click", () => {
-      window.open("https://www.tiktok.com/@premierleague", "_blank");
-    });
-  });
-</script>
-
-
-<footer>
-  <div class="footer-left">
-    <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-    <img src="images/twitter page.jpg" alt="Twitter Logo">
-    <img src="images/instagram.jpg" alt="Instagram Logo">
-  </div>
-  <div class="footer-right">
-    <p>302-555-6611</p>
-    <p>wearedefintelyreal@gmail.com</p>
-  </div>
-</footer>
-
+  </script>
 </body>
 </html>
-
-
-
-
-
-
