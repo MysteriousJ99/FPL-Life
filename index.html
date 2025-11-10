@@ -8,7 +8,6 @@
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
   <style>
-    /* Layout Containers */
     main {
       display: flex;
       flex-wrap: wrap;
@@ -16,7 +15,6 @@
       justify-content: space-between;
     }
 
-    /* Left column for Premier League news */
     .left-column {
       flex: 1;
       min-width: 300px;
@@ -25,7 +23,6 @@
       gap: 20px;
     }
 
-    /* Right column for Match + Player of the Week */
     .right-column {
       flex: 1;
       min-width: 320px;
@@ -34,7 +31,6 @@
       gap: 20px;
     }
 
-    /* Section Styles */
     section {
       padding: 20px;
       border-radius: 8px;
@@ -53,7 +49,6 @@
       display: block;
     }
 
-    /* Section Headers */
     h2.section-header {
       margin-bottom: 10px;
       font-size: 1.5em;
@@ -62,13 +57,11 @@
       padding-bottom: 4px;
     }
 
-    /* Match of the Week uses distinct color */
     .match-section {
       background-color: #c7712a;
       color: #fff;
     }
 
-    /* Player of the Week styling */
     .player-section {
       background-color: #363636;
       color: #fff;
@@ -98,7 +91,6 @@
       font-weight: bold;
     }
 
-    /* Responsive */
     @media (max-width: 900px) {
       main {
         flex-direction: column;
@@ -108,7 +100,6 @@
       }
     }
 
-    /* Footer Hover */
     footer img {
       cursor: pointer;
       transition: transform 0.2s, filter 0.2s;
@@ -145,34 +136,32 @@
   <main>
     <h1>Home</h1>
 
-    <!-- Left column with Premier League news -->
+    <!-- Left column -->
     <div class="left-column">
       <h2 class="section-header">Prem News</h2>
 
-      <!-- Newcastle Story -->
       <a href="https://www.skysports.com/football/news/11095/13445567/newcastle-united-return-to-top-four-after-victory" class="section-link">
         <section>
           <p>
             Newcastle United rise back into the Premier League top four after a commanding 
             3–0 victory, sparking renewed hope among fans.
           </p>
-          <img src="images/newcastle.jpg" alt="Newcastle United players celebrating" class="story-img">
+          <img src="images/newcastle.jpg" alt="Newcastle United players celebrating">
         </section>
       </a>
 
-      <!-- Haaland Story -->
       <a href="https://www.mancity.com/news/mens/haaland-post-brentford-reaction-5-oct-63895283" class="section-link">
         <section>
           <p>
             “I am in the greatest form of my life,” says Manchester City striker Erling Haaland, 
             whose remarkable run continued after their 1–0 win against Brentford.
           </p>
-          <img src="images/haaland.jpg" alt="Erling Haaland celebrating a goal" class="story-img">
+          <img src="images/haaland.jpg" alt="Erling Haaland celebrating a goal">
         </section>
       </a>
     </div>
 
-    <!-- Right column with Match and Player of the Week -->
+    <!-- Right column -->
     <div class="right-column">
 
       <!-- Match of the Week -->
@@ -183,28 +172,23 @@
             The Premier League’s most anticipated clash — <strong>Liverpool vs Manchester United</strong>. 
             Catch pre-match stats, key players, and predictions for this blockbuster showdown.
           </p>
-          <img src="images/motw.jpg" alt="Liverpool vs Manchester United" class="story-img">
+          <img src="images/motw.jpg" alt="Liverpool vs Manchester United">
         </section>
       </a>
 
-      <!-- Player of the Week -->
-      <section class="player-section">
+      <!-- Player of the Week (Dynamic) -->
+      <section class="player-section" id="player-of-week">
         <h2 class="section-header">Player of the Week</h2>
         <div class="player-info">
-          <img src="images/haaland-player.jpg" alt="Erling Haaland Player of the Week">
+          <img id="player-img" src="" alt="Player of the Week">
           <div class="player-stats">
-            <span>Overall Rating: 9.4</span>
-            <span>Goals: 2</span>
-            <span>Assists: 1</span>
+            <span id="player-rating"></span>
+            <span id="player-goals"></span>
+            <span id="player-assists"></span>
           </div>
-          <p>
-            Erling Haaland was unstoppable in Manchester City's 3–1 victory, scoring twice 
-            and assisting another. His relentless movement and finishing made the difference, 
-            reaffirming his status as one of the league’s most dominant forwards.
-          </p>
+          <p id="player-description"></p>
         </div>
       </section>
-
     </div>
   </main>
 
@@ -222,7 +206,26 @@
   </footer>
 
   <script>
+    // 🎯 Simple player data object
+    const playerOfTheWeek = {
+      name: "Erling Haaland",
+      image: "images/haaland-player.jpg",
+      rating: 9.4,
+      goals: 2,
+      assists: 1,
+      description: "Erling Haaland was unstoppable in Manchester City's 3–1 victory, scoring twice and assisting another. His relentless movement and finishing made the difference, reaffirming his status as one of the league’s most dominant forwards."
+    };
+
+    // Inject content dynamically
     document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("player-img").src = playerOfTheWeek.image;
+      document.getElementById("player-img").alt = playerOfTheWeek.name + " Player of the Week";
+      document.getElementById("player-rating").textContent = "Overall Rating: " + playerOfTheWeek.rating;
+      document.getElementById("player-goals").textContent = "Goals: " + playerOfTheWeek.goals;
+      document.getElementById("player-assists").textContent = "Assists: " + playerOfTheWeek.assists;
+      document.getElementById("player-description").textContent = playerOfTheWeek.description;
+
+      // Social media logos clickable
       const twitterLogo = document.querySelector('img[alt="Twitter Logo"]');
       const instagramLogo = document.querySelector('img[alt="Instagram Logo"]');
       const footerLeft = document.querySelector('.footer-left');
@@ -236,7 +239,6 @@
         tiktokLogo.style.marginLeft = "10px";
         tiktokLogo.style.cursor = "pointer";
         footerLeft.appendChild(tiktokLogo);
-
         tiktokLogo.addEventListener("click", () => {
           window.open("https://www.tiktok.com/@premierleague", "_blank");
         });
