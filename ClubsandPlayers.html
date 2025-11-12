@@ -99,7 +99,6 @@
   <section>
     <h2>Select a Club</h2>
     <div class="search-section">
-      <input type="text" id="clubSearch" placeholder="Search Club...">
       <select id="clubSelect">
         <option value="">--Select Club--</option>
         <option value="Manchester United">Manchester United</option>
@@ -129,7 +128,6 @@
   <section>
     <h2>Club Players</h2>
     <div class="search-section">
-      <input type="text" id="playerSearch" placeholder="Search Player...">
       <select id="playerSelect">
         <option value="">--Select Player--</option>
       </select>
@@ -203,23 +201,12 @@
   const playerSelect = document.getElementById("playerSelect");
   const clubResult = document.getElementById("clubResult");
   const playerResult = document.getElementById("playerResult");
-  const clubSearch = document.getElementById("clubSearch");
-  const playerSearch = document.getElementById("playerSearch");
   const clubInfo = document.getElementById("clubInfo");
   const clubImage = document.getElementById("clubImage");
   const clubName = document.getElementById("clubName");
   const clubHistory = document.getElementById("clubHistory");
   const clubAchievements = document.getElementById("clubAchievements");
   const defaultHistory = document.getElementById("defaultHistory");
-
-  // Filter clubs while typing
-  clubSearch.addEventListener("input", function() {
-    const filter = this.value.toLowerCase();
-    Array.from(clubSelect.options).forEach(option => {
-      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
-    });
-    updatePlayersDropdown();
-  });
 
   // When a club is selected
   clubSelect.addEventListener("change", function() {
@@ -270,14 +257,6 @@
     }
   }
 
-  // Filter players while typing
-  playerSearch.addEventListener("input", function() {
-    const filter = this.value.toLowerCase();
-    Array.from(playerSelect.options).forEach(option => {
-      option.style.display = option.value.toLowerCase().includes(filter) ? "block" : "none";
-    });
-  });
-
   // Display selected player details
   playerSelect.addEventListener("change", function() {
     const club = clubSelect.value;
@@ -303,7 +282,3 @@
 
 </body>
 </html>
-
-
-
-
