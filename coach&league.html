@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,25 +5,25 @@
   <title>FPL — Other Leagues / Coaches</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="externalstylesheet.css">
+
   <style>
-    /* page-specific */
-    .wrap{max-width:1000px;margin:0 auto;padding:16px}
-    .panel{background:#f7f9fc;border:1px solid #e4e7ee;border-radius:14px;padding:16px}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .coach-card{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:start;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:12px}
-    .coach-card img{width:120px;height:120px;object-fit:cover;border-radius:10px;border:1px solid #ddd;background:white}
-    .coach-meta h3{margin:0 0 6px}
-    .coach-meta p{margin:0 0 6px}
-    .coach-meta ul{margin:6px 0 0 18px}
-    .select-row{display:flex;gap:10px;flex-wrap:wrap}
-    .league-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-    .league{background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:14px}
-    .league h3{margin:0 0 6px}
-    .muted{color:#4b5563}
-    @media (max-width:800px){
-      .row{grid-template-columns:1fr}
-      .league-grid{grid-template-columns:1fr}
-      .coach-card{grid-template-columns:1fr}
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 16px; }
+    .panel { background: #f7f9fc; border: 1px solid #e4e7ee; border-radius: 14px; padding: 16px; }
+    .row { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .coach-card { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; background: #fff; border: 1px solid #e6e6e6; border-radius: 12px; padding: 12px; }
+    .coach-card img { width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd; background: white; }
+    .coach-meta h3 { margin: 0 0 6px; }
+    .coach-meta p { margin: 0 0 6px; }
+    .coach-meta ul { margin: 6px 0 0 18px; }
+    .select-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .league-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .league { background: #fff; border: 1px solid #e6e6e6; border-radius: 12px; padding: 14px; }
+    .league h3 { margin: 0 0 6px; }
+    .muted { color: #4b5563; }
+    @media (max-width: 800px) {
+      .row { grid-template-columns: 1fr; }
+      .league-grid { grid-template-columns: 1fr; }
+      .coach-card { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -56,21 +54,32 @@
     <div class="row">
       <div>
         <h1 style="margin:0 0 8px">Coach Finder</h1>
-        <p class="muted">Pick a coach from the dropdown to see a photo, quick note on coaching style, and a few major achievements.</p>
+        <p class="muted">Pick a Premier League coach from the dropdown to see a photo, coaching style, and achievements.</p>
         <div class="select-row" style="margin-top:10px">
           <label for="coachSelect" class="visually-hidden">Select Coach</label>
           <select id="coachSelect">
             <option value="">-- Select a coach --</option>
-            <option value="pep">Pep Guardiola</option>
-            <option value="klopp">Jürgen Klopp</option>
             <option value="ancelotti">Carlo Ancelotti</option>
+            <option value="arteta">Mikel Arteta</option>
+            <option value="cooper">Steve Cooper</option>
+            <option value="dezerbi">Roberto De Zerbi</option>
+            <option value="emery">Unai Emery</option>
+            <option value="frank">Thomas Frank</option>
+            <option value="glassner">Oliver Glasner</option>
+            <option value="howe">Eddie Howe</option>
+            <option value="iraola">Andoni Iraola</option>
+            <option value="klopp">Jürgen Klopp</option>
+            <option value="kom">Vincent Kompany</option>
+            <option value="moyes">David Moyes</option>
+            <option value="oconnell">Paul Heckingbottom</option>
+            <option value="pep">Pep Guardiola</option>
+            <option value="postecoglou">Ange Postecoglou</option>
+            <option value="silva">Marco Silva</option>
             <option value="simeone">Diego Simeone</option>
+            <option value="tenhag">Erik ten Hag</option>
           </select>
           <input id="coachFilter" type="text" placeholder="Filter name…" aria-label="Filter coach list">
         </div>
-      </div>
-      <div>
-        <img src="https://images.pexels.com/photos/3775164/pexels-photo-3775164.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Coach on touchline" style="width:100%;height:auto;border-radius:12px">
       </div>
     </div>
 
@@ -93,27 +102,27 @@
     <div class="league-grid">
       <article class="league">
         <h3>La Liga (Spain)</h3>
-        <p>Spain’s top tier renowned for technique and possession play, home to Barcelona, Real Madrid, and Atlético. Intense rivalries and strong academies feed the national team’s identity.</p>
+        <p>Spain’s top tier renowned for technique and possession play, home to Barcelona, Real Madrid, and Atlético.</p>
         <p><a href="https://www.laliga.com/en-GB" target="_blank" rel="noopener">Official website</a></p>
       </article>
       <article class="league">
         <h3>Serie A (Italy)</h3>
-        <p>Tactically rich and defensively disciplined, with giants like Juventus, Milan, and Inter. A blend of historic strategy and modern high press defines the league.</p>
+        <p>Tactically rich and defensively disciplined, with giants like Juventus, Milan, and Inter.</p>
         <p><a href="https://www.legaseriea.it/en" target="_blank" rel="noopener">Official website</a></p>
       </article>
       <article class="league">
         <h3>Bundesliga (Germany)</h3>
-        <p>High tempo, fan-centric ownership models, and elite development pipelines. Bayern and Dortmund headline, but parity and atmosphere are standouts.</p>
+        <p>High tempo, fan-centric ownership models, and elite development pipelines.</p>
         <p><a href="https://www.bundesliga.com/en/bundesliga" target="_blank" rel="noopener">Official website</a></p>
       </article>
       <article class="league">
         <h3>Ligue 1 (France)</h3>
-        <p>France’s first division pairs youth development with star power, PSG leading the charge. Athleticism and transition play are hallmarks.</p>
+        <p>France’s first division pairs youth development with star power, PSG leading the charge.</p>
         <p><a href="https://www.ligue1.com/" target="_blank" rel="noopener">Official website</a></p>
       </article>
       <article class="league">
         <h3>Premier League (England)</h3>
-        <p>Global reach, varied styles, and intense weekly competition. From tactical innovators to physical powerhouses, it’s the world’s most watched league.</p>
+        <p>Global reach, varied styles, and intense weekly competition. The world's most watched league.</p>
         <p><a href="https://www.premierleague.com/" target="_blank" rel="noopener">Official website</a></p>
       </article>
     </div>
@@ -137,81 +146,63 @@
 </footer>
 
 <script>
-  // coach data
   const COACHES = {
-    pep: {
-      name: "Pep Guardiola",
-      img: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Pep_2023.jpg",
-      style: "Positional play, high press, and overloads to create the free man.",
-      achievements: [
-        "Multiple Premier League titles (Man City)",
-        "2× UEFA Champions League (Barcelona)",
-        "Domestic trebles in England & Germany"
-      ]
-    },
-    klopp: {
-      name: "Jürgen Klopp",
-      img: "https://upload.wikimedia.org/wikipedia/commons/4/44/Juergen_Klopp_2019.jpg",
-      style: "Gegenpressing: win the ball back instantly, attack with width and pace.",
-      achievements: [
-        "Premier League & Champions League (Liverpool)",
-        "2× Bundesliga (Dortmund)",
-        "FIFA Club World Cup winner"
-      ]
-    },
-    ancelotti: {
-      name: "Carlo Ancelotti",
-      img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Carlo_Ancelotti_2015.jpg",
-      style: "Pragmatic flexibility; balances stars with compact, efficient systems.",
-      achievements: [
-        "Record UEFA Champions League titles as manager",
-        "League titles in Italy, England, France, Germany & Spain",
-        "Multiple domestic cups"
-      ]
-    },
-    simeone: {
-      name: "Diego Simeone",
-      img: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Diego_Simeone_2013.jpg",
-      style: "Compact 4-4-2, aggressive duels, elite transitions and mentality.",
-      achievements: [
-        "La Liga titles with Atlético Madrid",
-        "Europa League & UEFA Super Cup",
-        "Multiple Champions League finals appearances"
-      ]
-    }
+    pep: { name: "Pep Guardiola", img: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Pep_2023.jpg", style: "Positional play, high press, and overloads to create the free man.", achievements: ["Multiple Premier League titles (Man City)", "2× UEFA Champions League (Barcelona)", "Domestic trebles in England & Germany"] },
+    klopp: { name: "Jürgen Klopp", img: "https://upload.wikimedia.org/wikipedia/commons/4/44/Juergen_Klopp_2019.jpg", style: "Gegenpressing: win the ball back instantly, attack with width and pace.", achievements: ["Premier League & Champions League (Liverpool)", "2× Bundesliga (Dortmund)", "FIFA Club World Cup winner"] },
+    arteta: { name: "Mikel Arteta", img: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Mikel_Arteta_2023.jpg", style: "Positional discipline with high pressing and quick vertical passing.", achievements: ["FA Cup & Community Shield (Arsenal)", "Premier League Manager of the Month awards", "Revitalized Arsenal’s tactical identity"] },
+    tenhag: { name: "Erik ten Hag", img: "https://upload.wikimedia.org/wikipedia/commons/1/15/Erik_ten_Hag_2022.jpg", style: "Structured possession, pressing triggers, and technical buildup.", achievements: ["Eredivisie titles with Ajax", "Dutch Cup & Super Cup winner", "Carabao Cup (Man United)"] },
+    postecoglou: { name: "Ange Postecoglou", img: "https://upload.wikimedia.org/wikipedia/commons/f/fc/Ange_Postecoglou_2021.jpg", style: "Attacking full-backs and constant forward motion.", achievements: ["Treble with Celtic", "Asian Cup winner (Australia)", "Revitalized Tottenham’s playing style"] },
+    howe: { name: "Eddie Howe", img: "https://upload.wikimedia.org/wikipedia/commons/5/55/Eddie_Howe_2021.jpg", style: "Energetic pressing and organized defensive transitions.", achievements: ["Promoted Bournemouth from League Two to Premier League", "Qualified Newcastle for Champions League", "Premier League Manager of the Month"] },
+    emery: { name: "Unai Emery", img: "https://upload.wikimedia.org/wikipedia/commons/3/37/Unai_Emery_2015.jpg", style: "Compact defensive shape with structured buildup.", achievements: ["4× UEFA Europa League champion", "Managed PSG, Arsenal, Villarreal, Aston Villa", "Known for tactical adaptability"] },
+    frank: { name: "Thomas Frank", img: "https://upload.wikimedia.org/wikipedia/commons/9/96/Thomas_Frank_2021.jpg", style: "Direct transitions, aerial strength, and compact 5-3-2 system.", achievements: ["Promoted Brentford to Premier League", "Stabilized club in top flight", "Renowned for analytical approach"] },
+    dezerbi: { name: "Roberto De Zerbi", img: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Roberto_De_Zerbi_2023.jpg", style: "Risky build-up play and intelligent pressing traps.", achievements: ["Led Brighton to first-ever European qualification", "Admired for tactical innovation", "Developed several young stars"] },
+    moyes: { name: "David Moyes", img: "https://upload.wikimedia.org/wikipedia/commons/0/07/David_Moyes_2018.jpg", style: "Direct play, solid defense, aerial dominance.", achievements: ["Europa Conference League winner (West Ham)", "LMA Manager of the Year (3×)", "Longest-serving Everton manager of modern era"] },
+    iraola: { name: "Andoni Iraola", img: "https://upload.wikimedia.org/wikipedia/commons/a/a3/Andoni_Iraola_2022.jpg", style: "Energetic pressing and fluid attacking transitions.", achievements: ["Promoted Rayo Vallecano to La Liga", "Implemented attacking philosophy at Bournemouth", "Former Athletic Bilbao player"] },
+    cooper: { name: "Steve Cooper", img: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Steve_Cooper_2022.jpg", style: "Defensive organization and fast counters.", achievements: ["Promoted Nottingham Forest to Premier League", "FIFA U-17 World Cup winner (England)", "Strong player-development background"] },
+    silva: { name: "Marco Silva", img: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Marco_Silva_2023.jpg", style: "Possession-based approach with vertical passing.", achievements: ["Championship title with Fulham", "Primeira Liga Manager of the Year", "Stabilized Fulham in Premier League"] },
+    glassner: { name: "Oliver Glasner", img: "https://upload.wikimedia.org/wikipedia/commons/b/b4/Oliver_Glasner_2022.jpg", style: "Organized back line and structured pressing.", achievements: ["Europa League champion (Eintracht Frankfurt)", "Appointed Crystal Palace manager", "Tactically adaptable across leagues"] },
+    oconnell: { name: "Paul Heckingbottom", img: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Paul_Heckingbottom_2021.jpg", style: "Compact mid-block and quick counters.", achievements: ["Promoted Sheffield United to Premier League", "Championship Manager of the Month", "Known for developing young players"] },
+    kom: { name: "Vincent Kompany", img: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Vincent_Kompany_2019.jpg", style: "Possession-based play inspired by Guardiola.", achievements: ["Championship title with Burnley", "Premier League legend as player", "Focus on high defensive line and buildup"] },
+    ancelotti: { name: "Carlo Ancelotti", img: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Carlo_Ancelotti_2015.jpg", style: "Pragmatic flexibility; balances stars with compact, efficient systems.", achievements: ["Record UEFA Champions League titles as manager", "League titles in Italy, England, France, Germany & Spain", "Multiple domestic cups"] },
+    simeone: { name: "Diego Simeone", img: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Diego_Simeone_2013.jpg", style: "Compact 4-4-2, aggressive duels, elite transitions and mentality.", achievements: ["La Liga titles with Atlético Madrid", "Europa League & UEFA Super Cup", "Multiple Champions League finals appearances"] }
   };
 
-  const sel = document.getElementById('coachSelect');
-  const filter = document.getElementById('coachFilter');
-  const card = document.getElementById('coachCard');
-  const img = document.getElementById('coachImg');
-  const nameEl = document.getElementById('coachName');
-  const styleEl = document.getElementById('coachStyle');
-  const listEl = document.getElementById('coachList');
+  const select = document.getElementById("coachSelect");
+  const filter = document.getElementById("coachFilter");
+  const card = document.getElementById("coachCard");
+  const img = document.getElementById("coachImg");
+  const nameEl = document.getElementById("coachName");
+  const styleEl = document.getElementById("coachStyle");
+  const listEl = document.getElementById("coachList");
 
-  filter.addEventListener('input', () => {
-    const q = filter.value.toLowerCase();
-    Array.from(sel.options).forEach(o => {
-      if (!o.value) return;
-      o.style.display = o.text.toLowerCase().includes(q) ? 'block' : 'none';
-    });
+  // Sort dropdown alphabetically (ignores placeholder)
+  window.addEventListener("DOMContentLoaded", () => {
+    const options = Array.from(select.options).filter(o => o.value);
+    options.sort((a, b) => a.text.localeCompare(b.text));
+    select.innerHTML = '<option value="">-- Select a coach --</option>';
+    options.forEach(opt => select.appendChild(opt));
   });
 
-  sel.addEventListener('change', () => {
-    const key = sel.value;
-    if (!key || !COACHES[key]) { card.style.display = 'none'; return; }
-    const c = COACHES[key];
-    img.src = c.img;
-    img.alt = c.name;
-    nameEl.textContent = c.name;
-    styleEl.textContent = c.style;
-    listEl.innerHTML = c.achievements.map(a => `<li>${a}</li>`).join('');
-    card.style.display = 'grid';
+  select.addEventListener("change", e => {
+    const coach = COACHES[e.target.value];
+    if (coach) {
+      card.style.display = "grid";
+      img.src = coach.img;
+      nameEl.textContent = coach.name;
+      styleEl.textContent = coach.style;
+      listEl.innerHTML = coach.achievements.map(a => `<li>${a}</li>`).join("");
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  filter.addEventListener("input", e => {
+    const term = e.target.value.toLowerCase();
+    for (const opt of select.options) {
+      if (!opt.value) continue;
+      opt.hidden = !opt.text.toLowerCase().includes(term);
+    }
   });
 </script>
 </body>
 </html>
-
-<a href="CoachesLeagues.html" class="active">Other Leagues/Coaches</a>
-
-
