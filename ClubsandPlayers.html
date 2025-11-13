@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="externalstylesheet.css">
 
   <style>
-    /* Basic layout for club info section */
     .club-info {
       display: flex;
       align-items: flex-start;
@@ -18,7 +17,6 @@
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
-
     .club-info img {
       width: 120px;
       height: 120px;
@@ -28,25 +26,11 @@
       border: 2px solid #ccc;
       padding: 5px;
     }
+    .club-text { flex: 1; }
+    .club-text h3 { margin-top: 0; }
+    .club-text ul { margin-top: 0.5rem; padding-left: 1.2rem; }
+    .club-text ul li { margin-bottom: 4px; }
 
-    .club-text {
-      flex: 1;
-    }
-
-    .club-text h3 {
-      margin-top: 0;
-    }
-
-    .club-text ul {
-      margin-top: 0.5rem;
-      padding-left: 1.2rem;
-    }
-
-    .club-text ul li {
-      margin-bottom: 4px;
-    }
-
-    /* Player card styling */
     .player-card {
       background-color: #f8f9fa;
       padding: 15px;
@@ -56,23 +40,16 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       max-width: 400px;
     }
-
-    .player-card h3 {
-      margin-top: 0;
-      color: #004080;
-    }
-
-    .player-card p {
-      margin: 4px 0;
-    }
-
-    .player-card ul {
+    .player-card h3 { margin-top: 0; color: #004080; }
+    .player-card p { margin: 4px 0; }
+    .player-card ul { margin-top: 8px; padding-left: 1.2rem; }
+    .player-card ul li { margin-bottom: 4px; }
+    .player-image {
+      width: 100%;
+      border-radius: 8px;
+      object-fit: cover;
       margin-top: 8px;
-      padding-left: 1.2rem;
-    }
-
-    .player-card ul li {
-      margin-bottom: 4px;
+      max-height: 250px;
     }
   </style>
 </head>
@@ -95,7 +72,6 @@
 </header>
 
 <main>
-  <!-- Section 1: Club selection -->
   <section>
     <h2>Select a Club</h2>
     <div class="search-section">
@@ -104,12 +80,14 @@
         <option value="Manchester United">Manchester United</option>
         <option value="Chelsea">Chelsea</option>
         <option value="Liverpool">Liverpool</option>
+        <option value="Arsenal">Arsenal</option>
+        <option value="Tottenham Hotspur">Tottenham Hotspur</option>
+        <option value="Manchester City">Manchester City</option>
       </select>
     </div>
     <div class="search-result" id="clubResult">Please select a club.</div>
   </section>
 
-  <!-- Section 1.5: Club history, image, and achievements -->
   <section>
     <h2>Club History & Achievements</h2>
     <div id="clubInfo" class="club-info" style="display:none;">
@@ -124,7 +102,6 @@
     <p id="defaultHistory">Select a club above to view its Premier League history, image, and notable achievements.</p>
   </section>
 
-  <!-- Section 2: Players based on selected club -->
   <section>
     <h2>Club Players</h2>
     <div class="search-section">
@@ -149,135 +126,162 @@
 </footer>
 
 <script>
-  const clubDetails = {
-    "Manchester United": {
-      img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
-      history: "Manchester United are one of the most successful clubs in Premier League history, boasting 13 Premier League titles under Sir Alex Ferguson. Known for their attacking football and iconic players, United have maintained global dominance for decades.",
-      achievements: [
-        "13 Premier League Titles",
-        "3 UEFA Champions League Trophies",
-        "12 FA Cups",
-        "21 English Top-Flight Titles (Overall)"
-      ],
-      players: {
-        "Bruno Fernandes": { appearances: 150, goals: 55, assists: 45, achievements: ["Player of the Month (5x)", "PFA Team of the Year (2021)", "Captain of Manchester United"] },
-        "Mason Mount": { appearances: 90, goals: 15, assists: 22, achievements: ["Chelsea Academy Graduate", "UEFA Super Cup Winner (2021)"] },
-        "Bryan Mbeumo": { appearances: 80, goals: 25, assists: 18, achievements: ["Breakthrough Player (2023)", "Brentford Top Scorer 2022"] }
-      }
-    },
-    "Chelsea": {
-      img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
-      history: "Chelsea became a Premier League powerhouse in the 2000s, rising to prominence under Roman Abramovich’s ownership. Known for tactical excellence and strong defense, they have enjoyed success domestically and in Europe.",
-      achievements: [
-        "5 Premier League Titles",
-        "2 UEFA Champions League Trophies",
-        "8 FA Cups",
-        "2 UEFA Europa League Titles"
-      ],
-      players: {
-        "Cole Palmer": { appearances: 45, goals: 18, assists: 9, achievements: ["Young Player of the Year (2024)", "Top Scorer for Chelsea 2024"] },
-        "Moises Caicedo": { appearances: 60, goals: 5, assists: 10, achievements: ["Ecuador Player of the Year (2022)", "Key Midfielder for Chelsea"] },
-        "Reece James": { appearances: 120, goals: 12, assists: 30, achievements: ["Chelsea Captain (2023)", "PFA Team of the Year (2021)"] }
-      }
-    },
-    "Liverpool": {
-      img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
-      history: "Liverpool have one of the richest football histories in the world. Under Jürgen Klopp, they won their first Premier League title in 2020 and have continued to be a global force with passionate supporters and thrilling football.",
-      achievements: [
-        "1 Premier League Title (2020)",
-        "19 English League Titles (Overall)",
-        "6 UEFA Champions League Trophies",
-        "8 FA Cups"
-      ],
-      players: {
-        "Mohamed Salah": { appearances: 220, goals: 155, assists: 65, achievements: ["Golden Boot (3x)", "PFA Player of the Year (2022)", "Champions League Winner 2019"] },
-        "Virgil van Dijk": { appearances: 160, goals: 20, assists: 10, achievements: ["PFA Player of the Year (2019)", "Champions League Winner (2019)"] },
-        "Alexander Isak": { appearances: 55, goals: 28, assists: 12, achievements: ["Swedish Player of the Year (2023)", "Liverpool Top Scorer (2024)"] }
-      }
+const clubDetails = {
+  "Manchester United": { img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
+    history: "Manchester United are one of the most successful clubs in Premier League history...",
+    achievements: ["13 Premier League Titles","3 UEFA Champions League Trophies","12 FA Cups"],
+    players: {
+      "Bruno Fernandes": {img:"https://upload.wikimedia.org/wikipedia/commons/6/62/Bruno_Fernandes_2021.jpg", appearances:150, goals:55, assists:45, achievements:["Captain","PFA Team of the Year"]},
+      "Marcus Rashford": {img:"https://upload.wikimedia.org/wikipedia/commons/b/b4/Marcus_Rashford_2023.jpg", appearances:210, goals:90, assists:60, achievements:["Member of the British Empire (MBE)","Youth Academy Graduate"]},
+      "Kobbie Mainoo": {img:"https://upload.wikimedia.org/wikipedia/commons/d/d9/Kobbie_Mainoo_2024.jpg", appearances:45, goals:6, assists:7, achievements:["Breakthrough Player 2024"]},
+      "Casemiro": {img:"https://upload.wikimedia.org/wikipedia/commons/f/f9/Casemiro_2023.jpg", appearances:60, goals:8, assists:6, achievements:["Champions League Winner (5x)"]},
+      "Luke Shaw": {img:"https://upload.wikimedia.org/wikipedia/commons/1/1f/Luke_Shaw_2022.jpg", appearances:180, goals:4, assists:25, achievements:["PFA Team of the Year"]},
+      "Lisandro Martínez": {img:"https://upload.wikimedia.org/wikipedia/commons/8/81/Lisandro_Martinez_2023.jpg", appearances:70, goals:5, assists:3, achievements:["World Cup Winner 2022"]},
+      "André Onana": {img:"https://upload.wikimedia.org/wikipedia/commons/0/07/Andre_Onana_2023.jpg", appearances:38, goals:0, assists:1, achievements:["CAF Goalkeeper of the Year"]}
+    } },
+  "Arsenal": {  img: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
+    history: "Arsenal have been reborn under Mikel Arteta, playing high-pressing, possession-based football and challenging for the Premier League title.",
+    achievements: ["13 English League Titles","14 FA Cups","Undefeated Season (2003–04)"],
+    players: {
+      "Bukayo Saka": {img:"https://upload.wikimedia.org/wikipedia/commons/8/83/Bukayo_Saka_2024.jpg", appearances:160, goals:45, assists:40, achievements:["England Player of the Year (2023)"]},
+      "Martin Ødegaard": {img:"https://upload.wikimedia.org/wikipedia/commons/2/22/Martin_Ødegaard_2023.jpg", appearances:120, goals:30, assists:35, achievements:["Arsenal Captain"]},
+      "Gabriel Jesus": {img:"https://upload.wikimedia.org/wikipedia/commons/0/0f/Gabriel_Jesus_2022.jpg", appearances:95, goals:35, assists:25, achievements:["Copa America Winner"]},
+      "William Saliba": {img:"https://upload.wikimedia.org/wikipedia/commons/7/73/William_Saliba_2023.jpg", appearances:70, goals:5, assists:4, achievements:["Best Defender 2023"]},
+      "Declan Rice": {img:"https://upload.wikimedia.org/wikipedia/commons/3/31/Declan_Rice_2023.jpg", appearances:55, goals:8, assists:10, achievements:["England Vice Captain"]},
+      "Gabriel Martinelli": {img:"https://upload.wikimedia.org/wikipedia/commons/8/8e/Gabriel_Martinelli_2023.jpg", appearances:110, goals:35, assists:22, achievements:["Arsenal Young Player 2022"]},
+      "David Raya": {img:"https://upload.wikimedia.org/wikipedia/commons/2/22/David_Raya_2023.jpg", appearances:45, goals:0, assists:0, achievements:["Golden Glove 2024"]}
+    } },
+  "Tottenham Hotspur": {  img: "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg",
+    history: "Tottenham Hotspur have impressed under Ange Postecoglou with dynamic, attacking football and a revitalized squad.",
+    achievements: ["2 English League Titles","8 FA Cups","UEFA Champions League Finalists (2019)"],
+    players: {
+      "Heung-min Son": {img:"https://upload.wikimedia.org/wikipedia/commons/8/87/Son_Heung-min_2023.jpg", appearances:250, goals:110, assists:75, achievements:["Asian Player of the Year (5x)"]},
+      "James Maddison": {img:"https://upload.wikimedia.org/wikipedia/commons/8/84/James_Maddison_2023.jpg", appearances:95, goals:28, assists:40, achievements:["Tottenham Vice Captain"]},
+      "Cristian Romero": {img:"https://upload.wikimedia.org/wikipedia/commons/f/f3/Cristian_Romero_2023.jpg", appearances:65, goals:4, assists:3, achievements:["World Cup Winner 2022"]},
+      "Destiny Udogie": {img:"https://upload.wikimedia.org/wikipedia/commons/6/6e/Destiny_Udogie_2024.jpg", appearances:40, goals:3, assists:5, achievements:["Breakthrough Young Player 2024"]},
+      "Richarlison": {img:"https://upload.wikimedia.org/wikipedia/commons/a/a8/Richarlison_2023.jpg", appearances:85, goals:25, assists:15, achievements:["Copa America Winner"]},
+      "Pedro Porro": {img:"https://upload.wikimedia.org/wikipedia/commons/3/3d/Pedro_Porro_2023.jpg", appearances:50, goals:5, assists:12, achievements:["Best Right-Back 2024"]},
+      "Guglielmo Vicario": {img:"https://upload.wikimedia.org/wikipedia/commons/5/54/Guglielmo_Vicario_2023.jpg", appearances:38, goals:0, assists:0, achievements:["Clean Sheets Leader 2024"]}
+    } },
+  "Manchester City": { img: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+    history: "Manchester City have dominated the Premier League under Pep Guardiola with tactical brilliance and squad depth.",
+    achievements: ["9 English League Titles","6 Premier League Titles (since 2012)","UEFA Champions League Winners (2023)"],
+    players: {
+      "Erling Haaland": {img:"https://upload.wikimedia.org/wikipedia/commons/5/5b/Erling_Haaland_2023.jpg", appearances:70, goals:73, assists:14, achievements:["Premier League Golden Boot (2023)"]},
+      "Kevin De Bruyne": {img:"https://upload.wikimedia.org/wikipedia/commons/e/e6/Kevin_De_Bruyne_2023.jpg", appearances:240, goals:65, assists:130, achievements:["PFA Player of the Year (2x)"]},
+      "Phil Foden": {img:"https://upload.wikimedia.org/wikipedia/commons/0/05/Phil_Foden_2023.jpg", appearances:160, goals:55, assists:45, achievements:["Young Player of the Year (2x)"]},
+      "Rodri": {img:"https://upload.wikimedia.org/wikipedia/commons/d/db/Rodri_2023.jpg", appearances:145, goals:20, assists:18, achievements:["Champions League Final Winner 2023"]},
+      "Bernardo Silva": {img:"https://upload.wikimedia.org/wikipedia/commons/8/88/Bernardo_Silva_2023.jpg", appearances:210, goals:50, assists:65, achievements:["Treble Winner 2023"]},
+      "Jack Grealish": {img:"https://upload.wikimedia.org/wikipedia/commons/4/41/Jack_Grealish_2023.jpg", appearances:110, goals:18, assists:25, achievements:["FA Cup Winner 2023"]},
+      "Ederson": {img:"https://upload.wikimedia.org/wikipedia/commons/2/2e/Ederson_2023.jpg", appearances:210, goals:0, assists:1, achievements:["Golden Glove Winner (3x)"]}
+    } },
+
+  "Chelsea": {
+    img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
+    history: "Chelsea became a Premier League powerhouse in the 2000s, rising to prominence with a strong squad and European success.",
+    achievements: ["5 Premier League Titles","2 UEFA Champions League Trophies","8 FA Cups","2 UEFA Europa League Titles"],
+    players: {
+      "Cole Palmer": { img: "https://upload.wikimedia.org/wikipedia/commons/2/29/Cole_Palmer_2024.jpg", appearances: 60, goals: 25, assists: 15, achievements: ["Young Player of the Year (2024)","England International"] },
+      "Moisés Caicedo": { img: "https://upload.wikimedia.org/wikipedia/commons/7/75/Mois%C3%A9s_Caicedo_2024.jpg", appearances: 80, goals: 5, assists: 10, achievements: ["Ecuador Player of the Year (2022)","Key Midfielder"] },
+      "Reece James": { img: "https://upload.wikimedia.org/wikipedia/commons/1/17/Reece_James_2023.jpg", appearances: 120, goals: 12, assists: 30, achievements: ["Club Captain (2023)","England International"] },
+      "Enzo Fernández": { img: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Enzo_Fern%C3%A1ndez_2023.jpg", appearances: 70, goals: 6, assists: 20, achievements: ["Ballon d’Or Nominee (2023)","Argentina International"] },
+      "Ben Chilwell": { img: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Ben_Chilwell_2023.jpg", appearances: 100, goals: 8, assists: 25, achievements: ["England International","Experienced Defender"] },
+      "Malo Gusto": { img: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Malo_Gusto_2024.jpg", appearances: 45, goals: 3, assists: 8, achievements: ["Young Defender Rising"] },
+      "Tosin Adarabioyo": { img: "https://upload.wikimedia.org/wikipedia/commons/4/43/Tosin_Adarabioyo_2024.jpg", appearances: 55, goals: 4, assists: 7, achievements: ["England International","Strong Centre-Back"] }
     }
-  };
+  },
 
-  const clubSelect = document.getElementById("clubSelect");
-  const playerSelect = document.getElementById("playerSelect");
-  const clubResult = document.getElementById("clubResult");
-  const playerResult = document.getElementById("playerResult");
-  const clubInfo = document.getElementById("clubInfo");
-  const clubImage = document.getElementById("clubImage");
-  const clubName = document.getElementById("clubName");
-  const clubHistory = document.getElementById("clubHistory");
-  const clubAchievements = document.getElementById("clubAchievements");
-  const defaultHistory = document.getElementById("defaultHistory");
-
-  // When a club is selected
-  clubSelect.addEventListener("change", function() {
-    const club = this.value;
-    if (!club) {
-      clubResult.textContent = "Please select a club.";
-      playerResult.textContent = "Select a club first.";
-      playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-      clubInfo.style.display = "none";
-      defaultHistory.style.display = "block";
-      return;
-    }
-
-    const details = clubDetails[club];
-    clubResult.textContent = `You selected: ${club}`;
-    updatePlayersDropdown();
-
-    if (details) {
-      clubInfo.style.display = "flex";
-      defaultHistory.style.display = "none";
-      clubImage.src = details.img;
-      clubName.textContent = club;
-      clubHistory.textContent = details.history;
-
-      // Update achievements
-      clubAchievements.innerHTML = "";
-      details.achievements.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        clubAchievements.appendChild(li);
-      });
-    }
-  });
-
-  function updatePlayersDropdown() {
-    const club = clubSelect.value;
-    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-    if (club && clubDetails[club]) {
-      Object.keys(clubDetails[club].players).forEach(player => {
-        const option = document.createElement("option");
-        option.value = player;
-        option.textContent = player;
-        playerSelect.appendChild(option);
-      });
-      playerResult.textContent = "Please select a player.";
-    } else {
-      playerResult.textContent = "Select a club first.";
+  "Liverpool": {
+    img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
+    history: "Liverpool have one of the richest football histories in world football. Under Jürgen Klopp they returned to the top of English & European game, with passionate fans and iconic stadium Anfield.",
+    achievements: ["1 Premier League Title (2020)","19 English League Titles (Overall)","6 UEFA Champions League Trophies","8 FA Cups"],
+    players: {
+      "Mohamed Salah": { img: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Mohamed_Salah_2023.jpg", appearances: 220, goals: 155, assists: 65, achievements: ["Golden Boot (3x)","Egypt International"] },
+      "Virgil van Dijk": { img: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Virgil_van_Dijk_2023.jpg", appearances: 160, goals: 20, assists: 10, achievements: ["Captain","Netherlands International"] },
+      "Alexander Isak": { img: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Alexander_Isak_2024.jpg", appearances: 55, goals: 28, assists: 12, achievements: ["Sweden International","New Forward Signing"] },
+      "Alisson Becker": { img: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Alisson_Becker_2023.jpg", appearances: 140, goals: 2, assists: 3, achievements: ["Brazil International","Top Premier League Goalkeeper"] },
+      "Cody Gakpo": { img: "https://upload.wikimedia.org/wikipedia/commons/e/e6/Cody_Gakpo_2024.jpg", appearances: 70, goals: 25, assists: 18, achievements: ["Netherlands International","Versatile Forward"] },
+      "Joe Gomez": { img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Joe_Gomez_2023.jpg", appearances: 80, goals: 4, assists: 6, achievements: ["England International","Reliable Defender"] },
+      "Dominik Szoboszlai": { img: "https://upload.wikimedia.org/wikipedia/commons/7/70/Dominik_Szoboszlai_2024.jpg", appearances: 60, goals: 12, assists: 20, achievements: ["Hungary International","Midfield Creator"] }
     }
   }
+};
 
-  // Display selected player details
-  playerSelect.addEventListener("change", function() {
-    const club = clubSelect.value;
-    const player = this.value;
-    if (!player || !club) {
-      playerResult.textContent = "Please select a player.";
-      return;
-    }
+const clubSelect = document.getElementById("clubSelect");
+const playerSelect = document.getElementById("playerSelect");
+const clubResult = document.getElementById("clubResult");
+const playerResult = document.getElementById("playerResult");
+const clubInfo = document.getElementById("clubInfo");
+const clubImage = document.getElementById("clubImage");
+const clubName = document.getElementById("clubName");
+const clubHistory = document.getElementById("clubHistory");
+const clubAchievements = document.getElementById("clubAchievements");
+const defaultHistory = document.getElementById("defaultHistory");
 
-    const data = clubDetails[club].players[player];
-    playerResult.innerHTML = `
-      <div class="player-card">
-        <h3>${player}</h3>
-        <p><strong>Appearances:</strong> ${data.appearances}</p>
-        <p><strong>Goals:</strong> ${data.goals}</p>
-        <p><strong>Assists:</strong> ${data.assists}</p>
-        <h4>Personal Achievements:</h4>
-        <ul>${data.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
-      </div>
-    `;
-  });
+clubSelect.addEventListener("change", function() {
+  const club = this.value;
+  if (!club) {
+    clubResult.textContent = "Please select a club.";
+    playerResult.textContent = "Select a club first.";
+    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+    clubInfo.style.display = "none";
+    defaultHistory.style.display = "block";
+    return;
+  }
+  const details = clubDetails[club];
+  clubResult.textContent = `You selected: ${club}`;
+  updatePlayersDropdown();
+  if (details) {
+    clubInfo.style.display = "flex";
+    defaultHistory.style.display = "none";
+    clubImage.src = details.img;
+    clubName.textContent = club;
+    clubHistory.textContent = details.history;
+    clubAchievements.innerHTML = "";
+    details.achievements.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      clubAchievements.appendChild(li);
+    });
+  }
+});
+
+function updatePlayersDropdown() {
+  const club = clubSelect.value;
+  playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+  if (club && clubDetails[club]) {
+    Object.keys(clubDetails[club].players).forEach(player => {
+      const option = document.createElement("option");
+      option.value = player;
+      option.textContent = player;
+      playerSelect.appendChild(option);
+    });
+    playerResult.textContent = "Please select a player.";
+  } else {
+    playerResult.textContent = "Select a club first.";
+  }
+}
+
+playerSelect.addEventListener("change", function() {
+  const club = clubSelect.value;
+  const player = this.value;
+  if (!player || !club) {
+    playerResult.textContent = "Please select a player.";
+    return;
+  }
+  const data = clubDetails[club].players[player];
+  playerResult.innerHTML = `
+    <div class="player-card">
+      <h3>${player}</h3>
+      <img src="${data.img}" alt="${player}" class="player-image">
+      <p><strong>Appearances:</strong> ${data.appearances}</p>
+      <p><strong>Goals:</strong> ${data.goals}</p>
+      <p><strong>Assists:</strong> ${data.assists}</p>
+      <h4>Personal Achievements:</h4>
+      <ul>${data.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
+    </div>
+  `;
+});
 </script>
 
 </body>
