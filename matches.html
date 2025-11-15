@@ -244,8 +244,8 @@
     <div class="footer-left">
       <p>Check out other links here for the official Premier League Instagram and Twitter page</p>
       <div class="social-icons">
-        <img src="images/twitter page.jpg" alt="Twitter" />
-        <img src="images/instagram.jpg" alt="Instagram" />
+        <img id="twitterFooter" src="images/twitter page.jpg" alt="Twitter" />
+        <img id="instagramFooter" src="images/instagram.jpg" alt="Instagram" />
       </div>
     </div>
 
@@ -626,7 +626,38 @@
 
   </script>
 
+  <!-- Small footer helper script (makes footer icons behave like news.html) -->
+  <script>
+    (function setupFooterImages(){
+      const footerPlaceholder = 'images/placeholder-social.jpg'; // ensure this exists or change path
+      const tw = document.getElementById('twitterFooter');
+      const ig = document.getElementById('instagramFooter');
+
+      if(!tw || !ig) return;
+
+      // fallback on error
+      tw.onerror = () => { if(tw.src !== footerPlaceholder) tw.src = footerPlaceholder; };
+      ig.onerror = () => { if(ig.src !== footerPlaceholder) ig.src = footerPlaceholder; };
+
+      // enforce small size (in case width/height missing)
+      tw.style.width = '28px';
+      tw.style.height = '28px';
+      ig.style.width = '28px';
+      ig.style.height = '28px';
+
+      // pointer + accessible click handlers
+      tw.style.cursor = 'pointer';
+      ig.style.cursor = 'pointer';
+
+      tw.addEventListener('click', ()=> {
+        // X (Twitter) official Premier League (using x.com)
+        window.open('https://x.com/premierleague', '_blank');
+      });
+      ig.addEventListener('click', ()=> {
+        window.open('https://www.instagram.com/premierleague/', '_blank');
+      });
+    })();
+  </script>
+
 </body>
 </html>
-
-
