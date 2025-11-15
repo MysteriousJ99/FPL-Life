@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FPL News — Fast Premier Life</title>
 
   <!-- Same stylesheet as index.html -->
@@ -62,7 +62,7 @@
     .featured-item img {
       width:100%;
       height:100%;
-      object-fit:cover;              /* preserves aspect, crops if needed */
+      object-fit:cover;
       display:block;
       transition: transform .25s ease;
       cursor:pointer;
@@ -110,7 +110,6 @@
       border:1px solid rgba(56,0,60,0.12);
     }
 
-    /* small responsive tweak */
     @media (max-width:700px){
       .featured-images { flex-direction: column; }
       .featured-item { min-height:140px; max-height:none; }
@@ -154,9 +153,8 @@
       margin: 0 0 10px;
     }
 
-    /* smaller social icons for footer */
     .footer-left img, .footer-right img {
-      width: 28px;                 /* reduced size */
+      width: 28px;
       height: 28px;
       object-fit:contain;
       margin-right: 8px;
@@ -168,7 +166,6 @@
       text-align: right;
     }
 
-    /* Accessibility: focus outline for keyboard users */
     .featured-item:focus { outline: 3px solid rgba(56,0,60,0.12); }
   </style>
 </head>
@@ -202,33 +199,29 @@
   <main>
     <h1>News</h1>
 
-    <!-- NOTE: Search bar intentionally removed as requested -->
-
     <!-- FEATURED ARTICLE -->
     <section class="featured-article" style="background-color:#f9f4ef; padding:20px; border-radius:10px;">
-      <h2 id="featuredTitle">Analysis: Four tactical trends emerging in 2025/26 so far</h2>
+      <h2 id="featuredTitle">The spirit of the Premier League — captured</h2>
 
-      <!-- Featured images area: will be populated from articles[] by JS -->
+      <!-- Featured images area: static curated images -->
       <div class="featured-images" id="featuredImages" aria-live="polite">
-        <!-- three items will be injected here -->
+        <!-- three curated images are injected by JS -->
       </div>
 
-      <!-- slideshow controls -->
       <div class="featured-controls" style="justify-content:flex-end;">
         <button class="btn secondary" id="prevFeature" aria-label="Previous featured">Prev</button>
         <button class="btn" id="nextFeature" aria-label="Next featured">Next</button>
       </div>
 
-      <h3 id="featuredSub">From long throws and long goal-kicks, Opta Analyst identifies key changes in strategy and style</h3>
-      <p><a id="featuredAuthor" href="#">Opta Analyst</a>’s Ali Tweedale looks at four emerging trends across the Premier League so far this season.</p>
-      <p id="featuredExcerpt">It might only be three matches into the new campaign, but a few things are happening that suggest Premier League football is changing.</p>
+      <h3 id="featuredSub">Iconic moments, stadium atmospheres and fan passion — consistently present</h3>
+      <p><a id="featuredAuthor" href="#">Fast Premier Life</a> curates imagery that represents the essence of the league.</p>
+      <p id="featuredExcerpt">Every time you open this page you’ll see iconic Premier League scenes chosen to capture the competition’s energy.</p>
 
-      <!-- Social Share Buttons -->
-      <h3>Share this article:</h3>
+      <h3>Share this page:</h3>
       <div class="social-sharing">
         <button id="share-facebook">Share on Facebook</button>
         <button id="share-twitter">Share on Twitter</button>
-        <button id="share-youtube">Share on YouTube</button>
+        <button id="share-youtube">Search on YouTube</button>
       </div>
     </section>
 
@@ -259,7 +252,7 @@
     </div>
   </main>
 
-  <!-- FOOTER — kept same structure and content as earlier but with smaller icons -->
+  <!-- FOOTER -->
   <footer>
     <div class="footer-left">
       <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
@@ -272,311 +265,174 @@
     </div>
   </footer>
 
-  <!-- Social Sharing + Featured images Script -->
+  <!-- Static curated images script -->
   <script>
-    /*********************************************************
-     * Featured images & auto-update logic
-     *
-     * Behavior:
-     * - page maintains a local `articles[]` array (fallback)
-     * - poll a JSON feed on your site (LATEST_FEED_URL) every POLL_INTERVAL ms
-     * - when new articles are returned they replace `articles` and the featured images/text update
-     *
-     * Server endpoint requirements (example):
-     *  GET /api/latest-articles.json?topics=transfer,match
-     *  Response: JSON array of objects:
-     *  [
-     *    {
-     *      "id": 123,
-     *      "title": "Big transfer: Player X signs",
-     *      "img": "https://fastpremierlife.example/uploads/2025/11/playerx.jpg",
-     *      "url": "/news/123-big-transfer.html",
-     *      "excerpt": "Short excerpt",
-     *      "author": "Reporter Name",
-     *      "date": "2025-11-14",
-     *      "topics": ["transfer","rumour"]
-     *    },
-     *    ...
-     *  ]
-     *
-     * Notes:
-     * - The feed must have CORS headers (Access-Control-Allow-Origin) if it's hosted on a different domain.
-     * - If you prefer server push, replace the polling with websockets or server-sent-events.
-     *********************************************************/
+    (function(){
+      // curated static images representing the Premier League 'essence'
+      const featuredImagesStatic = [
+        {
+          id: 'ess1',
+          title: 'Packed stadium — matchday atmosphere',
+          img: 'images/premier-essence-1.jpg',
+          alt: 'Crowd and stadium lights on matchday',
+          url: '#'
+        },
+        {
+          id: 'ess2',
+          title: 'Iconic finishing — celebration',
+          img: 'images/premier-essence-2.jpg',
+          alt: 'Player celebrating a goal with teammates',
+          url: '#'
+        },
+        {
+          id: 'ess3',
+          title: 'Historic stadium façade — tradition',
+          img: 'images/premier-essence-3.jpg',
+          alt: 'Exterior of a classic Premier League stadium',
+          url: '#'
+        }
+      ];
 
-    // ---------- Sample fallback articles array ----------
-    let articles = [
-      {
-        id: 1,
-        title: "Analysis: Four tactical trends emerging in 2025/26 so far",
-        img: "images/soccer-player-jumping-to-ball-multiple-stanislaw-pytel.webp",
-        url: "#",
-        excerpt: "It might only be three matches into the new campaign, but a few things are happening that suggest Premier League football is changing.",
-        author: "Opta Analyst",
-        date: "2025-10-01",
-        topics: ["analysis","tactics"]
-      },
-      {
-        id: 2,
-        title: "Postecoglou replaces Nuno as Nottingham Forest head coach",
-        img: "images/news2.jpg",
-        url: "#",
-        excerpt: "Nottingham Forest announced the appointment of Ange Postecoglou as head coach.",
-        author: "Club Press",
-        date: "2025-10-05",
-        topics: ["transfer","appointments"]
-      },
-      {
-        id: 3,
-        title: "Premier League Club Kits for 2025/26",
-        img: "images/news3.jpg",
-        url: "#",
-        excerpt: "See every Premier League club's new threads for the 2025/26 season.",
-        author: "Kit Watch",
-        date: "2025-09-28",
-        topics: ["kits","season"]
-      }
-    ];
+      const placeholderImg = 'images/placeholder-news.jpg';
+      const footerPlaceholder = 'images/placeholder-social.jpg';
 
-    const placeholderImg = 'images/placeholder-news.jpg';
-    const footerPlaceholder = 'images/placeholder-social.jpg';
+      // DOM refs
+      const featuredImagesNode = document.getElementById('featuredImages');
+      const featuredTitle = document.getElementById('featuredTitle');
+      const featuredSub = document.getElementById('featuredSub');
+      const featuredAuthor = document.getElementById('featuredAuthor');
+      const featuredExcerpt = document.getElementById('featuredExcerpt');
 
-    // Polling config: change as needed
-    const LATEST_FEED_URL = '/api/latest-articles.json'; // <-- point to your site feed
-    const POLL_INTERVAL = 60 * 1000; // 60s poll; change to 300000 (5min) or use server push
-    const POLL_TOPICS = ['premier-league','transfers','analysis']; // optional topics to request
+      let featureIndex = 0;
+      let autoRotateTimer = null;
+      const ROTATE_INTERVAL = 7000;
 
-    // DOM refs
-    const featuredImagesNode = document.getElementById('featuredImages');
-    const featuredTitle = document.getElementById('featuredTitle');
-    const featuredSub = document.getElementById('featuredSub');
-    const featuredAuthor = document.getElementById('featuredAuthor');
-    const featuredExcerpt = document.getElementById('featuredExcerpt');
-    const articleList = document.getElementById('articleList');
-
-    // slideshow state
-    let featureIndex = 0;
-    let autoRotateTimer = null;
-    const ROTATE_INTERVAL = 7000; // ms
-
-    // Safe image setter for featured and footer images
-    function setImageWithFallback(imgEl, src, alt){
-      imgEl.alt = alt || '';
-      imgEl.src = src || placeholderImg;
-      imgEl.onerror = () => {
-        if(imgEl.src !== placeholderImg) imgEl.src = placeholderImg;
-      };
-    }
-
-    // Render featured images
-    function renderFeatured(startIndex=0){
-      featuredImagesNode.innerHTML = '';
-      // pick up to 3 articles starting at startIndex
-      const items = [];
-      for(let i=0;i<3;i++){
-        const idx = startIndex + i;
-        if(idx < articles.length) items.push(articles[idx]);
-      }
-      // fill placeholders if fewer than 3
-      while(items.length < 3){
-        items.push({ id: 'ph'+items.length, title: 'No article', img: placeholderImg, url:'#', excerpt:'', author:'', date:''});
+      function setImageWithFallback(imgEl, src, alt){
+        imgEl.alt = alt || '';
+        imgEl.src = src || placeholderImg;
+        imgEl.onerror = () => {
+          if(imgEl.src !== placeholderImg) imgEl.src = placeholderImg;
+        };
       }
 
-      items.forEach((art) => {
-        const wrap = document.createElement('div');
-        wrap.className = 'featured-item';
-        wrap.tabIndex = 0;
-        wrap.setAttribute('role','link');
-        wrap.setAttribute('aria-label', art.title || 'Featured article');
+      function renderFeatured(startIndex = 0){
+        featuredImagesNode.innerHTML = '';
+        // Use the curated array in cyclical order starting at startIndex
+        for(let i=0;i<3;i++){
+          const idx = (startIndex + i) % featuredImagesStatic.length;
+          const art = featuredImagesStatic[idx];
 
-        const img = document.createElement('img');
-        setImageWithFallback(img, art.img || placeholderImg, art.title || 'Featured image');
+          const wrap = document.createElement('div');
+          wrap.className = 'featured-item';
+          wrap.tabIndex = 0;
+          wrap.setAttribute('role','link');
+          wrap.setAttribute('aria-label', art.title || 'Featured image');
 
-        const cap = document.createElement('div');
-        cap.className = 'featured-caption';
-        cap.textContent = art.title || '';
+          const img = document.createElement('img');
+          setImageWithFallback(img, art.img, art.alt);
 
-        // click: open article URL (if provided) or populate main featured
-        wrap.addEventListener('click', (e) => {
-          if(art.url && art.url !== '#') window.open(art.url, "_blank");
-          else { populateMainFeatured(art); }
-        });
+          const cap = document.createElement('div');
+          cap.className = 'featured-caption';
+          cap.textContent = art.title || '';
 
-        wrap.addEventListener('keydown', (e)=>{
-          if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrap.click(); }
-        });
+          wrap.addEventListener('click', () => {
+            if(art.url && art.url !== '#') window.open(art.url, '_blank');
+            else populateMainFeatured(art);
+          });
 
-        wrap.appendChild(img);
-        wrap.appendChild(cap);
-        featuredImagesNode.appendChild(wrap);
+          wrap.addEventListener('keydown', (e)=>{
+            if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrap.click(); }
+          });
+
+          wrap.appendChild(img);
+          wrap.appendChild(cap);
+          featuredImagesNode.appendChild(wrap);
+        }
+
+        populateMainFeatured(featuredImagesStatic[startIndex % featuredImagesStatic.length]);
+      }
+
+      function populateMainFeatured(art){
+        if(!art) return;
+        featuredTitle.textContent = art.title || 'Premier League';
+        featuredSub.textContent = art.title || '';
+        featuredAuthor.textContent = 'Fast Premier Life';
+        featuredAuthor.href = art.url || '#';
+        featuredExcerpt.textContent = 'Curated imagery representing the spirit and history of the Premier League.';
+      }
+
+      document.getElementById('prevFeature').addEventListener('click', ()=>{
+        featureIndex = (featureIndex - 1 + featuredImagesStatic.length) % featuredImagesStatic.length;
+        renderFeatured(featureIndex);
+        restartAutoRotate();
       });
 
-      // update main textual featured with the lead article (startIndex)
-      const lead = articles[startIndex] || items[0];
-      populateMainFeatured(lead);
-    }
-
-    function populateMainFeatured(art){
-      if(!art) return;
-      featuredTitle.textContent = art.title || '';
-      featuredSub.textContent = art.excerpt || '';
-      featuredAuthor.textContent = art.author || '';
-      featuredAuthor.href = art.url || '#';
-      featuredExcerpt.textContent = art.excerpt || '';
-      currentShareUrl = art.url && art.url !== '#' ? art.url : window.location.href;
-      currentShareTitle = art.title || document.title;
-    }
-
-    // slideshow controls
-    document.getElementById('prevFeature').addEventListener('click', ()=>{
-      if(featureIndex <= 0) featureIndex = Math.max(0, articles.length - 3);
-      else featureIndex--;
-      renderFeatured(featureIndex);
-      restartAutoRotate();
-    });
-
-    document.getElementById('nextFeature').addEventListener('click', ()=>{
-      if(featureIndex + 3 < articles.length) featureIndex++;
-      else featureIndex = 0;
-      renderFeatured(featureIndex);
-      restartAutoRotate();
-    });
-
-    function startAutoRotate(){
-      stopAutoRotate();
-      autoRotateTimer = setInterval(()=>{
-        if(featureIndex + 3 < articles.length) featureIndex++;
-        else featureIndex = 0;
+      document.getElementById('nextFeature').addEventListener('click', ()=>{
+        featureIndex = (featureIndex + 1) % featuredImagesStatic.length;
         renderFeatured(featureIndex);
-      }, ROTATE_INTERVAL);
-    }
-    function stopAutoRotate(){ if(autoRotateTimer) clearInterval(autoRotateTimer); autoRotateTimer = null; }
-    function restartAutoRotate(){ stopAutoRotate(); startAutoRotate(); }
+        restartAutoRotate();
+      });
 
-    // Render extra article list entries (beyond first three)
-    function renderArticleList(){
-      document.querySelectorAll('.articles .dynamic-article').forEach(n => n.remove());
-      for(let i=3;i<articles.length;i++){
-        const art = articles[i];
-        const el = document.createElement('article');
-        el.className = 'dynamic-article';
-        el.style = "background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:20px;";
-        el.innerHTML = `<h3>${art.title}</h3>
-          <p><strong>${art.author || ''}</strong> • ${art.date || ''}</p>
-          <p>${art.excerpt || ''}</p>
-          ${art.url && art.url !== '#' ? `<p><a href="${art.url}" target="_blank">Read more</a></p>` : ''}`;
-        articleList.appendChild(el);
+      function startAutoRotate(){
+        stopAutoRotate();
+        autoRotateTimer = setInterval(()=>{
+          featureIndex = (featureIndex + 1) % featuredImagesStatic.length;
+          renderFeatured(featureIndex);
+        }, ROTATE_INTERVAL);
       }
-    }
+      function stopAutoRotate(){ if(autoRotateTimer) clearInterval(autoRotateTimer); autoRotateTimer = null; }
+      function restartAutoRotate(){ stopAutoRotate(); startAutoRotate(); }
 
-    // Social share state
-    let currentShareUrl = window.location.href;
-    let currentShareTitle = document.title;
+      // Share buttons use the page URL (static page share)
+      let currentShareUrl = window.location.href;
+      let currentShareTitle = document.title;
 
-    document.getElementById("share-facebook").addEventListener("click", () => {
-      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
-      window.open(facebookUrl, "_blank");
-    });
+      document.getElementById("share-facebook").addEventListener("click", () => {
+        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
+        window.open(facebookUrl, "_blank");
+      });
 
-    document.getElementById("share-twitter").addEventListener("click", () => {
-      const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(currentShareTitle)}`;
-      window.open(twitterUrl, "_blank");
-    });
+      document.getElementById("share-twitter").addEventListener("click", () => {
+        const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(currentShareTitle)}`;
+        window.open(twitterUrl, "_blank");
+      });
 
-    document.getElementById("share-youtube").addEventListener("click", () => {
-      const youtubeUrl = `https://www.youtube.com/results?search_query=Premier+League+${encodeURIComponent(currentShareTitle)}`;
-      window.open(youtubeUrl, "_blank");
-    });
+      document.getElementById("share-youtube").addEventListener("click", () => {
+        const youtubeUrl = `https://www.youtube.com/results?search_query=Premier+League+${encodeURIComponent(currentShareTitle)}`;
+        window.open(youtubeUrl, "_blank");
+      });
 
-    // Make footer images have fallback + click handlers
-    function setupFooterImages(){
-      const tw = document.getElementById('twitterFooter');
-      const ig = document.getElementById('instagramFooter');
+      // Footer images: fallback + click handlers
+      function setupFooterImages(){
+        const tw = document.getElementById('twitterFooter');
+        const ig = document.getElementById('instagramFooter');
+        if(!tw || !ig) return;
 
-      // apply fallback (if images missing) - use placeholder if not found
-      tw.onerror = () => { if(tw.src !== footerPlaceholder) tw.src = footerPlaceholder; };
-      ig.onerror = () => { if(ig.src !== footerPlaceholder) ig.src = footerPlaceholder; };
+        tw.onerror = () => { if(tw.src !== footerPlaceholder) tw.src = footerPlaceholder; };
+        ig.onerror = () => { if(ig.src !== footerPlaceholder) ig.src = footerPlaceholder; };
 
-      // ensure small size (in case width attr missing)
-      tw.style.width = '28px';
-      tw.style.height = '28px';
-      ig.style.width = '28px';
-      ig.style.height = '28px';
+        tw.style.width = '28px';
+        tw.style.height = '28px';
+        ig.style.width = '28px';
+        ig.style.height = '28px';
 
-      // click handlers for social
-      tw.style.cursor = 'pointer';
-      ig.style.cursor = 'pointer';
-      tw.addEventListener('click', ()=> window.open('https://x.com/premierleague', '_blank'));
-      ig.addEventListener('click', ()=> window.open('https://www.instagram.com/premierleague/', '_blank'));
-    }
-
-    // PUBLIC: replace articles and re-render
-    function updateFeatured(newArticles){
-      if(Array.isArray(newArticles) && newArticles.length){
-        // simple dedupe by id, prefer newest list as authoritative
-        articles = newArticles.slice(0, 50); // cap to 50 items
+        tw.style.cursor = 'pointer';
+        ig.style.cursor = 'pointer';
+        tw.addEventListener('click', ()=> window.open('https://x.com/premierleague', '_blank'));
+        ig.addEventListener('click', ()=> window.open('https://www.instagram.com/premierleague/', '_blank'));
       }
-      featureIndex = Math.min(featureIndex, Math.max(0, articles.length - 1));
-      renderFeatured(featureIndex);
-      renderArticleList();
-      restartAutoRotate();
-    }
-    window.updateFeatured = updateFeatured;
 
-    // initial render + safety
-    renderFeatured(0);
-    renderArticleList();
-    startAutoRotate();
-    setupFooterImages();
+      // initial render
+      renderFeatured(0);
+      startAutoRotate();
+      setupFooterImages();
 
-    // ========== Auto update (polling) ==========
-    let pollFailures = 0;
-    async function fetchLatestArticles(){
-      // Compose URL with optional topics param
-      const params = new URLSearchParams();
-      if(POLL_TOPICS && POLL_TOPICS.length) params.set('topics', POLL_TOPICS.join(','));
-      const url = LATEST_FEED_URL + (params.toString() ? ('?' + params.toString()) : '');
-
-      try {
-        const resp = await fetch(url, { cache: 'no-store', credentials: 'same-origin' });
-        if(!resp.ok) throw new Error('Feed fetch failed: ' + resp.status);
-        const json = await resp.json();
-        if(Array.isArray(json) && json.length){
-          // Basic validation: ensure objects have id,title,img
-          const valid = json.filter(it => it && (it.id || it.title) && it.img);
-          if(valid.length){
-            updateFeatured(valid);
-            pollFailures = 0; // reset backoff on success
-          }
-        }
-      } catch(err){
-        // network / CORS / server errors - just keep local articles
-        console.warn('Could not fetch latest articles feed:', err);
-        pollFailures++;
-      }
-    }
-
-    // poll periodically; do an immediate try and then interval
-    (function startPolling(){
-      fetchLatestArticles(); // initial attempt
-      setInterval(() => {
-        // simple backoff: skip some polls if many consecutive failures
-        if(pollFailures > 5 && (Math.random() < 0.6)) return; // probabilistic skip
-        fetchLatestArticles();
-      }, POLL_INTERVAL);
+      // pause rotation on focus for accessibility
+      const featuredImagesNodeRef = document.getElementById('featuredImages');
+      featuredImagesNodeRef.addEventListener('focusin', stopAutoRotate);
+      featuredImagesNodeRef.addEventListener('focusout', restartAutoRotate);
     })();
-
-    // expose helper to add article dynamically (useful for local dev)
-    function addArticle(article){
-      article.id = article.id || (articles.length ? Math.max(...articles.map(a=>a.id||0))+1 : 1);
-      articles.unshift(article);
-      updateFeatured(articles);
-    }
-    window.addArticle = addArticle;
   </script>
 
 </body>
 </html>
-
-
-
