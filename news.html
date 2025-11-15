@@ -10,161 +10,42 @@
 
   <style>
     /* ---------- Basic Header & Nav ---------- */
-    .logo img {
-      height: 40px;
-      display: block;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 20px;
-    }
-
-    nav a {
-      margin-right: 18px;
-      font-weight: 500;
-      color: inherit;
-      text-decoration: none;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    nav a.active {
-      border-bottom: 3px solid #38003c; /* Premier League purple */
-      font-weight: 700;
-    }
+    .logo img { height: 40px; display: block; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
+    nav a { margin-right: 18px; font-weight: 500; color: inherit; text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+    nav a.active { border-bottom: 3px solid #38003c; font-weight: 700; }
 
     /* Featured images layout */
-    .featured-images {
-      display:flex;
-      gap:10px;
-      margin-bottom:15px;
-      align-items:stretch;
-    }
-
+    .featured-images { display:flex; gap:10px; margin-bottom:15px; align-items:stretch; }
     .featured-item {
-      position:relative;
-      flex: 1 1 0;
-      overflow: hidden;
-      border-radius:8px;
-      background:#efefef;
-      min-height:170px;              /* enforce visible height */
-      max-height:260px;             /* limit tall images on wide screens */
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      position:relative; flex: 1 1 0; overflow: hidden; border-radius:8px; background:#efefef;
+      min-height:170px; max-height:260px; display:flex; align-items:center; justify-content:center;
     }
-
-    .featured-item img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      transition: transform .25s ease;
-      cursor:pointer;
-    }
-
-    .featured-item:focus-within img,
-    .featured-item:hover img {
-      transform: scale(1.03);
-    }
+    .featured-item img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .25s ease; cursor:pointer; }
+    .featured-item:focus-within img, .featured-item:hover img { transform: scale(1.03); }
 
     .featured-caption {
-      position:absolute;
-      left:10px;
-      right:10px;
-      bottom:8px;
-      padding:6px 8px;
-      background: rgba(0,0,0,0.55);
-      color:#fff;
-      border-radius:6px;
-      font-size:0.95rem;
-      backdrop-filter: blur(2px);
+      position:absolute; left:10px; right:10px; bottom:8px; padding:6px 8px; background: rgba(0,0,0,0.55);
+      color:#fff; border-radius:6px; font-size:0.95rem; backdrop-filter: blur(2px);
     }
 
-    /* controls for slideshow */
-    .featured-controls {
-      margin-top:10px;
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
+    .featured-controls { margin-top:10px; display:flex; gap:8px; align-items:center; }
+    .btn { background: #38003c; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:600; }
+    .btn.secondary { background:#fff; color:#38003c; border:1px solid rgba(56,0,60,0.12); }
 
-    .btn {
-      background: #38003c;
-      color:#fff;
-      border:none;
-      padding:8px 12px;
-      border-radius:6px;
-      cursor:pointer;
-      font-weight:600;
-    }
-
-    .btn.secondary {
-      background:#fff;
-      color:#38003c;
-      border:1px solid rgba(56,0,60,0.12);
-    }
-
-    @media (max-width:700px){
-      .featured-images { flex-direction: column; }
-      .featured-item { min-height:140px; max-height:none; }
-    }
+    @media (max-width:700px){ .featured-images { flex-direction: column; } .featured-item { min-height:140px; max-height:none; } }
 
     /* Social Share Buttons */
-    .social-sharing {
-      margin-top: 25px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .social-sharing button {
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    #share-facebook{ background-color:#38003c }
-    #share-twitter{ background-color:#00a3e0 }
-    #share-youtube{ background-color:#d81920 }
+    .social-sharing { margin-top: 25px; display: flex; gap: 15px; flex-wrap: wrap; }
+    .social-sharing button { color: #fff; border: none; border-radius: 6px; padding: 10px 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    #share-facebook{ background-color:#38003c } #share-twitter{ background-color:#00a3e0 } #share-youtube{ background-color:#d81920 }
 
     /* Footer consistent with original (but smaller icons) */
-    footer {
-      background-color: #3eafc5;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      align-items: center;
-      padding: 25px 40px;
-      font-size: 0.9em;
-    }
-
-    .footer-left p {
-      margin: 0 0 10px;
-    }
-
-    .footer-left img, .footer-right img {
-      width: 28px;
-      height: 28px;
-      object-fit:contain;
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-
-    .footer-right p {
-      margin: 0;
-      text-align: right;
-    }
+    footer { background-color: #3eafc5; color: #fff; display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; padding: 25px 40px; font-size: 0.9em; }
+    .footer-left p { margin: 0 0 10px; }
+    .footer-left img, .footer-right img { width: 28px; height: 28px; object-fit:contain; margin-right: 8px; vertical-align: middle; }
+    .footer-right p { margin: 0; text-align: right; }
 
     .featured-item:focus { outline: 3px solid rgba(56,0,60,0.12); }
   </style>
@@ -175,9 +56,7 @@
   <!-- HEADER -->
   <header>
     <div class="logo">
-      <a href="index.html">
-        <img id="siteLogo" src="images/Logo.png" alt="Website Logo">
-      </a>
+      <a href="index.html"><img id="siteLogo" src="images/Logo.png" alt="Website Logo"></a>
     </div>
 
     <nav>
@@ -265,7 +144,7 @@
     </div>
   </footer>
 
-  <!-- Static curated images script -->
+  <!-- Static curated images script (images now use explicit width/height like index.html) -->
   <script>
     (function(){
       // curated static images representing the Premier League 'essence'
@@ -307,9 +186,15 @@
       let autoRotateTimer = null;
       const ROTATE_INTERVAL = 7000;
 
+      // NOTE: Using explicit width/height attributes like index.html so images render the same way
       function setImageWithFallback(imgEl, src, alt){
         imgEl.alt = alt || '';
         imgEl.src = src || placeholderImg;
+
+        // match index.html explicit attributes (use same sizes)
+        imgEl.setAttribute('width', '450');
+        imgEl.setAttribute('height', '350');
+
         imgEl.onerror = () => {
           if(imgEl.src !== placeholderImg) imgEl.src = placeholderImg;
         };
@@ -329,6 +214,7 @@
           wrap.setAttribute('aria-label', art.title || 'Featured image');
 
           const img = document.createElement('img');
+          // --- key change: images use same format as index.html (explicit width/height) ---
           setImageWithFallback(img, art.img, art.alt);
 
           const cap = document.createElement('div');
@@ -436,3 +322,4 @@
 
 </body>
 </html>
+
