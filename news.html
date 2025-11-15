@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FPL News</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FPL News — Fast Premier Life</title>
 
   <!-- Same stylesheet as index.html -->
   <link rel="stylesheet" href="externalstylesheet.css">
@@ -202,9 +202,7 @@
   <main>
     <h1>News</h1>
 
-    <div class="search-bar" style="text-align:center; margin:20px 0;">
-      <input id="siteSearch" type="text" placeholder="Hinted search text" style="width:80%; padding:10px; border-radius:20px; border:1px solid #ccc;">
-    </div>
+    <!-- NOTE: Search bar intentionally removed as requested -->
 
     <!-- FEATURED ARTICLE -->
     <section class="featured-article" style="background-color:#f9f4ef; padding:20px; border-radius:10px;">
@@ -276,8 +274,37 @@
 
   <!-- Social Sharing + Featured images Script -->
   <script>
-    // ---------- Sample articles array (replace or update dynamically) ----------
-    // IMPORTANT: use 'images/...' paths (or adjust to match your folder)
+    /*********************************************************
+     * Featured images & auto-update logic
+     *
+     * Behavior:
+     * - page maintains a local `articles[]` array (fallback)
+     * - poll a JSON feed on your site (LATEST_FEED_URL) every POLL_INTERVAL ms
+     * - when new articles are returned they replace `articles` and the featured images/text update
+     *
+     * Server endpoint requirements (example):
+     *  GET /api/latest-articles.json?topics=transfer,match
+     *  Response: JSON array of objects:
+     *  [
+     *    {
+     *      "id": 123,
+     *      "title": "Big transfer: Player X signs",
+     *      "img": "https://fastpremierlife.example/uploads/2025/11/playerx.jpg",
+     *      "url": "/news/123-big-transfer.html",
+     *      "excerpt": "Short excerpt",
+     *      "author": "Reporter Name",
+     *      "date": "2025-11-14",
+     *      "topics": ["transfer","rumour"]
+     *    },
+     *    ...
+     *  ]
+     *
+     * Notes:
+     * - The feed must have CORS headers (Access-Control-Allow-Origin) if it's hosted on a different domain.
+     * - If you prefer server push, replace the polling with websockets or server-sent-events.
+     *********************************************************/
+
+    // ---------- Sample fallback articles array ----------
     let articles = [
       {
         id: 1,
@@ -286,7 +313,8 @@
         url: "#",
         excerpt: "It might only be three matches into the new campaign, but a few things are happening that suggest Premier League football is changing.",
         author: "Opta Analyst",
-        date: "2025-10-01"
+        date: "2025-10-01",
+        topics: ["analysis","tactics"]
       },
       {
         id: 2,
@@ -295,7 +323,8 @@
         url: "#",
         excerpt: "Nottingham Forest announced the appointment of Ange Postecoglou as head coach.",
         author: "Club Press",
-        date: "2025-10-05"
+        date: "2025-10-05",
+        topics: ["transfer","appointments"]
       },
       {
         id: 3,
@@ -304,13 +333,18 @@
         url: "#",
         excerpt: "See every Premier League club's new threads for the 2025/26 season.",
         author: "Kit Watch",
-        date: "2025-09-28"
+        date: "2025-09-28",
+        topics: ["kits","season"]
       }
     ];
 
-    // Placeholder fallback images - ensure these files exist in images/
     const placeholderImg = 'images/placeholder-news.jpg';
     const footerPlaceholder = 'images/placeholder-social.jpg';
+
+    // Polling config: change as needed
+    const LATEST_FEED_URL = '/api/latest-articles.json'; // <-- point to your site feed
+    const POLL_INTERVAL = 60 * 1000; // 60s poll; change to 300000 (5min) or use server push
+    const POLL_TOPICS = ['premier-league','transfers','analysis']; // optional topics to request
 
     // DOM refs
     const featuredImagesNode = document.getElementById('featuredImages');
@@ -328,7 +362,7 @@
     // Safe image setter for featured and footer images
     function setImageWithFallback(imgEl, src, alt){
       imgEl.alt = alt || '';
-      imgEl.src = src;
+      imgEl.src = src || placeholderImg;
       imgEl.onerror = () => {
         if(imgEl.src !== placeholderImg) imgEl.src = placeholderImg;
       };
@@ -476,10 +510,11 @@
       ig.addEventListener('click', ()=> window.open('https://www.instagram.com/premierleague/', '_blank'));
     }
 
-    // Public function to update featured articles from outside (importer/CMS)
+    // PUBLIC: replace articles and re-render
     function updateFeatured(newArticles){
       if(Array.isArray(newArticles) && newArticles.length){
-        articles = newArticles.slice();
+        // simple dedupe by id, prefer newest list as authoritative
+        articles = newArticles.slice(0, 50); // cap to 50 items
       }
       featureIndex = Math.min(featureIndex, Math.max(0, articles.length - 1));
       renderFeatured(featureIndex);
@@ -494,29 +529,50 @@
     startAutoRotate();
     setupFooterImages();
 
-    // expose helper to add article dynamically
+    // ========== Auto update (polling) ==========
+    let pollFailures = 0;
+    async function fetchLatestArticles(){
+      // Compose URL with optional topics param
+      const params = new URLSearchParams();
+      if(POLL_TOPICS && POLL_TOPICS.length) params.set('topics', POLL_TOPICS.join(','));
+      const url = LATEST_FEED_URL + (params.toString() ? ('?' + params.toString()) : '');
+
+      try {
+        const resp = await fetch(url, { cache: 'no-store', credentials: 'same-origin' });
+        if(!resp.ok) throw new Error('Feed fetch failed: ' + resp.status);
+        const json = await resp.json();
+        if(Array.isArray(json) && json.length){
+          // Basic validation: ensure objects have id,title,img
+          const valid = json.filter(it => it && (it.id || it.title) && it.img);
+          if(valid.length){
+            updateFeatured(valid);
+            pollFailures = 0; // reset backoff on success
+          }
+        }
+      } catch(err){
+        // network / CORS / server errors - just keep local articles
+        console.warn('Could not fetch latest articles feed:', err);
+        pollFailures++;
+      }
+    }
+
+    // poll periodically; do an immediate try and then interval
+    (function startPolling(){
+      fetchLatestArticles(); // initial attempt
+      setInterval(() => {
+        // simple backoff: skip some polls if many consecutive failures
+        if(pollFailures > 5 && (Math.random() < 0.6)) return; // probabilistic skip
+        fetchLatestArticles();
+      }, POLL_INTERVAL);
+    })();
+
+    // expose helper to add article dynamically (useful for local dev)
     function addArticle(article){
       article.id = article.id || (articles.length ? Math.max(...articles.map(a=>a.id||0))+1 : 1);
       articles.unshift(article);
       updateFeatured(articles);
     }
     window.addArticle = addArticle;
-
-    // siteSearch filters dynamic list entries
-    document.getElementById('siteSearch').addEventListener('input', (e)=>{
-      const q = e.target.value.trim().toLowerCase();
-      document.querySelectorAll('.dynamic-article').forEach(node=>{
-        node.style.display = q ? (node.textContent.toLowerCase().includes(q) ? '' : 'none') : '';
-      });
-      if(q){
-        const found = articles.find(a => (a.title||'').toLowerCase().includes(q));
-        if(found) populateMainFeatured(found);
-      }
-    });
-
-    // Accessibility: pause rotation when user focuses the featured region
-    featuredImagesNode.addEventListener('focusin', stopAutoRotate);
-    featuredImagesNode.addEventListener('focusout', restartAutoRotate);
   </script>
 
 </body>
