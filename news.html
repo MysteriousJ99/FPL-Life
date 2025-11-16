@@ -16,18 +16,56 @@
     nav a:hover { text-decoration: underline; }
     nav a.active { border-bottom: 3px solid #38003c; font-weight: 700; }
 
-    /* Featured images layout */
+    /* ---------- Featured images layout (updated to show solid blocks) ---------- */
     .featured-images { display:flex; gap:10px; margin-bottom:15px; align-items:stretch; }
+
     .featured-item {
-      position:relative; flex: 1 1 0; overflow: hidden; border-radius:8px; background:#efefef;
-      min-height:170px; max-height:260px; display:flex; align-items:center; justify-content:center;
+      position:relative;
+      flex: 1 1 0;
+      overflow: hidden;
+      border-radius:8px;
+      min-height:170px;
+      max-height:260px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: transform .18s ease, box-shadow .18s ease;
+      background-color: #222; /* fallback solid color */
+      color: #fff;
     }
-    .featured-item img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .25s ease; cursor:pointer; }
-    .featured-item:focus-within img, .featured-item:hover img { transform: scale(1.03); }
+    .featured-item:hover { transform: translateY(-4px); box-shadow: 0 8px 22px rgba(0,0,0,0.18); }
+
+    /* image-wrap holds the <img> and provides a solid background while loading/fallback */
+    .image-wrap{
+      width:100%;
+      height:100%;
+      display:block;
+      position:relative;
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size:cover;
+    }
+
+    .image-wrap img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:0;
+      transition: opacity .28s ease;
+      /* explicit sizes will be set via JS attr to match index.html format */
+    }
+
+    /* when loaded, fade the image in (solid bg remains under for brief moment) */
+    .image-wrap img.loaded { opacity:1; }
+
+    /* fallback state when image fails - keep solid background and show caption clearly */
+    .featured-item.fallback .image-wrap img { display:none; } /* hide broken img */
+    .featured-item.fallback .featured-caption { background: rgba(0,0,0,0.65); }
 
     .featured-caption {
-      position:absolute; left:10px; right:10px; bottom:8px; padding:6px 8px; background: rgba(0,0,0,0.55);
-      color:#fff; border-radius:6px; font-size:0.95rem; backdrop-filter: blur(2px);
+      position:absolute; left:10px; right:10px; bottom:8px; padding:6px 8px;
+      background: rgba(0,0,0,0.55); color:#fff; border-radius:6px; font-size:0.95rem; backdrop-filter: blur(2px);
     }
 
     .featured-controls { margin-top:10px; display:flex; gap:8px; align-items:center; }
@@ -84,7 +122,7 @@
 
       <!-- Featured images area: static curated images -->
       <div class="featured-images" id="featuredImages" aria-live="polite">
-        <!-- three curated images are injected by JS -->
+        <!-- injected by JS -->
       </div>
 
       <div class="featured-controls" style="justify-content:flex-end;">
@@ -144,38 +182,41 @@
     </div>
   </footer>
 
-  <!-- Static curated images script (images now use explicit width/height like index.html) -->
+  <!-- Script: inject solid-block featured images (width/height like index.html) -->
   <script>
     (function(){
-      // curated static images representing the Premier League 'essence'
       const featuredImagesStatic = [
         {
           id: 'ess1',
           title: 'Packed stadium — matchday atmosphere',
           img: 'images/premier-essence-1.jpg',
           alt: 'Crowd and stadium lights on matchday',
-          url: '#'
+          url: '#',
+          bgColor: '#0a2a3a' // solid background while loading or if fallback
         },
         {
           id: 'ess2',
           title: 'Iconic finishing — celebration',
           img: 'images/premier-essence-2.jpg',
           alt: 'Player celebrating a goal with teammates',
-          url: '#'
+          url: '#',
+          bgColor: '#6b1f1f'
         },
         {
           id: 'ess3',
           title: 'Historic stadium façade — tradition',
           img: 'images/premier-essence-3.jpg',
           alt: 'Exterior of a classic Premier League stadium',
-          url: '#'
+          url: '#',
+          bgColor: '#1f3f1f'
         }
       ];
 
       const placeholderImg = 'images/placeholder-news.jpg';
       const footerPlaceholder = 'images/placeholder-social.jpg';
+      const explicitW = '450';
+      const explicitH = '350';
 
-      // DOM refs
       const featuredImagesNode = document.getElementById('featuredImages');
       const featuredTitle = document.getElementById('featuredTitle');
       const featuredSub = document.getElementById('featuredSub');
@@ -186,55 +227,77 @@
       let autoRotateTimer = null;
       const ROTATE_INTERVAL = 7000;
 
-      // NOTE: Using explicit width/height attributes like index.html so images render the same way
-      function setImageWithFallback(imgEl, src, alt){
-        imgEl.alt = alt || '';
-        imgEl.src = src || placeholderImg;
+      function createFeaturedTile(art){
+        const wrapOuter = document.createElement('div');
+        wrapOuter.className = 'featured-item';
+        wrapOuter.setAttribute('role','link');
+        wrapOuter.setAttribute('tabindex','0');
+        wrapOuter.setAttribute('aria-label', art.title || 'Featured image');
 
-        // match index.html explicit attributes (use same sizes)
-        imgEl.setAttribute('width', '450');
-        imgEl.setAttribute('height', '350');
+        // apply solid background color (visible while loading / on fallback)
+        wrapOuter.style.backgroundColor = art.bgColor || '#222';
 
-        imgEl.onerror = () => {
-          if(imgEl.src !== placeholderImg) imgEl.src = placeholderImg;
-        };
+        // image-wrap contains the image — background-image is used as additional fallback
+        const imageWrap = document.createElement('div');
+        imageWrap.className = 'image-wrap';
+        imageWrap.style.backgroundColor = art.bgColor || '#222';
+        // small background-image fallback (in case img is blocked); don't rely on it but it's nice to have
+        imageWrap.style.backgroundImage = `url('${art.img}')`;
+
+        const img = document.createElement('img');
+        img.alt = art.alt || art.title || '';
+        img.loading = 'lazy';
+        img.setAttribute('width', explicitW);
+        img.setAttribute('height', explicitH);
+        img.src = art.img; // attempt real image first
+
+        // Ensure image hidden until loaded (so solid bg shows)
+        img.className = '';
+
+        // on load: fade in image
+        img.addEventListener('load', () => {
+          img.classList.add('loaded'); // CSS transition changes opacity
+          wrapOuter.classList.remove('fallback');
+        });
+
+        // on error: use placeholder, but keep the solid bg so tile looks 'solid' and intentional
+        img.addEventListener('error', () => {
+          if(img.src !== placeholderImg){
+            img.src = placeholderImg;
+          } else {
+            // already placeholder failed; hide img so only solid bg remains
+            wrapOuter.classList.add('fallback');
+          }
+        });
+
+        // click / keyboard behavior
+        wrapOuter.addEventListener('click', () => {
+          if(art.url && art.url !== '#') window.open(art.url, '_blank');
+        });
+        wrapOuter.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrapOuter.click(); }
+        });
+
+        // caption
+        const cap = document.createElement('div');
+        cap.className = 'featured-caption';
+        cap.textContent = art.title || '';
+
+        imageWrap.appendChild(img);
+        wrapOuter.appendChild(imageWrap);
+        wrapOuter.appendChild(cap);
+
+        return wrapOuter;
       }
 
-      function renderFeatured(startIndex = 0){
+      function renderFeatured(startIndex=0){
         featuredImagesNode.innerHTML = '';
-        // Use the curated array in cyclical order starting at startIndex
         for(let i=0;i<3;i++){
           const idx = (startIndex + i) % featuredImagesStatic.length;
           const art = featuredImagesStatic[idx];
-
-          const wrap = document.createElement('div');
-          wrap.className = 'featured-item';
-          wrap.tabIndex = 0;
-          wrap.setAttribute('role','link');
-          wrap.setAttribute('aria-label', art.title || 'Featured image');
-
-          const img = document.createElement('img');
-          // --- key change: images use same format as index.html (explicit width/height) ---
-          setImageWithFallback(img, art.img, art.alt);
-
-          const cap = document.createElement('div');
-          cap.className = 'featured-caption';
-          cap.textContent = art.title || '';
-
-          wrap.addEventListener('click', () => {
-            if(art.url && art.url !== '#') window.open(art.url, '_blank');
-            else populateMainFeatured(art);
-          });
-
-          wrap.addEventListener('keydown', (e)=>{
-            if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrap.click(); }
-          });
-
-          wrap.appendChild(img);
-          wrap.appendChild(cap);
-          featuredImagesNode.appendChild(wrap);
+          const tile = createFeaturedTile(art);
+          featuredImagesNode.appendChild(tile);
         }
-
         populateMainFeatured(featuredImagesStatic[startIndex % featuredImagesStatic.length]);
       }
 
@@ -269,26 +332,23 @@
       function stopAutoRotate(){ if(autoRotateTimer) clearInterval(autoRotateTimer); autoRotateTimer = null; }
       function restartAutoRotate(){ stopAutoRotate(); startAutoRotate(); }
 
-      // Share buttons use the page URL (static page share)
+      // share buttons
       let currentShareUrl = window.location.href;
       let currentShareTitle = document.title;
-
       document.getElementById("share-facebook").addEventListener("click", () => {
         const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
         window.open(facebookUrl, "_blank");
       });
-
       document.getElementById("share-twitter").addEventListener("click", () => {
         const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(currentShareTitle)}`;
         window.open(twitterUrl, "_blank");
       });
-
       document.getElementById("share-youtube").addEventListener("click", () => {
         const youtubeUrl = `https://www.youtube.com/results?search_query=Premier+League+${encodeURIComponent(currentShareTitle)}`;
         window.open(youtubeUrl, "_blank");
       });
 
-      // Footer images: fallback + click handlers
+      // footer images setup
       function setupFooterImages(){
         const tw = document.getElementById('twitterFooter');
         const ig = document.getElementById('instagramFooter');
@@ -313,7 +373,7 @@
       startAutoRotate();
       setupFooterImages();
 
-      // pause rotation on focus for accessibility
+      // accessibility: pause rotation while focused
       const featuredImagesNodeRef = document.getElementById('featuredImages');
       featuredImagesNodeRef.addEventListener('focusin', stopAutoRotate);
       featuredImagesNodeRef.addEventListener('focusout', restartAutoRotate);
@@ -322,4 +382,5 @@
 
 </body>
 </html>
+
 
