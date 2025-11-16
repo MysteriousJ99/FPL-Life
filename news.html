@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FPL News — Fast Premier Life</title>
 
   <!-- Same stylesheet as index.html -->
@@ -16,56 +16,23 @@
     nav a:hover { text-decoration: underline; }
     nav a.active { border-bottom: 3px solid #38003c; font-weight: 700; }
 
-    /* ---------- Featured images layout (updated to show solid blocks) ---------- */
+    /* ---------- Featured images layout (solid / robust) ---------- */
     .featured-images { display:flex; gap:10px; margin-bottom:15px; align-items:stretch; }
-
     .featured-item {
-      position:relative;
-      flex: 1 1 0;
-      overflow: hidden;
-      border-radius:8px;
-      min-height:170px;
-      max-height:260px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      transition: transform .18s ease, box-shadow .18s ease;
-      background-color: #222; /* fallback solid color */
-      color: #fff;
+      position:relative; flex: 1 1 0; overflow: hidden; border-radius:8px; min-height:170px; max-height:260px;
+      display:flex; align-items:center; justify-content:center; transition: transform .18s ease, box-shadow .18s ease;
+      background-color:#222; color:#fff;
     }
     .featured-item:hover { transform: translateY(-4px); box-shadow: 0 8px 22px rgba(0,0,0,0.18); }
 
-    /* image-wrap holds the <img> and provides a solid background while loading/fallback */
-    .image-wrap{
-      width:100%;
-      height:100%;
-      display:block;
-      position:relative;
-      background-repeat:no-repeat;
-      background-position:center;
-      background-size:cover;
-    }
-
-    .image-wrap img{
-      display:block;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:0;
-      transition: opacity .28s ease;
-      /* explicit sizes will be set via JS attr to match index.html format */
-    }
-
-    /* when loaded, fade the image in (solid bg remains under for brief moment) */
+    .image-wrap{ width:100%; height:100%; position:relative; background-position:center; background-size:cover; background-repeat:no-repeat; }
+    .image-wrap img{ display:block; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity .28s ease; }
     .image-wrap img.loaded { opacity:1; }
 
-    /* fallback state when image fails - keep solid background and show caption clearly */
-    .featured-item.fallback .image-wrap img { display:none; } /* hide broken img */
-    .featured-item.fallback .featured-caption { background: rgba(0,0,0,0.65); }
-
+    .featured-item.fallback .image-wrap img { display:none; }
     .featured-caption {
-      position:absolute; left:10px; right:10px; bottom:8px; padding:6px 8px;
-      background: rgba(0,0,0,0.55); color:#fff; border-radius:6px; font-size:0.95rem; backdrop-filter: blur(2px);
+      position:absolute; left:10px; right:10px; bottom:8px; padding:6px 8px; background: rgba(0,0,0,0.55);
+      color:#fff; border-radius:6px; font-size:0.95rem; backdrop-filter: blur(2px);
     }
 
     .featured-controls { margin-top:10px; display:flex; gap:8px; align-items:center; }
@@ -79,7 +46,7 @@
     .social-sharing button { color: #fff; border: none; border-radius: 6px; padding: 10px 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     #share-facebook{ background-color:#38003c } #share-twitter{ background-color:#00a3e0 } #share-youtube{ background-color:#d81920 }
 
-    /* Footer consistent with original (but smaller icons) */
+    /* Footer */
     footer { background-color: #3eafc5; color: #fff; display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; padding: 25px 40px; font-size: 0.9em; }
     .footer-left p { margin: 0 0 10px; }
     .footer-left img, .footer-right img { width: 28px; height: 28px; object-fit:contain; margin-right: 8px; vertical-align: middle; }
@@ -88,7 +55,6 @@
     .featured-item:focus { outline: 3px solid rgba(56,0,60,0.12); }
   </style>
 </head>
-
 <body>
 
   <!-- HEADER -->
@@ -120,10 +86,8 @@
     <section class="featured-article" style="background-color:#f9f4ef; padding:20px; border-radius:10px;">
       <h2 id="featuredTitle">The spirit of the Premier League — captured</h2>
 
-      <!-- Featured images area: static curated images -->
-      <div class="featured-images" id="featuredImages" aria-live="polite">
-        <!-- injected by JS -->
-      </div>
+      <!-- Featured images area -->
+      <div class="featured-images" id="featuredImages" aria-live="polite"></div>
 
       <div class="featured-controls" style="justify-content:flex-end;">
         <button class="btn secondary" id="prevFeature" aria-label="Previous featured">Prev</button>
@@ -182,205 +146,239 @@
     </div>
   </footer>
 
-  <!-- Script: inject solid-block featured images (width/height like index.html) -->
+  <!-- Script: preload and display the three provided images robustly -->
   <script>
-    (function(){
-      const featuredImagesStatic = [
-        {
-          id: 'ess1',
-          title: 'Packed stadium — matchday atmosphere',
-          img: 'images/premier-essence-1.jpg',
-          alt: 'Crowd and stadium lights on matchday',
-          url: '#',
-          bgColor: '#0a2a3a' // solid background while loading or if fallback
-        },
-        {
-          id: 'ess2',
-          title: 'Iconic finishing — celebration',
-          img: 'images/premier-essence-2.jpg',
-          alt: 'Player celebrating a goal with teammates',
-          url: '#',
-          bgColor: '#6b1f1f'
-        },
-        {
-          id: 'ess3',
-          title: 'Historic stadium façade — tradition',
-          img: 'images/premier-essence-3.jpg',
-          alt: 'Exterior of a classic Premier League stadium',
-          url: '#',
-          bgColor: '#1f3f1f'
-        }
-      ];
+  (function(){
+    // Use the exact filenames you uploaded (place them in: /images/)
+    // Provided files used here:
+    //  - images/the-fastest-players-to-100-premier-league-goals-2-1024x512.webp
+    //  - images/FPL image.webp
+    //  - images/FPL.2.webp
+    //
+    // If you prefer different names, update these entries.
 
-      const placeholderImg = 'images/placeholder-news.jpg';
-      const footerPlaceholder = 'images/placeholder-social.jpg';
-      const explicitW = '450';
-      const explicitH = '350';
-
-      const featuredImagesNode = document.getElementById('featuredImages');
-      const featuredTitle = document.getElementById('featuredTitle');
-      const featuredSub = document.getElementById('featuredSub');
-      const featuredAuthor = document.getElementById('featuredAuthor');
-      const featuredExcerpt = document.getElementById('featuredExcerpt');
-
-      let featureIndex = 0;
-      let autoRotateTimer = null;
-      const ROTATE_INTERVAL = 7000;
-
-      function createFeaturedTile(art){
-        const wrapOuter = document.createElement('div');
-        wrapOuter.className = 'featured-item';
-        wrapOuter.setAttribute('role','link');
-        wrapOuter.setAttribute('tabindex','0');
-        wrapOuter.setAttribute('aria-label', art.title || 'Featured image');
-
-        // apply solid background color (visible while loading / on fallback)
-        wrapOuter.style.backgroundColor = art.bgColor || '#222';
-
-        // image-wrap contains the image — background-image is used as additional fallback
-        const imageWrap = document.createElement('div');
-        imageWrap.className = 'image-wrap';
-        imageWrap.style.backgroundColor = art.bgColor || '#222';
-        // small background-image fallback (in case img is blocked); don't rely on it but it's nice to have
-        imageWrap.style.backgroundImage = `url('${art.img}')`;
-
-        const img = document.createElement('img');
-        img.alt = art.alt || art.title || '';
-        img.loading = 'lazy';
-        img.setAttribute('width', explicitW);
-        img.setAttribute('height', explicitH);
-        img.src = art.img; // attempt real image first
-
-        // Ensure image hidden until loaded (so solid bg shows)
-        img.className = '';
-
-        // on load: fade in image
-        img.addEventListener('load', () => {
-          img.classList.add('loaded'); // CSS transition changes opacity
-          wrapOuter.classList.remove('fallback');
-        });
-
-        // on error: use placeholder, but keep the solid bg so tile looks 'solid' and intentional
-        img.addEventListener('error', () => {
-          if(img.src !== placeholderImg){
-            img.src = placeholderImg;
-          } else {
-            // already placeholder failed; hide img so only solid bg remains
-            wrapOuter.classList.add('fallback');
-          }
-        });
-
-        // click / keyboard behavior
-        wrapOuter.addEventListener('click', () => {
-          if(art.url && art.url !== '#') window.open(art.url, '_blank');
-        });
-        wrapOuter.addEventListener('keydown', (e) => {
-          if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrapOuter.click(); }
-        });
-
-        // caption
-        const cap = document.createElement('div');
-        cap.className = 'featured-caption';
-        cap.textContent = art.title || '';
-
-        imageWrap.appendChild(img);
-        wrapOuter.appendChild(imageWrap);
-        wrapOuter.appendChild(cap);
-
-        return wrapOuter;
+    const featuredImagesStatic = [
+      {
+        id: 'ess1',
+        title: 'Historic stadium façade — tradition',
+        // exact filename (the uploaded file). Spaces and dots handled via encodeURI when used.
+        file: 'images/the-fastest-players-to-100-premier-league-goals-2-1024x512.webp',
+        alt: 'Exterior of a classic Premier League stadium',
+        url: '#',
+        bgColor: '#123b1e'
+      },
+      {
+        id: 'ess2',
+        title: 'Packed stadium — matchday atmosphere',
+        file: 'images/FPL image.webp',
+        alt: 'Crowd celebrating with trophy on pitch',
+        url: '#',
+        bgColor: '#082a3a'
+      },
+      {
+        id: 'ess3',
+        title: 'Iconic finishing — celebration',
+        file: 'images/FPL.2.webp',
+        alt: 'Players celebrating in the dressing room',
+        url: '#',
+        bgColor: '#6b1f1f'
       }
+    ];
 
-      function renderFeatured(startIndex=0){
-        featuredImagesNode.innerHTML = '';
-        for(let i=0;i<3;i++){
-          const idx = (startIndex + i) % featuredImagesStatic.length;
-          const art = featuredImagesStatic[idx];
-          const tile = createFeaturedTile(art);
-          featuredImagesNode.appendChild(tile);
-        }
-        populateMainFeatured(featuredImagesStatic[startIndex % featuredImagesStatic.length]);
-      }
+    const placeholderImg = 'images/placeholder-news.jpg'; // keep a placeholder in images/
+    const footerPlaceholder = 'images/placeholder-social.jpg';
+    const explicitW = '450';
+    const explicitH = '350';
+    const featuredImagesNode = document.getElementById('featuredImages');
+    const featuredTitle = document.getElementById('featuredTitle');
+    const featuredSub = document.getElementById('featuredSub');
+    const featuredAuthor = document.getElementById('featuredAuthor');
+    const featuredExcerpt = document.getElementById('featuredExcerpt');
 
-      function populateMainFeatured(art){
-        if(!art) return;
-        featuredTitle.textContent = art.title || 'Premier League';
-        featuredSub.textContent = art.title || '';
-        featuredAuthor.textContent = 'Fast Premier Life';
-        featuredAuthor.href = art.url || '#';
-        featuredExcerpt.textContent = 'Curated imagery representing the spirit and history of the Premier League.';
-      }
+    let featureIndex = 0;
+    let autoRotateTimer = null;
+    const ROTATE_INTERVAL = 7000;
 
-      document.getElementById('prevFeature').addEventListener('click', ()=>{
-        featureIndex = (featureIndex - 1 + featuredImagesStatic.length) % featuredImagesStatic.length;
-        renderFeatured(featureIndex);
-        restartAutoRotate();
+    // Preload helper that attempts to load the provided filename (URL-encodes it)
+    function preloadUrl(rawPath, timeout = 6000){
+      return new Promise((resolve) => {
+        // encode spaces and special chars
+        const url = encodeURI(rawPath);
+        const img = new Image();
+        let timer = setTimeout(() => {
+          img.onload = img.onerror = null;
+          resolve({ ok: false, url });
+        }, Math.min(timeout, 4000));
+
+        img.onload = () => {
+          clearTimeout(timer);
+          resolve({ ok: true, url });
+        };
+        img.onerror = () => {
+          clearTimeout(timer);
+          resolve({ ok: false, url });
+        };
+        img.src = url;
+      });
+    }
+
+    function createFeaturedTile(art){
+      const wrapOuter = document.createElement('div');
+      wrapOuter.className = 'featured-item';
+      wrapOuter.setAttribute('role','link');
+      wrapOuter.setAttribute('tabindex','0');
+      wrapOuter.setAttribute('aria-label', art.title || 'Featured image');
+      wrapOuter.style.backgroundColor = art.bgColor || '#222';
+      wrapOuter.style.color = '#fff';
+
+      const imageWrap = document.createElement('div');
+      imageWrap.className = 'image-wrap';
+      imageWrap.style.backgroundColor = art.bgColor || '#222';
+
+      const img = document.createElement('img');
+      img.alt = art.alt || art.title || '';
+      img.loading = 'lazy';
+      img.setAttribute('width', explicitW);
+      img.setAttribute('height', explicitH);
+      img.decoding = 'async';
+      img.style.opacity = '0';
+
+      // do not set img.src until preload succeeds (avoids flicker)
+      img.removeAttribute('src');
+
+      img.addEventListener('load', () => {
+        img.classList.add('loaded');
+        img.style.opacity = '1';
+        wrapOuter.classList.remove('fallback');
       });
 
-      document.getElementById('nextFeature').addEventListener('click', ()=>{
+      img.addEventListener('error', () => {
+        if(img.src && img.src.indexOf(placeholderImg) === -1){
+          img.src = encodeURI(placeholderImg);
+          imageWrap.style.backgroundImage = `url('${encodeURI(placeholderImg)}')`;
+        } else {
+          wrapOuter.classList.add('fallback');
+        }
+      });
+
+      wrapOuter.addEventListener('click', () => {
+        if(art.url && art.url !== '#') window.open(art.url, '_blank');
+      });
+      wrapOuter.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrapOuter.click(); }
+      });
+
+      const cap = document.createElement('div');
+      cap.className = 'featured-caption';
+      cap.textContent = art.title || '';
+
+      imageWrap.appendChild(img);
+      wrapOuter.appendChild(imageWrap);
+      wrapOuter.appendChild(cap);
+
+      // Try to preload the exact provided file; fall back to placeholder if not found
+      (async () => {
+        const result = await preloadUrl(art.file);
+        if(result.ok){
+          img.src = result.url;
+          imageWrap.style.backgroundImage = `url('${result.url}')`;
+        } else {
+          // final fallback
+          img.src = encodeURI(placeholderImg);
+          imageWrap.style.backgroundImage = `url('${encodeURI(placeholderImg)}')`;
+          wrapOuter.classList.add('fallback');
+        }
+      })();
+
+      return wrapOuter;
+    }
+
+    function renderFeatured(startIndex=0){
+      featuredImagesNode.innerHTML = '';
+      for(let i=0;i<3;i++){
+        const idx = (startIndex + i) % featuredImagesStatic.length;
+        const art = featuredImagesStatic[idx];
+        const tile = createFeaturedTile(art);
+        featuredImagesNode.appendChild(tile);
+      }
+      populateMainFeatured(featuredImagesStatic[startIndex % featuredImagesStatic.length]);
+    }
+
+    function populateMainFeatured(art){
+      if(!art) return;
+      featuredTitle.textContent = art.title || 'Premier League';
+      featuredSub.textContent = art.title || '';
+      featuredAuthor.textContent = 'Fast Premier Life';
+      featuredAuthor.href = art.url || '#';
+      featuredExcerpt.textContent = 'Curated imagery representing the spirit and history of the Premier League.';
+    }
+
+    document.getElementById('prevFeature').addEventListener('click', ()=>{
+      featureIndex = (featureIndex - 1 + featuredImagesStatic.length) % featuredImagesStatic.length;
+      renderFeatured(featureIndex);
+      restartAutoRotate();
+    });
+
+    document.getElementById('nextFeature').addEventListener('click', ()=>{
+      featureIndex = (featureIndex + 1) % featuredImagesStatic.length;
+      renderFeatured(featureIndex);
+      restartAutoRotate();
+    });
+
+    function startAutoRotate(){
+      stopAutoRotate();
+      autoRotateTimer = setInterval(()=>{
         featureIndex = (featureIndex + 1) % featuredImagesStatic.length;
         renderFeatured(featureIndex);
-        restartAutoRotate();
-      });
+      }, ROTATE_INTERVAL);
+    }
+    function stopAutoRotate(){ if(autoRotateTimer) clearInterval(autoRotateTimer); autoRotateTimer = null; }
+    function restartAutoRotate(){ stopAutoRotate(); startAutoRotate(); }
 
-      function startAutoRotate(){
-        stopAutoRotate();
-        autoRotateTimer = setInterval(()=>{
-          featureIndex = (featureIndex + 1) % featuredImagesStatic.length;
-          renderFeatured(featureIndex);
-        }, ROTATE_INTERVAL);
-      }
-      function stopAutoRotate(){ if(autoRotateTimer) clearInterval(autoRotateTimer); autoRotateTimer = null; }
-      function restartAutoRotate(){ stopAutoRotate(); startAutoRotate(); }
+    // share buttons
+    let currentShareUrl = window.location.href;
+    let currentShareTitle = document.title;
+    document.getElementById("share-facebook").addEventListener("click", () => {
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
+      window.open(facebookUrl, "_blank");
+    });
+    document.getElementById("share-twitter").addEventListener("click", () => {
+      const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(currentShareTitle)}`;
+      window.open(twitterUrl, "_blank");
+    });
+    document.getElementById("share-youtube").addEventListener("click", () => {
+      const youtubeUrl = `https://www.youtube.com/results?search_query=Premier+League+${encodeURIComponent(currentShareTitle)}`;
+      window.open(youtubeUrl, "_blank");
+    });
 
-      // share buttons
-      let currentShareUrl = window.location.href;
-      let currentShareTitle = document.title;
-      document.getElementById("share-facebook").addEventListener("click", () => {
-        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
-        window.open(facebookUrl, "_blank");
-      });
-      document.getElementById("share-twitter").addEventListener("click", () => {
-        const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(currentShareTitle)}`;
-        window.open(twitterUrl, "_blank");
-      });
-      document.getElementById("share-youtube").addEventListener("click", () => {
-        const youtubeUrl = `https://www.youtube.com/results?search_query=Premier+League+${encodeURIComponent(currentShareTitle)}`;
-        window.open(youtubeUrl, "_blank");
-      });
+    // footer images setup
+    function setupFooterImages(){
+      const tw = document.getElementById('twitterFooter');
+      const ig = document.getElementById('instagramFooter');
+      if(!tw || !ig) return;
+      tw.onerror = () => { if(tw.src !== footerPlaceholder) tw.src = footerPlaceholder; };
+      ig.onerror = () => { if(ig.src !== footerPlaceholder) ig.src = footerPlaceholder; };
+      tw.style.width = '28px'; tw.style.height = '28px';
+      ig.style.width = '28px'; ig.style.height = '28px';
+      tw.style.cursor = 'pointer'; ig.style.cursor = 'pointer';
+      tw.addEventListener('click', ()=> window.open('https://x.com/premierleague', '_blank'));
+      ig.addEventListener('click', ()=> window.open('https://www.instagram.com/premierleague/', '_blank'));
+    }
 
-      // footer images setup
-      function setupFooterImages(){
-        const tw = document.getElementById('twitterFooter');
-        const ig = document.getElementById('instagramFooter');
-        if(!tw || !ig) return;
+    // initial render
+    renderFeatured(0);
+    startAutoRotate();
+    setupFooterImages();
 
-        tw.onerror = () => { if(tw.src !== footerPlaceholder) tw.src = footerPlaceholder; };
-        ig.onerror = () => { if(ig.src !== footerPlaceholder) ig.src = footerPlaceholder; };
-
-        tw.style.width = '28px';
-        tw.style.height = '28px';
-        ig.style.width = '28px';
-        ig.style.height = '28px';
-
-        tw.style.cursor = 'pointer';
-        ig.style.cursor = 'pointer';
-        tw.addEventListener('click', ()=> window.open('https://x.com/premierleague', '_blank'));
-        ig.addEventListener('click', ()=> window.open('https://www.instagram.com/premierleague/', '_blank'));
-      }
-
-      // initial render
-      renderFeatured(0);
-      startAutoRotate();
-      setupFooterImages();
-
-      // accessibility: pause rotation while focused
-      const featuredImagesNodeRef = document.getElementById('featuredImages');
-      featuredImagesNodeRef.addEventListener('focusin', stopAutoRotate);
-      featuredImagesNodeRef.addEventListener('focusout', restartAutoRotate);
-    })();
+    // accessibility: pause rotation while focused
+    const featuredImagesNodeRef = document.getElementById('featuredImages');
+    featuredImagesNodeRef.addEventListener('focusin', stopAutoRotate);
+    featuredImagesNodeRef.addEventListener('focusout', restartAutoRotate);
+  })();
   </script>
 
 </body>
 </html>
+
 
 
