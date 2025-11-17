@@ -190,4 +190,75 @@
 </script>
 
 </body>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const coachSelect = document.getElementById("coachSelect");
+  const coachFilter = document.getElementById("coachFilter");
+  const coachCard = document.getElementById("coachCard");
+  const coachImg = document.getElementById("coachImg");
+  const coachName = document.getElementById("coachName");
+  const coachStyle = document.getElementById("coachStyle");
+  const coachList = document.getElementById("coachList");
+
+  const coaches = {
+    ancelotti: {
+      name: "Carlo Ancelotti",
+      image: "images/ancelotti.jpg",
+      style: "Balanced, adaptive, tactically flexible.",
+      achievements: ["3x UEFA Champions League Winner", "4x Serie A Winner", "2x Premier League Winner"]
+    },
+    arteta: {
+      name: "Mikel Arteta",
+      image: "images/arteta.jpg",
+      style: "Structured build-up with emphasis on possession.",
+      achievements: ["FA Cup Winner", "Community Shield Winner"]
+    },
+    postecoglou: {
+      name: "Ange Postecoglou",
+      image: "images/postecoglou.jpg",
+      style: "High pressing, attacking football with quick transitions.",
+      achievements: ["A-League Champion", "Asian Champions League Winner"]
+    },
+    klopp: {
+      name: "Jürgen Klopp",
+      image: "images/klopp.jpg",
+      style: "Gegenpressing, fast-paced counter-attacks.",
+      achievements: ["Premier League Winner", "UEFA Champions League Winner"]
+    },
+    pep: {
+      name: "Pep Guardiola",
+      image: "images/pep.jpg",
+      style: "Possession-based attacking football, positional play.",
+      achievements: ["3x Premier League Winner", "3x La Liga Winner", "UEFA Champions League Winner"]
+    }
+    // Add other coaches here as needed
+  };
+
+  function showCoach(key) {
+    if (!coaches[key]) {
+      coachCard.style.display = "none";
+      return;
+    }
+    const coach = coaches[key];
+    coachImg.src = coach.image;
+    coachImg.alt = coach.name;
+    coachName.textContent = coach.name;
+    coachStyle.textContent = coach.style;
+    coachList.innerHTML = coach.achievements.map(a => `<li>${a}</li>`).join("");
+    coachCard.style.display = "grid";
+  }
+
+  coachSelect.addEventListener("change", () => showCoach(coachSelect.value));
+
+  coachFilter.addEventListener("input", () => {
+    const filter = coachFilter.value.toLowerCase();
+    for (const option of coachSelect.options) {
+      if(option.value === "") continue;
+      option.style.display = option.text.toLowerCase().includes(filter) ? "block" : "none";
+    }
+  });
+});
+</script>
+
 </html>
+
