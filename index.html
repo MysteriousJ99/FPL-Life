@@ -8,6 +8,7 @@
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
   <style>
+    /* --- Layout --- */
     main {
       display: flex;
       flex-wrap: wrap;
@@ -15,7 +16,7 @@
       justify-content: space-between;
     }
 
-    .left-column {
+    .left-column, .right-column {
       flex: 1;
       min-width: 300px;
       display: flex;
@@ -23,19 +24,19 @@
       gap: 20px;
     }
 
-    .right-column {
-      flex: 1;
-      min-width: 320px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+      }
+      .left-column, .right-column {
+        width: 100%;
+      }
     }
 
     section {
       padding: 20px;
       border-radius: 8px;
-      background-color: #4ac2cd;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, color 0.3s;
     }
 
     section:hover {
@@ -52,19 +53,9 @@
     h2.section-header {
       margin-bottom: 10px;
       font-size: 1.5em;
-      border-bottom: 3px solid #222;
+      border-bottom: 3px solid currentColor;
       display: inline-block;
       padding-bottom: 4px;
-    }
-
-    .match-section {
-      background-color: #c7712a;
-      color: #fff;
-    }
-
-    .player-section {
-      background-color: #363636;
-      color: #fff;
     }
 
     .player-info {
@@ -91,15 +82,6 @@
       font-weight: bold;
     }
 
-    @media (max-width: 900px) {
-      main {
-        flex-direction: column;
-      }
-      .right-column, .left-column {
-        width: 100%;
-      }
-    }
-
     footer img {
       cursor: pointer;
       transition: transform 0.2s, filter 0.2s;
@@ -110,12 +92,84 @@
       filter: brightness(1.1);
     }
 
-    /* --- EXTRA: dropdown spacing --- */
+    /* --- Dropdown --- */
     #team-selector {
       padding: 5px 8px;
       border-radius: 5px;
       font-weight: bold;
     }
+
+    /* --- Header/Nav Styling --- */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s, border-bottom 0.3s;
+    }
+
+    nav a.active {
+      border-bottom: 2px solid currentColor;
+    }
+
+    /* =================================================
+       🎨 TEAM COLORS (applied via body class)
+       ================================================= */
+    /* Default */
+    body.default header { background-color: #4ac2cd; color: #000; }
+    body.default nav a { color: #000; }
+    body.default section { background-color: #4ac2cd; color: #000; }
+    body.default .match-section { background-color: #c7712a; color: #fff; }
+    body.default .player-section { background-color: #363636; color: #fff; }
+
+    /* Chelsea */
+    body.chelsea header { background-color: #034694; color: #fff; }
+    body.chelsea nav a { color: #fff; }
+    body.chelsea section { background-color: #034694; color: #fff; }
+    body.chelsea .match-section { background-color: #0350a0; color: #fff; }
+    body.chelsea .player-section { background-color: #012169; color: #fff; }
+
+    /* Manchester City */
+    body.mancity header { background-color: #6CABDD; color: #000; }
+    body.mancity nav a { color: #000; }
+    body.mancity section { background-color: #6CABDD; color: #000; }
+    body.mancity .match-section { background-color: #4DA6DA; color: #fff; }
+    body.mancity .player-section { background-color: #1C64F2; color: #fff; }
+
+    /* Manchester United */
+    body.manutd header { background-color: #DA291C; color: #fff; }
+    body.manutd nav a { color: #fff; }
+    body.manutd section { background-color: #DA291C; color: #fff; }
+    body.manutd .match-section { background-color: #C8102E; color: #fff; }
+    body.manutd .player-section { background-color: #8B0000; color: #fff; }
+
+    /* Tottenham */
+    body.tottenham header { background-color: #132257; color: #fff; }
+    body.tottenham nav a { color: #fff; }
+    body.tottenham section { background-color: #132257; color: #fff; }
+    body.tottenham .match-section { background-color: #0B1738; color: #fff; }
+    body.tottenham .player-section { background-color: #0A1032; color: #fff; }
+
+    /* Liverpool */
+    body.liverpool header { background-color: #C8102E; color: #fff; }
+    body.liverpool nav a { color: #fff; }
+    body.liverpool section { background-color: #C8102E; color: #fff; }
+    body.liverpool .match-section { background-color: #A50E26; color: #fff; }
+    body.liverpool .player-section { background-color: #800000; color: #fff; }
+
+    /* Arsenal */
+    body.arsenal header { background-color: #EF0107; color: #fff; }
+    body.arsenal nav a { color: #fff; }
+    body.arsenal section { background-color: #EF0107; color: #fff; }
+    body.arsenal .match-section { background-color: #C8102E; color: #fff; }
+    body.arsenal .player-section { background-color: #800000; color: #fff; }
   </style>
 </head>
 
@@ -134,7 +188,6 @@
       <a href="LiveDiscussion.html">Discussion</a>
     </nav>
 
-    <!-- 🔵 TEAM SELECTOR DROPDOWN -->
     <div class="header-right">
       <select id="team-selector">
         <option value="default">Default</option>
@@ -154,47 +207,32 @@
   <main>
     <h1>Home</h1>
 
-    <!-- Left column -->
     <div class="left-column">
       <h2 class="section-header">Prem News</h2>
-
       <a href="https://www.skysports.com/football/news/11699/13467763/rob-edwards-appointed-wolves-head-coach-on-three-and-a-half-year-deal-after-leaving-middlesbrough" class="section-link">
         <section>
-          <p>
-            Wolves appoit new head coach, Rob Edwards, for a three and a half year deal as 
-            they look to change their run of form.
-          </p>
-          <img src="images/Rob.jpg" alt="Rob Edwards" width=450px height=350px>
+          <p>Wolves appoint new head coach, Rob Edwards, for a three and a half year deal as they look to change their run of form.</p>
+          <img src="images/Rob.jpg" alt="Rob Edwards" width="450" height="350">
         </section>
       </a>
 
       <a href="https://www.mancity.com/news/mens/haaland-post-brentford-reaction-5-oct-63895283" class="section-link">
         <section>
-          <p>
-            “I am in the greatest form of my life,” says Manchester City striker Erling Haaland, 
-            whose remarkable run continued after their 1–0 win against Brentford.
-          </p>
+          <p>“I am in the greatest form of my life,” says Manchester City striker Erling Haaland, whose remarkable run continued after their 1–0 win against Brentford.</p>
           <img src="images/Haaland.jpg" alt="Erling Haaland celebrating a goal">
         </section>
       </a>
     </div>
 
-    <!-- Right column -->
     <div class="right-column">
-
-      <!-- Match of the Week -->
       <a href="https://www.premierleague.com/en/match/2561969/liverpool-vs-manchester-united?tab=preview" class="section-link">
         <section class="match-section">
           <h2 class="section-header">Match of the Week</h2>
-          <p>
-            The Premier League’s most anticipated clash — <strong>Liverpool vs Manchester United</strong>. 
-            Catch pre-match stats, key players, and predictions for this blockbuster showdown.
-          </p>
-          <img src="images/MOTW.jpg" alt="Liverpool vs Manchester United" width=250px height=250px>
+          <p>The Premier League’s most anticipated clash — <strong>Liverpool vs Manchester United</strong>. Catch pre-match stats, key players, and predictions for this blockbuster showdown.</p>
+          <img src="images/MOTW.jpg" alt="Liverpool vs Manchester United" width="250" height="250">
         </section>
       </a>
 
-      <!-- Player of the Week -->
       <section class="player-section" id="player-of-week">
         <h2 class="section-header">Player of the Week</h2>
         <div class="player-info">
@@ -216,7 +254,6 @@
       <img src="images/twitterpage.jpg" alt="Twitter Logo">
       <img src="images/instagram.jpg" alt="Instagram Logo">
     </div>
-
     <div class="footer-right">
       <p>302-555-6611</p>
       <p>wearedefinitelyreal@gmail.com</p>
@@ -224,27 +261,18 @@
   </footer>
 
   <script>
-    /* ============================================================
-       ⭐ TEAM THEME SYSTEM — Works on all webpages
-       ============================================================ */
-
-    // Apply theme on page load
+    // ================= TEAM THEME SYSTEM =================
     document.body.className = localStorage.getItem("teamTheme") || "default";
-
-    // Dropdown should show currently selected theme
     const selector = document.getElementById("team-selector");
     selector.value = document.body.className;
 
-    // When user changes theme
     selector.addEventListener("change", () => {
       const team = selector.value;
       document.body.className = team;
       localStorage.setItem("teamTheme", team);
     });
 
-    /* ============================================================ */
-
-    // Player of the Week Data
+    // ================= Player of the Week =================
     const playerOfTheWeek = {
       name: "Erling Haaland",
       image: "images/potw.jpg",
@@ -258,4 +286,9 @@
       document.getElementById("player-img").src = playerOfTheWeek.image;
       document.getElementById("player-rating").textContent = "Overall Rating: " + playerOfTheWeek.rating;
       document.getElementById("player-goals").textContent = "Goals: " + playerOfTheWeek.goals;
-      document.getElementById("player-assists").textContent = "Assists: " +
+      document.getElementById("player-assists").textContent = "Assists: " + playerOfTheWeek.assists;
+      document.getElementById("player-description").textContent = playerOfTheWeek.description;
+    });
+  </script>
+</body>
+</html>
