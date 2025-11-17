@@ -38,12 +38,12 @@
       -moz-osx-font-smoothing:grayscale;
     }
 
-    /* ---------- Header (now matches news.html color by inheriting shared stylesheet) ---------- */
+    /* ---------- Header (styled same as news.html) ----------
+       Note: removed explicit background-color so header inherits the shared stylesheet */
     header.main-header{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      /* removed explicit background-color so header will use the same color as news.html */
       padding:12px 20px; /* match news.html header padding */
       border-bottom: 2px solid #ddd;
     }
@@ -254,9 +254,376 @@
     </div>
   </footer>
 
-  <!-- Keep existing script (no functional changes) -->
+  <!-- Full matches script (restored so calendar works) -->
   <script>
-  /* existing script omitted for brevity in this preview — keep the same script as before */
+  /********************************************************
+   * Matches page script
+   * - Maintains events[] (load/save to localStorage)
+   * - Renders calendar and event cards automatically
+   * - Imports from CSV and public iCal (.ics)
+   *********************************************************/
+
+  const seedEvents = [
+    { id: 1, title: "Liverpool vs Man United", date: "2025-09-15", time: "16:30", venue: "Anfield, Liverpool, UK", url: "" },
+    { id: 2, title: "Arsenal vs Chelsea", date: "2025-09-20", time: "19:45", venue: "Emirates Stadium, London, UK", url: "" },
+    { id: 3, title: "USA vs ECU", date: "2025-10-10", time: "20:30", venue: "Q2 Stadium, Austin, TX, USA", url: "" },
+    { id: 4, title: "USA vs AUS", date: "2025-10-14", time: "21:00", venue: "DICK'S Sporting Goods Park, Commerce City, CO, USA", url: "" },
+    { id: 5, title: "USA vs POR", date: "2025-10-23", time: "19:00", venue: "Subaru Park, Chester, PA, USA", url: "" },
+    { id: 6, title: "Liverpool vs Brighton", date: "2025-11-02", time: "15:00", venue: "Anfield, Liverpool, UK", url: "" }
+  ];
+
+  const STORAGE_KEY = 'fpl_events_v1';
+  let events = loadEvents();
+
+  function loadEvents(){
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed) && parsed.length) return parsed;
+      }
+    } catch(e){ console.warn('Could not parse events from storage', e); }
+    return JSON.parse(JSON.stringify(seedEvents));
+  }
+
+  function saveEvents(){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+    } catch(e){ console.warn('Could not save events', e); }
+  }
+
+  const pad = n => n < 10 ? '0'+n : n;
+  function toISODate(d){ const y=d.getFullYear(), m=pad(d.getMonth()+1), day=pad(d.getDate()); return `${y}-${m}-${day}`; }
+
+  let today = new Date();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+  let selectedDateISO = null;
+
+  const monthYearNode = document.getElementById('monthYear');
+  const calendarGrid = document.getElementById('calendarGrid');
+  const eventsList = document.getElementById('eventsList');
+  const prevBtn = document.getElementById('prevMonth');
+  const nextBtn = document.getElementById('nextMonth');
+  const matchSearch = document.getElementById('matchSearch');
+  const matchesGrid = document.getElementById('matchesGrid');
+
+  const csvFile = document.getElementById('csvFile');
+  const icalUrl = document.getElementById('icalUrl');
+  const importIcalBtn = document.getElementById('importIcalBtn');
+  const toggleAdd = document.getElementById('toggleAdd');
+  const addForm = document.getElementById('addForm');
+  const addEventBtn = document.getElementById('addEventBtn');
+  const addTitle = document.getElementById('addTitle');
+  const addDate = document.getElementById('addDate');
+  const addTime = document.getElementById('addTime');
+  const addVenue = document.getElementById('addVenue');
+  const addUrl = document.getElementById('addUrl');
+  const clearStorageBtn = document.getElementById('clearStorage');
+
+  function nextId(){ return events.reduce((m,e)=>Math.max(m,e.id||0),0)+1; }
+
+  function eventsForDate(iso){
+    return events.filter(e => e.date === iso).sort((a,b)=> (a.time||'').localeCompare(b.time||''));
+  }
+
+  function renderCalendar(month, year){
+    monthYearNode.textContent = `${['January','February','March','April','May','June','July','August','September','October','November','December'][month]} ${year}`;
+
+    const firstOfMonth = new Date(year, month, 1);
+    const startDay = firstOfMonth.getDay();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const prevMonthLastDate = new Date(year, month, 0).getDate();
+
+    calendarGrid.innerHTML = '';
+    const totalCells = 42;
+
+    for(let i=0;i<totalCells;i++){
+      const cell = document.createElement('div');
+      cell.className = 'cal-day';
+
+      const dayIndex = i - startDay + 1;
+      let displayDay, inCurrentMonth;
+      if(i < startDay){
+        displayDay = prevMonthLastDate - (startDay -1 - i);
+        inCurrentMonth = false;
+        cell.classList.add('outside');
+      } else if(dayIndex > daysInMonth){
+        displayDay = dayIndex - daysInMonth;
+        inCurrentMonth = false;
+        cell.classList.add('outside');
+      } else {
+        displayDay = dayIndex;
+        inCurrentMonth = true;
+      }
+
+      const dateNum = document.createElement('div');
+      dateNum.className = 'date-num';
+      dateNum.textContent = displayDay;
+      cell.appendChild(dateNum);
+
+      let cellDateISO;
+      if(inCurrentMonth){
+        cellDateISO = `${year}-${pad(month+1)}-${pad(displayDay)}`;
+      } else {
+        let cellMonth = month;
+        let cellYear = year;
+        if(i < startDay){
+          if(month === 0){ cellMonth = 11; cellYear = year - 1; } else cellMonth = month - 1;
+        } else {
+          if(month === 11){ cellMonth = 0; cellYear = year + 1; } else cellMonth = month + 1;
+        }
+        cellDateISO = `${cellYear}-${pad(cellMonth+1)}-${pad(displayDay)}`;
+      }
+
+      if(cellDateISO === toISODate(new Date())) cell.classList.add('today');
+
+      const dayEvents = eventsForDate(cellDateISO);
+      if(dayEvents.length){
+        const dot = document.createElement('div'); dot.className='dot'; cell.appendChild(dot);
+      }
+
+      (function(iso, node){
+        node.addEventListener('click', () => {
+          document.querySelectorAll('.cal-day.selected').forEach(n=>n.classList.remove('selected'));
+          node.classList.add('selected');
+          selectedDateISO = iso;
+          renderEventsForSelectedDate();
+        });
+      })(cellDateISO, cell);
+
+      calendarGrid.appendChild(cell);
+    }
+
+    if(toISODate(new Date()).startsWith(`${currentYear}-${pad(currentMonth+1)}`)){
+      const nodes = document.querySelectorAll('#calendarGrid .cal-day.today');
+      if(nodes && nodes.length){
+        nodes[0].classList.add('selected');
+        selectedDateISO = toISODate(new Date());
+        renderEventsForSelectedDate();
+      }
+    } else {
+      selectedDateISO = null;
+      eventsList.innerHTML = '<p class="muted">Select a day to view matches.</p>';
+    }
+  }
+
+  function renderEventsForSelectedDate(){
+    eventsList.innerHTML = '';
+    if(!selectedDateISO){
+      eventsList.innerHTML = '<p class="muted">Select a day to view matches.</p>'; return;
+    }
+    const list = eventsForDate(selectedDateISO);
+    if(!list.length){ eventsList.innerHTML = `<p class="muted">No matches on ${selectedDateISO}.</p>`; return; }
+    list.forEach(ev=>{
+      const item = document.createElement('div'); item.className='event-item';
+      item.innerHTML = `
+        <div><span class="time">${ev.time||''}</span> <strong>${ev.title}</strong></div>
+        <div style="font-size:0.9rem;color:#555">${ev.venue||''}</div>
+        ${ev.url?`<div style="margin-top:6px"><a href="${ev.url}" target="_blank">More info</a></div>`:''}
+      `;
+      eventsList.appendChild(item);
+    });
+  }
+
+  function renderMatchCards(filter=''){
+    matchesGrid.innerHTML = '';
+    const q = filter ? filter.toLowerCase().trim() : '';
+    const sorted = events.slice().sort((a,b)=>{
+      if(a.date !== b.date) return a.date.localeCompare(b.date);
+      return (a.time||'').localeCompare(b.time||'');
+    });
+    sorted.forEach(ev=>{
+      const text = `${ev.title} ${ev.venue} ${ev.date} ${ev.time}`.toLowerCase();
+      if(q && !text.includes(q)) return;
+      const card = document.createElement('div'); card.className='match-card';
+      card.innerHTML = `
+        <h3>${ev.title}</h3>
+        <p><strong>${ev.date}</strong> ${ev.time ? '· ' + ev.time : ''}</p>
+        <p>${ev.venue || ''}</p>
+        ${ev.url ? `<p><a href="${ev.url}" target="_blank">Event link</a></p>` : ''}
+        <button class="buy" data-id="${ev.id}">BUY TICKETS</button>
+      `;
+      matchesGrid.appendChild(card);
+    });
+
+    document.querySelectorAll('.match-card .buy').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const id = Number(e.currentTarget.dataset.id);
+        const ev = events.find(x=>x.id===id);
+        if(ev && ev.url) window.open(ev.url, '_blank');
+        else alert('No purchase link available for this match.');
+      });
+    });
+  }
+
+  document.getElementById('prevMonth').addEventListener('click', ()=>{
+    if(currentMonth === 0){ currentMonth = 11; currentYear--; } else currentMonth--;
+    renderCalendar(currentMonth, currentYear);
+  });
+  document.getElementById('nextMonth').addEventListener('click', ()=>{
+    if(currentMonth === 11){ currentMonth = 0; currentYear++; } else currentMonth++;
+    renderCalendar(currentMonth, currentYear);
+  });
+
+  matchSearch.addEventListener('input', (e)=> renderMatchCards(e.target.value) );
+
+  csvFile.addEventListener('change', (e)=>{
+    const f = e.target.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = (ev)=>{
+      try {
+        const text = ev.target.result;
+        const parsed = parseCSV(text);
+        let added = 0;
+        parsed.forEach(obj=>{
+          const title = obj.title || obj.Title || obj.NAME || obj.name || '';
+          const date = (obj.date || obj.Date || '').trim();
+          const time = (obj.time || obj.Time || '').trim();
+          const venue = obj.venue || obj.Venue || obj.location || obj.Location || '';
+          const url = obj.url || obj.Url || obj.URL || '';
+          if(!title || !date) return;
+          events.push({ id: nextId(), title: title.trim(), date: date.trim(), time: time, venue: venue.trim(), url: url.trim() });
+          added++;
+        });
+        if(added) {
+          saveEvents(); renderCalendar(currentMonth,currentYear); renderMatchCards(matchSearch.value);
+          alert('Imported ' + added + ' events from CSV.');
+        } else alert('No valid rows found in CSV. Make sure each row has at least title and date.');
+      } catch(err){ alert('Error parsing CSV: ' + err.message); }
+    };
+    reader.readAsText(f);
+    e.target.value = '';
+  });
+
+  function parseCSV(text){
+    const lines = text.split(/\r?\n/).filter(l=>l.trim()!=='');
+    if(!lines.length) return [];
+    const delimiter = detectDelimiter(lines[0]);
+    const headers = lines[0].split(delimiter).map(h=>h.trim());
+    const rows = lines.slice(1);
+    const out = [];
+    rows.forEach(r=>{
+      let cols = r.split(delimiter);
+      if(cols.length === 1 && cols[0].indexOf(',') !== -1){
+        cols = r.split(',');
+      }
+      if(cols.length < 1) return;
+      const obj = {};
+      for(let i=0;i<headers.length;i++){
+        obj[headers[i]] = (cols[i] || '').trim();
+      }
+      out.push(obj);
+    });
+    const known = ['title','date','time','venue','url','Title','Date','Time','Venue','URL'];
+    const headerHasKnown = headers.some(h => known.includes(h));
+    if(!headerHasKnown){
+      const arr = text.split(/\r?\n/).filter(l=>l.trim()!=='');
+      const res = [];
+      arr.forEach(line=>{
+        const cols = line.split(delimiter).map(c=>c.trim());
+        res.push({
+          title: cols[0]||'',
+          date: cols[1]||'',
+          time: cols[2]||'',
+          venue: cols[3]||'',
+          url: cols[4]||''
+        });
+      });
+      return res;
+    }
+    return out;
+  }
+  function detectDelimiter(line){
+    if(line.indexOf(',')>-1) return ',';
+    if(line.indexOf(';')>-1) return ';';
+    if(line.indexOf('\t')>-1) return '\t';
+    return ',';
+  }
+
+  importIcalBtn.addEventListener('click', async ()=>{
+    const url = icalUrl.value.trim();
+    if(!url){ alert('Paste a public Google Calendar ICS URL into the input first.'); return; }
+    try {
+      const resp = await fetch(url);
+      if(!resp.ok) throw new Error('Network response not ok ('+resp.status+')');
+      const text = await resp.text();
+      const parsed = parseICS(text);
+      let added = 0;
+      parsed.forEach(it=>{
+        let dt = it.start;
+        if(!dt) return;
+        const dts = dt.replace(/Z$/,'');
+        let y = dts.substr(0,4), m=dts.substr(4,2), dd=dts.substr(6,2);
+        let hh = dts.length >= 9 ? dts.substr(9,2) : '';
+        let mm = dts.length >= 11 ? dts.substr(11,2) : '';
+        const date = `${y}-${m}-${dd}`;
+        const time = hh ? `${hh}:${mm}` : '';
+        const title = it.summary || 'Event';
+        const venue = it.location || '';
+        events.push({ id: nextId(), title, date, time, venue, url: it.url || ''});
+        added++;
+      });
+      if(added){
+        saveEvents(); renderCalendar(currentMonth,currentYear); renderMatchCards(matchSearch.value);
+        alert('Imported ' + added + ' events from iCal.');
+      } else alert('No events found in the ICS file.');
+    } catch(err){
+      console.error(err);
+      alert('Could not fetch/parse ICS file. Note: Google Calendar public ICS links should be publicly accessible; CORS may block fetch in some browsers/hosts. If blocked, download the .ics file and convert to CSV or upload a CSV.');
+    }
+  });
+
+  function parseICS(text){
+    const events = [];
+    const unfolded = text.replace(/\r\n[ \t]/g,'');
+    const vevents = unfolded.split(/BEGIN:VEVENT/i).slice(1);
+    vevents.forEach(block=>{
+      const endIdx = block.indexOf('END:VEVENT');
+      if(endIdx === -1) return;
+      const content = block.substring(0,endIdx);
+      const get = (prop) => {
+        const re = new RegExp(prop + "(:|;)[^\\r\\n]*","i");
+        const m = content.match(re);
+        if(!m) return null;
+        const line = m[0];
+        const idx = line.indexOf(':');
+        return idx>-1 ? line.substring(idx+1).trim() : line.replace(/^.*?:/,'').trim();
+      };
+      const summary = get('SUMMARY');
+      const dtstart = get('DTSTART');
+      const dtend = get('DTEND');
+      const location = get('LOCATION');
+      const url = get('URL') || get('ATTENDEE') || '';
+      events.push({ summary, start: dtstart, end: dtend, location, url });
+    });
+    return events;
+  }
+
+  toggleAdd.addEventListener('click', ()=> addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none');
+  addEventBtn.addEventListener('click', ()=>{
+    const title = addTitle.value.trim(); const date = addDate.value.trim(); const time = addTime.value.trim();
+    const venue = addVenue.value.trim(); const url = addUrl.value.trim();
+    if(!title || !date){ alert('Please provide at least title and date (YYYY-MM-DD).'); return; }
+    events.push({ id: nextId(), title, date, time, venue, url });
+    saveEvents(); renderCalendar(currentMonth,currentYear); renderMatchCards(matchSearch.value);
+    addTitle.value = addDate.value = addTime.value = addVenue.value = addUrl.value = '';
+    addForm.style.display = 'none';
+  });
+
+  clearStorageBtn.addEventListener('click', ()=>{
+    if(!confirm('Clear saved events and reset to default sample events?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    events = JSON.parse(JSON.stringify(seedEvents));
+    renderCalendar(currentMonth,currentYear); renderMatchCards('');
+  });
+
+  renderCalendar(currentMonth, currentYear);
+  renderMatchCards();
+
+  icalUrl.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') importIcalBtn.click(); });
+
   </script>
 
   <!-- Small footer helper script (makes footer icons behave like news.html) -->
@@ -283,6 +650,7 @@
       ig.style.cursor = 'pointer';
 
       tw.addEventListener('click', ()=> {
+        // X (Twitter) official Premier League (using x.com)
         window.open('https://x.com/premierleague', '_blank');
       });
       ig.addEventListener('click', ()=> {
@@ -293,3 +661,4 @@
 
 </body>
 </html>
+
