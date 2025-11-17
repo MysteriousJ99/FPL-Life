@@ -30,7 +30,7 @@
 
     /* ---------- Featured images layout ---------- */
     .featured-images { display:flex; overflow:hidden; margin-bottom:15px; }
-    .featured-images-inner { display:flex; gap:10px; transition: transform 0.4s ease; }
+    .featured-images-inner { display:flex; gap:10px; transition: transform 0.4s ease; will-change: transform; }
     .featured-item {
       flex: 0 0 calc(33.333% - 6.66px);
       min-height:170px;
@@ -123,7 +123,7 @@
 
       <!-- Featured images carousel -->
       <div class="featured-images" id="featuredImages" aria-live="polite">
-        <div class="featured-images-inner" id="featuredInner"></div>
+        <div class="featured-images-inner" id="featuredInner" role="list"></div>
       </div>
 
       <div class="featured-controls">
@@ -158,7 +158,7 @@
 
         <article id="kitsArticle" style="background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
           <h3>Premier League Club Kits for 2025/26</h3>
-          <p>See every Premier League club’s new threads for the 2025/26 season. Liverpool were the last club to reveal their sea-green third kit.</p>
+          <p>See every Premier League club’s new threads for 2025/26 season. Liverpool were the last club to reveal their sea-green third kit.</p>
         </article>
       </section>
 
@@ -183,13 +183,16 @@
     </div>
   </footer>
 
-  <!-- Featured images + carousel script (keeps your existing logic) -->
+  <!-- Featured images + carousel script (robust loader + measured layout) -->
   <script>
   (function(){
+    // use the exact filenames you provided — update if your folder/names differ
     const featuredImagesStatic = [
-      { id: 'ess1', title: 'Historic stadium façade — tradition', file: 'images/the-fastest-players-to-100-premier-league-goals-2-1024x512.webp', alt: 'Exterior of a classic Premier League stadium', url: '#', bgColor: '#123b1e' },
-      { id: 'ess2', title: 'Packed stadium — matchday atmosphere', file: 'images/FPL image.webp', alt: 'Crowd celebrating with trophy on pitch', url: '#', bgColor: '#082a3a' },
-      { id: 'ess3', title: 'Iconic finishing — celebration', file: 'images/FPL.2.webp', alt: 'Players celebrating in the dressing room', url: '#', bgColor: '#6b1f1f' }
+      { id: 'ess1', title: 'Historic stadium façade — tradition', file: 'images/the-fastest-players-to-100-premier-league-goals-2-1024x512.webp', alt: 'Historic stadium', url: '#', bgColor: '#123b1e' },
+      { id: 'ess2', title: 'Packed stadium — matchday atmosphere', file: 'images/FPL image.webp', alt: 'Crowd celebrating with trophy', url: '#', bgColor: '#082a3a' },
+      { id: 'ess3', title: 'Iconic finishing — celebration', file: 'images/FPL.2.webp', alt: 'Players celebrating in the dressing room', url: '#', bgColor: '#6b1f1f' },
+      { id: 'ess4', title: 'Back Flip', file: 'images/FPL33.webp', alt: 'Do a flip!', url: '#', bgColor: '#6b1f1f' }
+
     ];
 
     const placeholderImg = 'images/placeholder-news.jpg';
@@ -203,17 +206,42 @@
     let autoRotateTimer = null;
     const ROTATE_INTERVAL = 7000;
 
+    // preload with a Promise; resolves ok:true when loaded else ok:false
     function preloadUrl(rawPath, timeout = 6000){
       return new Promise((resolve) => {
-        const url = encodeURI(rawPath);
-        const img = new Image();
-        let timer = setTimeout(() => { img.onload = img.onerror = null; resolve({ ok: false, url }); }, Math.min(timeout, 4000));
-        img.onload = () => { clearTimeout(timer); resolve({ ok: true, url }); };
-        img.onerror = () => { clearTimeout(timer); resolve({ ok: false, url }); };
-        img.src = url;
+        try {
+          const url = encodeURI(rawPath);
+          const img = new Image();
+          let done = false;
+          const timer = setTimeout(()=> {
+            if(done) return;
+            done = true;
+            img.onload = img.onerror = null;
+            resolve({ ok:false, url });
+          }, Math.min(timeout,4000));
+
+          img.onload = () => {
+            if(done) return;
+            done = true;
+            clearTimeout(timer);
+            img.onload = img.onerror = null;
+            resolve({ ok:true, url });
+          };
+          img.onerror = () => {
+            if(done) return;
+            done = true;
+            clearTimeout(timer);
+            img.onload = img.onerror = null;
+            resolve({ ok:false, url });
+          };
+          img.src = url;
+        } catch(e){
+          resolve({ ok:false, url: rawPath });
+        }
       });
     }
 
+    // create tile DOM; image will be set after preload
     function createFeaturedTile(art){
       const wrapOuter = document.createElement('div');
       wrapOuter.className = 'featured-item';
@@ -229,11 +257,12 @@
       img.setAttribute('width','450');
       img.setAttribute('height','350');
       img.decoding = 'async';
+      // start hidden; will fade in on load
       img.style.opacity = '0';
-      img.removeAttribute('src');
 
+      // handle load / error
       img.addEventListener('load', ()=>{ img.classList.add('loaded'); img.style.opacity='1'; });
-      img.addEventListener('error', ()=>{ img.src = placeholderImg; });
+      img.addEventListener('error', ()=>{ img.src = placeholderImg; img.style.opacity='1'; });
 
       wrapOuter.addEventListener('click', ()=>{ if(art.url && art.url!=='#') window.open(art.url,'_blank'); });
       wrapOuter.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); wrapOuter.click(); } });
@@ -246,27 +275,49 @@
       wrapOuter.appendChild(imageWrap);
       wrapOuter.appendChild(cap);
 
+      // kick off preload — when done set both img.src and background-image
       (async ()=>{
         const result = await preloadUrl(art.file);
-        img.src = result.ok ? result.url : placeholderImg;
-        imageWrap.style.backgroundImage = `url('${encodeURI(img.src)}')`;
+        const finalSrc = result.ok ? result.url : placeholderImg;
+        // set <img> to the final resolved URL (so the element can load and fade)
+        img.src = finalSrc;
+        // also set background image on the wrapper so even during slow load we have a fallback visual
+        imageWrap.style.backgroundImage = `url('${encodeURI(finalSrc)}')`;
       })();
 
       return wrapOuter;
     }
 
+    // render tiles into DOM and position the carousel correctly
     function renderFeatured(index=0){
       featuredInner.innerHTML = '';
+      // append tiles (we will measure width after images inserted)
       for(let i=0;i<featuredImagesStatic.length;i++){
         const tile = createFeaturedTile(featuredImagesStatic[i]);
         featuredInner.appendChild(tile);
       }
-      // position slider to show chosen index (works with three tiles)
-      const item = featuredInner.children[0];
-      if(item){
-        const itemWidth = item.offsetWidth + 10;
-        featuredInner.style.transform = `translateX(-${index * itemWidth}px)`;
-      }
+
+      // Wait for layout/paint so offsets are available; use requestAnimationFrame twice
+      requestAnimationFrame(()=> {
+        requestAnimationFrame(()=> {
+          // compute width of first tile (includes gap because we used gap:10px in CSS)
+          const first = featuredInner.children[0];
+          if(first){
+            // gap is applied in layout; measure one tile width and the computed gap
+            const tileWidth = first.getBoundingClientRect().width;
+            // estimate gap by difference between offset of child 1 and child 0
+            let gap = 10;
+            if(featuredInner.children.length > 1){
+              const r0 = featuredInner.children[0].getBoundingClientRect();
+              const r1 = featuredInner.children[1].getBoundingClientRect();
+              gap = Math.round(r1.left - (r0.left + r0.width));
+            }
+            const step = tileWidth + gap;
+            featuredInner.style.transform = `translateX(-${index * step}px)`;
+          }
+        });
+      });
+
       populateMainFeatured(featuredImagesStatic[index % featuredImagesStatic.length]);
     }
 
@@ -323,14 +374,18 @@
       ig.addEventListener('click', ()=> window.open('https://www.instagram.com/premierleague/','_blank'));
     }
 
+    // initial render (will kick off preload)
     renderFeatured(0);
     startAutoRotate();
     setupFooterImages();
 
+    // pause rotation on focus
     const featuredImagesNodeRef = document.getElementById('featuredImages');
     featuredImagesNodeRef.addEventListener('focusin', stopAutoRotate);
     featuredImagesNodeRef.addEventListener('focusout', restartAutoRotate);
 
+    // reposition on resize to keep correct slide
+    window.addEventListener('resize', ()=> renderFeatured(featureIndex));
   })();
   </script>
 
@@ -343,7 +398,6 @@
     const themeClasses = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
     const saved = localStorage.getItem("selectedTeam") || "default";
 
-    // ensure previous theme classes removed, then apply saved
     document.body.classList.remove(...themeClasses);
     if (saved !== "default") document.body.classList.add(saved);
     themeSelect.value = saved;
