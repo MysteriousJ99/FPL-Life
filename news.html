@@ -15,6 +15,19 @@
     nav a:hover { text-decoration: underline; }
     nav a.active { border-bottom: 3px solid #38003c; font-weight: 700; }
 
+    /* small header-right area layout to hold login/search + theme selector */
+    .header-right { display:flex; align-items:center; gap:12px; }
+
+    /* theme select (keeps compact in header) */
+    #themeSelect {
+      padding:6px 8px;
+      border-radius:8px;
+      border:1px solid rgba(0,0,0,0.08);
+      background: #fff;
+      font-weight:600;
+      cursor:pointer;
+    }
+
     /* ---------- Featured images layout ---------- */
     .featured-images { display:flex; overflow:hidden; margin-bottom:15px; }
     .featured-images-inner { display:flex; gap:10px; transition: transform 0.4s ease; }
@@ -47,6 +60,9 @@
 
     @media (max-width:700px){
       .featured-item { flex: 1 1 100%; min-height:140px; max-height:none; }
+      header { padding: 12px 14px; }
+      nav a { margin-right:10px; font-size:0.95rem; }
+      #themeSelect { display:none; } /* hide theme selector on very small screens to save space */
     }
 
     /* Social Share Buttons */
@@ -83,6 +99,17 @@
     <div class="header-right">
       <a href="login.html">Login</a>
       <span class="search-icon" title="Search">🔍</span>
+
+      <!-- THEME SELECTOR (integrated from coach&league.html) -->
+      <select id="themeSelect" aria-label="Choose site theme">
+        <option value="default">Theme</option>
+        <option value="chelsea">Chelsea</option>
+        <option value="mancity">Manchester City</option>
+        <option value="manutd">Manchester United</option>
+        <option value="tottenham">Tottenham</option>
+        <option value="liverpool">Liverpool</option>
+        <option value="arsenal">Arsenal</option>
+      </select>
     </div>
   </header>
 
@@ -156,14 +183,13 @@
     </div>
   </footer>
 
+  <!-- Featured images + carousel script (keeps your existing logic) -->
   <script>
   (function(){
     const featuredImagesStatic = [
-      { id: 'ess1', title: 'Historic stadium façade — tradition', file: 'images/players.webp', alt: 'Exterior of a classic Premier League stadium', url: '#', bgColor: '#123b1e' },
-      { id: 'ess2', title: 'Packed stadium — matchday atmosphere', file: 'images/FPL.image.webp', alt: 'Crowd celebrating with trophy on pitch', url: '#', bgColor: '#082a3a' },
-      { id: 'ess3', title: 'Iconic finishing — celebration', file: 'images/FPL.2.webp', alt: 'Players celebrating in the dressing room', url: '#', bgColor: '#6b1f1f' },
-      { id: 'ess4', title: 'Back flip', file: 'images/FPL33.webp', alt: 'Back flip', url: '#', bgColor: '#6b1f1f' }
-
+      { id: 'ess1', title: 'Historic stadium façade — tradition', file: 'images/the-fastest-players-to-100-premier-league-goals-2-1024x512.webp', alt: 'Exterior of a classic Premier League stadium', url: '#', bgColor: '#123b1e' },
+      { id: 'ess2', title: 'Packed stadium — matchday atmosphere', file: 'images/FPL image.webp', alt: 'Crowd celebrating with trophy on pitch', url: '#', bgColor: '#082a3a' },
+      { id: 'ess3', title: 'Iconic finishing — celebration', file: 'images/FPL.2.webp', alt: 'Players celebrating in the dressing room', url: '#', bgColor: '#6b1f1f' }
     ];
 
     const placeholderImg = 'images/placeholder-news.jpg';
@@ -235,8 +261,12 @@
         const tile = createFeaturedTile(featuredImagesStatic[i]);
         featuredInner.appendChild(tile);
       }
-      const itemWidth = featuredInner.children[0].offsetWidth + 10;
-      featuredInner.style.transform = `translateX(-${index * itemWidth}px)`;
+      // position slider to show chosen index (works with three tiles)
+      const item = featuredInner.children[0];
+      if(item){
+        const itemWidth = item.offsetWidth + 10;
+        featuredInner.style.transform = `translateX(-${index * itemWidth}px)`;
+      }
       populateMainFeatured(featuredImagesStatic[index % featuredImagesStatic.length]);
     }
 
@@ -302,6 +332,29 @@
     featuredImagesNodeRef.addEventListener('focusout', restartAutoRotate);
 
   })();
+  </script>
+
+  <!-- THEME SCRIPT (integrated from coach&league.html) -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const themeSelect = document.getElementById("themeSelect");
+    if(!themeSelect) return;
+
+    const themeClasses = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
+    const saved = localStorage.getItem("selectedTeam") || "default";
+
+    // ensure previous theme classes removed, then apply saved
+    document.body.classList.remove(...themeClasses);
+    if (saved !== "default") document.body.classList.add(saved);
+    themeSelect.value = saved;
+
+    themeSelect.addEventListener("change", () => {
+      const team = themeSelect.value;
+      document.body.classList.remove(...themeClasses);
+      if (team !== "default") document.body.classList.add(team);
+      localStorage.setItem("selectedTeam", team);
+    });
+  });
   </script>
 
 </body>
