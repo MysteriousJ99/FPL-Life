@@ -7,37 +7,35 @@
   <link rel="stylesheet" href="externalstylesheet.css">
 
   <style>
+    /* ---------- Layout & Panels ---------- */
     .wrap { max-width: 1000px; margin: 0 auto; padding: 16px; }
-    .panel { background: #f7f9fc; border: 1px solid #e4e7ee; border-radius: 14px; padding: 16px; }
+    .panel { background: #f7f9fc; border: 1px solid #e4e7ee; border-radius: 14px; padding: 16px; margin-bottom: 20px; }
     .row { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .coach-card { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; background: #fff; border: 1px solid #e6e6e6; border-radius: 12px; padding: 12px; }
     .coach-card img { width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd; background: white; }
     .coach-meta h3 { margin: 0 0 6px; }
     .coach-meta p { margin: 0 0 6px; }
     .coach-meta ul { margin: 6px 0 0 18px; }
-    .select-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .select-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
     .league-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
     .league { background: #fff; border: 1px solid #e6e6e6; border-radius: 12px; padding: 14px; }
     .league h3 { margin: 0 0 6px; }
-    .muted { color: #4b5563; }
+    .muted { color: #4b5563; font-size: 0.95rem; }
 
+    /* Responsive */
     @media (max-width: 800px) {
       .row { grid-template-columns: 1fr; }
       .league-grid { grid-template-columns: 1fr; }
       .coach-card { grid-template-columns: 1fr; }
+      .coach-card img { width: 100%; height: auto; margin-bottom: 12px; }
     }
 
-    /* THEME DROPDOWN STYLES */
-    .theme-box {
-      padding: 10px 0;
-      display: flex;
-      justify-content: flex-end;
-    }
+    /* THEME DROPDOWN */
+    .theme-box { padding: 10px 0; display: flex; justify-content: flex-end; }
   </style>
 </head>
 
-<!-- IMPORTANT: THIS MAKES THEMES WORK -->
-<body class="default">
+<body>
 <header>
   <div class="logo">
     <a href="index.html" aria-label="Home">
@@ -58,9 +56,9 @@
   </div>
 </header>
 
-<!-- TEAM THEME DROPDOWN -->
+<!-- THEME SELECTOR -->
 <div class="theme-box wrap">
-  <select id="themeSelect" onchange="setTeamTheme(this.value)">
+  <select id="themeSelect">
     <option value="default">Default</option>
     <option value="chelsea">Chelsea</option>
     <option value="mancity">Manchester City</option>
@@ -72,42 +70,37 @@
 </div>
 
 <main class="wrap">
-  <!-- HERO / INTRO -->
-  <section class="panel" style="margin-bottom:18px">
-    <div class="row">
-      <div>
-        <h1 style="margin:0 0 8px">Coach Finder</h1>
-        <p class="muted">Pick a Premier League coach from the dropdown to see a photo, coaching style, and achievements.</p>
-        <div class="select-row" style="margin-top:10px">
-          <label for="coachSelect" class="visually-hidden">Select Coach</label>
-          <select id="coachSelect">
-            <option value="">-- Select a coach --</option>
-            <option value="ancelotti">Carlo Ancelotti</option>
-            <option value="arteta">Mikel Arteta</option>
-            <option value="cooper">Steve Cooper</option>
-            <option value="dezerbi">Roberto De Zerbi</option>
-            <option value="emery">Unai Emery</option>
-            <option value="frank">Thomas Frank</option>
-            <option value="glassner">Oliver Glasner</option>
-            <option value="howe">Eddie Howe</option>
-            <option value="iraola">Andoni Iraola</option>
-            <option value="klopp">Jürgen Klopp</option>
-            <option value="kom">Vincent Kompany</option>
-            <option value="moyes">David Moyes</option>
-            <option value="oconnell">Paul Heckingbottom</option>
-            <option value="pep">Pep Guardiola</option>
-            <option value="postecoglou">Ange Postecoglou</option>
-            <option value="silva">Marco Silva</option>
-            <option value="simeone">Diego Simeone</option>
-            <option value="tenhag">Erik ten Hag</option>
-          </select>
-          <input id="coachFilter" type="text" placeholder="Filter name…" aria-label="Filter coach list">
-        </div>
-      </div>
+  <!-- COACH FINDER PANEL -->
+  <section class="panel">
+    <h1>Coach Finder</h1>
+    <p class="muted">Pick a Premier League coach from the dropdown to see a photo, coaching style, and achievements.</p>
+
+    <div class="select-row">
+      <select id="coachSelect">
+        <option value="">-- Select a coach --</option>
+        <option value="ancelotti">Carlo Ancelotti</option>
+        <option value="arteta">Mikel Arteta</option>
+        <option value="cooper">Steve Cooper</option>
+        <option value="dezerbi">Roberto De Zerbi</option>
+        <option value="emery">Unai Emery</option>
+        <option value="frank">Thomas Frank</option>
+        <option value="glassner">Oliver Glasner</option>
+        <option value="howe">Eddie Howe</option>
+        <option value="iraola">Andoni Iraola</option>
+        <option value="klopp">Jürgen Klopp</option>
+        <option value="kom">Vincent Kompany</option>
+        <option value="moyes">David Moyes</option>
+        <option value="oconnell">Paul Heckingbottom</option>
+        <option value="pep">Pep Guardiola</option>
+        <option value="postecoglou">Ange Postecoglou</option>
+        <option value="silva">Marco Silva</option>
+        <option value="simeone">Diego Simeone</option>
+        <option value="tenhag">Erik ten Hag</option>
+      </select>
+      <input id="coachFilter" type="text" placeholder="Filter name…" aria-label="Filter coach list">
     </div>
 
-    <!-- coach details -->
-    <div id="coachCard" class="coach-card" style="display:none;margin-top:16px">
+    <div id="coachCard" class="coach-card" style="display:none;margin-top:16px;">
       <img id="coachImg" src="" alt="">
       <div class="coach-meta">
         <h3 id="coachName"></h3>
@@ -118,35 +111,31 @@
     </div>
   </section>
 
-  <!-- OTHER TOP 5 EUROPEAN LEAGUES -->
+  <!-- OTHER EUROPEAN LEAGUES -->
   <section class="panel">
-    <h2 style="margin:0 0 10px">Other Top European Leagues</h2>
-    <p class="muted" style="margin-top:0">Short descriptions and official sites for the other members of the “Top 5”.</p>
+    <h2>Other Top European Leagues</h2>
+    <p class="muted">Short descriptions and official sites for the other members of the “Top 5”.</p>
     <div class="league-grid">
       <article class="league">
         <h3>La Liga (Spain)</h3>
         <p>Spain’s top tier renowned for technique and possession play, home to Barcelona, Real Madrid, and Atlético.</p>
         <p><a href="#">Official website</a></p>
       </article>
-
       <article class="league">
         <h3>Serie A (Italy)</h3>
         <p>Tactically rich and defensively disciplined, with giants like Juventus, Milan, and Inter.</p>
         <p><a href="#">Official website</a></p>
       </article>
-
       <article class="league">
         <h3>Bundesliga (Germany)</h3>
         <p>High tempo, fan-centric ownership models, and elite development pipelines.</p>
         <p><a href="#">Official website</a></p>
       </article>
-
       <article class="league">
         <h3>Ligue 1 (France)</h3>
         <p>France’s first division pairs youth development with star power, PSG leading the charge.</p>
         <p><a href="#">Official website</a></p>
       </article>
-
       <article class="league">
         <h3>Premier League (England)</h3>
         <p>Global reach, varied styles, and intense weekly competition. The world's most watched league.</p>
@@ -168,100 +157,76 @@
   </div>
 </footer>
 
-<!-- TEAM THEME SCRIPT -->
+<!-- THEME SCRIPT -->
 <script>
-  // Load saved theme on every page
-  document.addEventListener("DOMContentLoaded", () => {
-    const saved = localStorage.getItem("selectedTeam") || "default";
-    document.body.className = saved;
-    document.getElementById("themeSelect").value = saved;
-  });
-
-  // Change + save theme
-  function setTeamTheme(team) {
-    document.body.className = team;
-    localStorage.setItem("selectedTeam", team);
-  }
-</script>
-
-<!-- COACH SCRIPT (unchanged) -->
-<script>
-  /* your full coach finder script stays the same */
-</script>
-  <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const coachSelect = document.getElementById("coachSelect");
-  const coachFilter = document.getElementById("coachFilter");
-  const coachCard = document.getElementById("coachCard");
-  const coachImg = document.getElementById("coachImg");
-  const coachName = document.getElementById("coachName");
-  const coachStyle = document.getElementById("coachStyle");
-  const coachList = document.getElementById("coachList");
+  const themeSelect = document.getElementById("themeSelect");
+  const saved = localStorage.getItem("selectedTeam") || "default";
 
-  const coaches = {
-    ancelotti: {
-      name: "Carlo Ancelotti",
-      image: "images/ancelotti.jpg",
-      style: "Balanced, adaptive, tactically flexible.",
-      achievements: ["3x UEFA Champions League Winner", "4x Serie A Winner", "2x Premier League Winner"]
-    },
-    arteta: {
-      name: "Mikel Arteta",
-      image: "images/arteta.jpg",
-      style: "Structured build-up with emphasis on possession.",
-      achievements: ["FA Cup Winner", "Community Shield Winner"]
-    },
-    postecoglou: {
-      name: "Ange Postecoglou",
-      image: "images/postecoglou.jpg",
-      style: "High pressing, attacking football with quick transitions.",
-      achievements: ["A-League Champion", "Asian Champions League Winner"]
-    },
-    klopp: {
-      name: "Jürgen Klopp",
-      image: "images/klopp.jpg",
-      style: "Gegenpressing, fast-paced counter-attacks.",
-      achievements: ["Premier League Winner", "UEFA Champions League Winner"]
-    },
-    pep: {
-      name: "Pep Guardiola",
-      image: "images/pep.jpg",
-      style: "Possession-based attacking football, positional play.",
-      achievements: ["3x Premier League Winner", "3x La Liga Winner", "UEFA Champions League Winner"]
-    }
-    // Add other coaches here as needed
-  };
+  document.body.classList.remove("chelsea","mancity","manutd","tottenham","liverpool","arsenal");
+  if(saved !== "default") document.body.classList.add(saved);
+  themeSelect.value = saved;
 
-  function showCoach(key) {
-    if (!coaches[key]) {
-      coachCard.style.display = "none";
-      return;
-    }
-    const coach = coaches[key];
-    coachImg.src = coach.image;
-    coachImg.alt = coach.name;
-    coachName.textContent = coach.name;
-    coachStyle.textContent = coach.style;
-    coachList.innerHTML = coach.achievements.map(a => `<li>${a}</li>`).join("");
-    coachCard.style.display = "grid";
-  }
-
-  coachSelect.addEventListener("change", () => showCoach(coachSelect.value));
-
-  coachFilter.addEventListener("input", () => {
-    const filter = coachFilter.value.toLowerCase();
-    for (const option of coachSelect.options) {
-      if(option.value === "") continue;
-      option.style.display = option.text.toLowerCase().includes(filter) ? "block" : "none";
-    }
+  themeSelect.addEventListener("change", () => {
+    const team = themeSelect.value;
+    document.body.classList.remove("chelsea","mancity","manutd","tottenham","liverpool","arsenal");
+    if(team !== "default") document.body.classList.add(team);
+    localStorage.setItem("selectedTeam", team);
   });
 });
 </script>
 
+<!-- COACH SCRIPT -->
+<script>
+const coaches = {
+  ancelotti: {
+    name: "Carlo Ancelotti",
+    img: "images/coaches/ancelotti.jpg",
+    style: "Balanced and calm, excels in big match strategy.",
+    achievements: ["Multiple Champions League titles", "Premier League title with Chelsea", "Serie A and La Liga success"]
+  },
+  arteta: {
+    name: "Mikel Arteta",
+    img: "images/coaches/arteta.jpg",
+    style: "Focused on possession and tactical discipline.",
+    achievements: ["FA Cup wins with Arsenal", "Developed young talent"]
+  },
+  klopp: {
+    name: "Jürgen Klopp",
+    img: "images/coaches/klopp.jpg",
+    style: "High-pressing, gegenpressing style, motivating players.",
+    achievements: ["Premier League title with Liverpool", "Champions League success"]
+  }
+  // Add all other coaches here
+};
+
+const coachSelect = document.getElementById("coachSelect");
+const coachCard = document.getElementById("coachCard");
+const coachImg = document.getElementById("coachImg");
+const coachName = document.getElementById("coachName");
+const coachStyle = document.getElementById("coachStyle");
+const coachList = document.getElementById("coachList");
+
+coachSelect.addEventListener("change", () => {
+  const value = coachSelect.value;
+  if(value && coaches[value]){
+    const coach = coaches[value];
+    coachImg.src = coach.img;
+    coachImg.alt = coach.name;
+    coachName.textContent = coach.name;
+    coachStyle.textContent = coach.style;
+    coachList.innerHTML = "";
+    coach.achievements.forEach(a => {
+      const li = document.createElement("li");
+      li.textContent = a;
+      coachList.appendChild(li);
+    });
+    coachCard.style.display = "grid";
+  } else {
+    coachCard.style.display = "none";
+  }
+});
+</script>
 
 </body>
-
-
 </html>
-
-
