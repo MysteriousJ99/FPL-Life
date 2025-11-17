@@ -9,6 +9,7 @@
  <!-- (rest of the HTML remains the same) -->
 
 <style>
+  /* layout & existing rules (kept from your page) */
   .club-info {
     display: flex;
     align-items: flex-start;
@@ -55,12 +56,145 @@
     object-fit: contain; /* shows full image */
     margin-top: 8px;
   }
+
+  /* ---------------- Header / nav baseline (kept from your CSS) ---------------- */
+  header {
+    background-color: #FAEFE1; /* default header bg (will be overridden by theme) */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+
+  .logo img { height: 40px; width: auto; }
+
+  nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  /* IMPORTANT: use color: inherit so header text follows theme color */
+  nav a {
+    text-decoration: none;
+    color: inherit;          /* <- changed to inherit */
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: color 0.3s ease;
+  }
+  nav a:hover { opacity: 0.85; }
+  nav a.active { color: inherit; font-weight: bold; }
+
+  .header-right { display: flex; align-items: center; gap: 15px; }
+  .header-right a { text-decoration: none; color: inherit; font-weight: 500; }
+
+  .search-icon { font-size: 18px; cursor: pointer; color: inherit; }
+
+  /* small helper for the theme selector */
+  .theme-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+  }
+  .theme-selector select {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: white;
+  }
+
+  /* ---------------- Team Theme System — SAFE (header + footer only) ---------------- */
+
+  /* Default (no theme selected) */
+  body.default header,
+  body.default footer {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  /* Chelsea */
+  body.chelsea header,
+  body.chelsea footer {
+    background-color: #034694;
+    color: #ffffff;
+  }
+
+  /* Manchester City */
+  body.mancity header,
+  body.mancity footer {
+    background-color: #6CABDD;
+    color: #001838;
+  }
+
+  /* Manchester United */
+  body.manutd header,
+  body.manutd footer {
+    background-color: #DA291C;
+    color: #ffffff;
+  }
+
+  /* Tottenham Hotspur */
+  body.tottenham header,
+  body.tottenham footer {
+    background-color: #001C58;
+    color: #ffffff;
+  }
+
+  /* Liverpool */
+  body.liverpool header,
+  body.liverpool footer {
+    background-color: #C8102E;
+    color: #ffffff;
+  }
+
+  /* Arsenal */
+  body.arsenal header,
+  body.arsenal footer {
+    background-color: #EF0107;
+    color: #ffffff;
+  }
+
+  /* Keep nav & header text readable across themes */
+  header nav a,
+  header .header-right a,
+  header .search-icon,
+  .theme-selector label {
+    color: inherit !important;
+    transition: 0.25s ease;
+  }
+
+  header nav a:hover,
+  header .header-right a:hover {
+    opacity: 0.85;
+  }
+
+  /* footer baseline (kept as part of theming) */
+  footer {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    color: inherit;
+    font-size: 14px;
+  }
+
+  .footer-left img { width: 30px; height: 30px; background: white; border-radius: 50%; }
+  .footer-left p { margin: 0; font-weight: bold; }
+  .footer-right p { margin: 2px 0; }
+
 </style>
 </head>
 
-<body>
+<body class="default">
 <header>
   <div class="logo"><img src="images/Logo.png" alt="Website Logo"></div>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="news.html">News</a>
@@ -69,9 +203,26 @@
     <a href="coach&league.html">Other Leagues/Coaches</a>
     <a href="discussion.html">Discussion</a>
   </nav>
-  <div class="header-right">
-    <a href="login.html">Login</a>
-    <span class="search-icon" title="Search">🔍</span>
+
+  <!-- Theme selector added into header (keeps layout neat) -->
+  <div style="display:flex; align-items:center; gap:12px;">
+    <div class="theme-selector" aria-label="Team Theme selector">
+      <label for="colorPicker" style="font-weight:600;">Team Theme:</label>
+      <select id="colorPicker" aria-label="Select team theme">
+        <option value="default">Default</option>
+        <option value="chelsea">Chelsea</option>
+        <option value="mancity">Manchester City</option>
+        <option value="manutd">Manchester United</option>
+        <option value="tottenham">Tottenham Hotspur</option>
+        <option value="liverpool">Liverpool</option>
+        <option value="arsenal">Arsenal</option>
+      </select>
+    </div>
+
+    <div class="header-right">
+      <a href="login.html">Login</a>
+      <span class="search-icon" title="Search">🔍</span>
+    </div>
   </div>
 </header>
 
@@ -130,6 +281,29 @@
 </footer>
 
 <script>
+/* ================== Theme loader / saver ================== */
+/* This script loads saved theme on page load and saves changes */
+document.addEventListener("DOMContentLoaded", function () {
+  const colorPicker = document.getElementById("colorPicker");
+
+  // Load saved theme (if any)
+  const saved = localStorage.getItem("selectedTeam") || "default";
+  document.body.className = saved;
+  if (colorPicker) colorPicker.value = saved;
+
+  // When user picks a new team
+  if (colorPicker) {
+    colorPicker.addEventListener("change", function () {
+      const team = this.value || "default";
+      document.body.className = team;
+      localStorage.setItem("selectedTeam", team);
+    });
+  }
+});
+</script>
+
+<script>
+/* ================== Club / Player data & logic (kept intact) ================== */
 const clubDetails = {
   "Manchester United": { 
     img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
@@ -255,7 +429,7 @@ function updatePlayersDropdown() {
   playerSelect.innerHTML = '<option value="">--Select Player--</option>';
   if (club && clubDetails[club]) {
     Object.keys(clubDetails[club].players).forEach(player => {
-      const option = document.createElement("option");
+      const option = document.createElement('option');
       option.value = player;
       option.textContent = player;
       playerSelect.appendChild(option);
@@ -290,7 +464,3 @@ playerSelect.addEventListener("change", function() {
 
 </body>
 </html>
-
-
-
-
