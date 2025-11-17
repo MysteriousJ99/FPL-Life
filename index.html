@@ -109,6 +109,13 @@
       transform: scale(1.1);
       filter: brightness(1.1);
     }
+
+    /* --- EXTRA: dropdown spacing --- */
+    #team-selector {
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -127,7 +134,18 @@
       <a href="LiveDiscussion.html">Discussion</a>
     </nav>
 
+    <!-- 🔵 TEAM SELECTOR DROPDOWN -->
     <div class="header-right">
+      <select id="team-selector">
+        <option value="default">Default</option>
+        <option value="chelsea">Chelsea</option>
+        <option value="mancity">Manchester City</option>
+        <option value="manutd">Manchester United</option>
+        <option value="tottenham">Tottenham</option>
+        <option value="liverpool">Liverpool</option>
+        <option value="arsenal">Arsenal</option>
+      </select>
+
       <a href="login.html">Login</a>
       <span class="search-icon" title="Search">🔍</span>
     </div>
@@ -176,7 +194,7 @@
         </section>
       </a>
 
-      <!-- Player of the Week (Dynamic) -->
+      <!-- Player of the Week -->
       <section class="player-section" id="player-of-week">
         <h2 class="section-header">Player of the Week</h2>
         <div class="player-info">
@@ -206,68 +224,38 @@
   </footer>
 
   <script>
-    // 🎯 Simple player data object
+    /* ============================================================
+       ⭐ TEAM THEME SYSTEM — Works on all webpages
+       ============================================================ */
+
+    // Apply theme on page load
+    document.body.className = localStorage.getItem("teamTheme") || "default";
+
+    // Dropdown should show currently selected theme
+    const selector = document.getElementById("team-selector");
+    selector.value = document.body.className;
+
+    // When user changes theme
+    selector.addEventListener("change", () => {
+      const team = selector.value;
+      document.body.className = team;
+      localStorage.setItem("teamTheme", team);
+    });
+
+    /* ============================================================ */
+
+    // Player of the Week Data
     const playerOfTheWeek = {
       name: "Erling Haaland",
       image: "images/potw.jpg",
       rating: 9.4,
       goals: 2,
       assists: 1,
-      description: "Erling Haaland was unstoppable in Manchester City's 3–1 victory, scoring twice and assisting another. His relentless movement and finishing made the difference, reaffirming his status as one of the league’s most dominant forwards."
+      description: "Erling Haaland was unstoppable in Manchester City's 3–1 victory, scoring twice and assisting another."
     };
 
-    // Inject content dynamically
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("player-img").src = playerOfTheWeek.image;
-      document.getElementById("player-img").alt = playerOfTheWeek.name + " Player of the Week";
       document.getElementById("player-rating").textContent = "Overall Rating: " + playerOfTheWeek.rating;
       document.getElementById("player-goals").textContent = "Goals: " + playerOfTheWeek.goals;
-      document.getElementById("player-assists").textContent = "Assists: " + playerOfTheWeek.assists;
-      document.getElementById("player-description").textContent = playerOfTheWeek.description;
-
-      // Social media logos clickable
-      const twitterLogo = document.querySelector('img[alt="Twitter Logo"]');
-      const instagramLogo = document.querySelector('img[alt="Instagram Logo"]');
-      const footerLeft = document.querySelector('.footer-left');
-
-      if (footerLeft) {
-        const tiktokLogo = document.createElement('img');
-        tiktokLogo.src = "images/tiktok.jpg";
-        tiktokLogo.alt = "TikTok Logo";
-        tiktokLogo.title = "Visit our TikTok";
-        tiktokLogo.style.width = "50px";
-        tiktokLogo.style.marginLeft = "10px";
-        tiktokLogo.style.cursor = "pointer";
-        footerLeft.appendChild(tiktokLogo);
-        tiktokLogo.addEventListener("click", () => {
-          window.open("https://www.tiktok.com/@premierleague", "_blank");
-        });
-      }
-
-      if (twitterLogo) {
-        twitterLogo.title = "Visit our Twitter (X)";
-        twitterLogo.style.cursor = "pointer";
-        twitterLogo.addEventListener("click", () => {
-          window.open("https://x.com/premierleague", "_blank");
-        });
-      }
-
-      if (instagramLogo) {
-        instagramLogo.title = "Visit our Instagram";
-        instagramLogo.style.cursor = "pointer";
-        instagramLogo.addEventListener("click", () => {
-          window.open("https://www.instagram.com/premierleague/", "_blank");
-        });
-      }
-    });
-  </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
+      document.getElementById("player-assists").textContent = "Assists: " +
