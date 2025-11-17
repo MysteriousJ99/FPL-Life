@@ -38,12 +38,12 @@
       -moz-osx-font-smoothing:grayscale;
     }
 
-    /* ---------- Header (styled same as news.html) ----------
-       Note: removed explicit background-color so header inherits the shared stylesheet */
+    /* ---------- Header (now matches news.html color by inheriting shared stylesheet) ---------- */
     header.main-header{
       display:flex;
       justify-content:space-between;
       align-items:center;
+      /* removed explicit background-color so header will use the same color as news.html */
       padding:12px 20px; /* match news.html header padding */
       border-bottom: 2px solid #ddd;
     }
@@ -73,10 +73,20 @@
     .login-section{
       display:flex;
       align-items:center;
-      gap:15px;
+      gap:12px;
     }
 
     .search-icon{ font-size:1.2rem; cursor:pointer; }
+
+    /* small header theme select */
+    #themeSelect {
+      padding:6px 8px;
+      border-radius:8px;
+      border:1px solid rgba(0,0,0,0.08);
+      background: #fff;
+      font-weight:600;
+      cursor:pointer;
+    }
 
     /* ---------- Main layout (kept from prior page) ---------- */
     main{max-width:1200px; margin:40px auto; padding:0 20px;}
@@ -144,6 +154,14 @@
       .controls{ flex-direction:column; align-items:stretch; }
       footer.main-footer{ padding:18px; }
     }
+
+    /* Theme class examples (simple color accents) */
+    body.chelsea { --pl-purple: #034694; --pl-blue: #1762a6; }
+    body.mancity { --pl-purple: #6CABDD; --pl-blue: #74c3ff; }
+    body.manutd { --pl-purple: #da291c; --pl-blue: #e63946; }
+    body.tottenham { --pl-purple: #132257; --pl-blue: #2b6cb0; }
+    body.liverpool { --pl-purple: #c8102e; --pl-blue: #ff6666; }
+    body.arsenal { --pl-purple: #ef0107; --pl-blue: #ffb03b; }
   </style>
 </head>
 <body>
@@ -166,6 +184,17 @@
     <div class="login-section">
       <a href="login.html">Login</a>
       <span class="search-icon">🔍</span>
+
+      <!-- THEME SELECTOR (integrated from coach&league.html) -->
+      <select id="themeSelect" aria-label="Choose site theme">
+        <option value="default">Theme</option>
+        <option value="chelsea">Chelsea</option>
+        <option value="mancity">Manchester City</option>
+        <option value="manutd">Manchester United</option>
+        <option value="tottenham">Tottenham</option>
+        <option value="liverpool">Liverpool</option>
+        <option value="arsenal">Arsenal</option>
+      </select>
     </div>
   </header>
 
@@ -254,7 +283,7 @@
     </div>
   </footer>
 
-  <!-- Full matches script (restored so calendar works) -->
+  <!-- Matches page script (keeps all functionality intact) -->
   <script>
   /********************************************************
    * Matches page script
@@ -650,13 +679,34 @@
       ig.style.cursor = 'pointer';
 
       tw.addEventListener('click', ()=> {
-        // X (Twitter) official Premier League (using x.com)
         window.open('https://x.com/premierleague', '_blank');
       });
       ig.addEventListener('click', ()=> {
         window.open('https://www.instagram.com/premierleague/', '_blank');
       });
     })();
+  </script>
+
+  <!-- THEME SCRIPT (copied from coach&league.html and adapted) -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const themeSelect = document.getElementById("themeSelect");
+    if(!themeSelect) return;
+
+    const themeClasses = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
+    const saved = localStorage.getItem("selectedTeam") || "default";
+
+    document.body.classList.remove(...themeClasses);
+    if (saved !== "default") document.body.classList.add(saved);
+    themeSelect.value = saved;
+
+    themeSelect.addEventListener("change", () => {
+      const team = themeSelect.value;
+      document.body.classList.remove(...themeClasses);
+      if (team !== "default") document.body.classList.add(team);
+      localStorage.setItem("selectedTeam", team);
+    });
+  });
   </script>
 
 </body>
