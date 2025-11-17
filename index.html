@@ -92,13 +92,6 @@
       filter: brightness(1.1);
     }
 
-    /* --- Dropdown --- */
-    #team-selector {
-      padding: 5px 8px;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
     /* --- Header/Nav Styling --- */
     header {
       display: flex;
@@ -119,57 +112,20 @@
       border-bottom: 2px solid currentColor;
     }
 
-    /* =================================================
-       🎨 TEAM COLORS (applied via body class)
-       ================================================= */
-    /* Default */
-    body.default header { background-color: #4ac2cd; color: #000; }
-    body.default nav a { color: #000; }
-    body.default section { background-color: #4ac2cd; color: #000; }
-    body.default .match-section { background-color: #c7712a; color: #fff; }
-    body.default .player-section { background-color: #363636; color: #fff; }
+    /* --- Team Colors (only non-default) --- */
+    body.chelsea header, body.chelsea nav a, body.chelsea section { background-color: #034694; color: #fff; }
+    body.mancity header, body.mancity nav a, body.mancity section { background-color: #6CABDD; color: #000; }
+    body.manutd header, body.manutd nav a, body.manutd section { background-color: #DA291C; color: #fff; }
+    body.tottenham header, body.tottenham nav a, body.tottenham section { background-color: #132257; color: #fff; }
+    body.liverpool header, body.liverpool nav a, body.liverpool section { background-color: #C8102E; color: #fff; }
+    body.arsenal header, body.arsenal nav a, body.arsenal section { background-color: #EF0107; color: #fff; }
 
-    /* Chelsea */
-    body.chelsea header { background-color: #034694; color: #fff; }
-    body.chelsea nav a { color: #fff; }
-    body.chelsea section { background-color: #034694; color: #fff; }
-    body.chelsea .match-section { background-color: #0350a0; color: #fff; }
-    body.chelsea .player-section { background-color: #012169; color: #fff; }
-
-    /* Manchester City */
-    body.mancity header { background-color: #6CABDD; color: #000; }
-    body.mancity nav a { color: #000; }
-    body.mancity section { background-color: #6CABDD; color: #000; }
-    body.mancity .match-section { background-color: #4DA6DA; color: #fff; }
-    body.mancity .player-section { background-color: #1C64F2; color: #fff; }
-
-    /* Manchester United */
-    body.manutd header { background-color: #DA291C; color: #fff; }
-    body.manutd nav a { color: #fff; }
-    body.manutd section { background-color: #DA291C; color: #fff; }
-    body.manutd .match-section { background-color: #C8102E; color: #fff; }
-    body.manutd .player-section { background-color: #8B0000; color: #fff; }
-
-    /* Tottenham */
-    body.tottenham header { background-color: #132257; color: #fff; }
-    body.tottenham nav a { color: #fff; }
-    body.tottenham section { background-color: #132257; color: #fff; }
-    body.tottenham .match-section { background-color: #0B1738; color: #fff; }
-    body.tottenham .player-section { background-color: #0A1032; color: #fff; }
-
-    /* Liverpool */
-    body.liverpool header { background-color: #C8102E; color: #fff; }
-    body.liverpool nav a { color: #fff; }
-    body.liverpool section { background-color: #C8102E; color: #fff; }
-    body.liverpool .match-section { background-color: #A50E26; color: #fff; }
-    body.liverpool .player-section { background-color: #800000; color: #fff; }
-
-    /* Arsenal */
-    body.arsenal header { background-color: #EF0107; color: #fff; }
-    body.arsenal nav a { color: #fff; }
-    body.arsenal section { background-color: #EF0107; color: #fff; }
-    body.arsenal .match-section { background-color: #C8102E; color: #fff; }
-    body.arsenal .player-section { background-color: #800000; color: #fff; }
+    /* --- Player of the Week Section --- */
+    .player-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
   </style>
 </head>
 
@@ -262,13 +218,17 @@
 
   <script>
     // ================= TEAM THEME SYSTEM =================
-    document.body.className = localStorage.getItem("teamTheme") || "default";
     const selector = document.getElementById("team-selector");
-    selector.value = document.body.className;
+    const savedTheme = localStorage.getItem("teamTheme");
+
+    // Apply theme only if not default
+    if (savedTheme && savedTheme !== "default") document.body.classList.add(savedTheme);
+    selector.value = savedTheme || "default";
 
     selector.addEventListener("change", () => {
       const team = selector.value;
-      document.body.className = team;
+      document.body.className = ""; // remove previous theme
+      if (team !== "default") document.body.classList.add(team);
       localStorage.setItem("teamTheme", team);
     });
 
