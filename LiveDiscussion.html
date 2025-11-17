@@ -1,7 +1,3 @@
-
-
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,11 +8,84 @@
   <link rel="stylesheet" href="externalstylesheet.css">
   <style>
     /* page-specific tweaks */
-    .live-wrap{max-width:900px;margin:0 auto;padding:16px}
-    .hero-img{display:block;max-width:900px;width:100%;height:auto;border-radius:12px;margin:16px auto}
-    .pager{display:flex;justify-content:space-between;max-width:900px;margin:0 auto 16px;font-weight:700}
-    .chat{background:#f7f9fc;border:1px solid #e4e7ee;border-radius:12px;padding:16px}
+    .live-wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:16px;
+    }
+
+    /* two-column layout: left = image + chat, right = quick links */
+    .live-grid{
+      display:grid;
+      grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+      gap:24px;
+      align-items:flex-start;
+    }
+
+    .hero-img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:12px;
+      margin:0 0 16px 0; /* left aligned, no auto-centering */
+    }
+
+    .pager{
+      display:flex;
+      justify-content:space-between;
+      margin:0 0 16px 0;
+      font-weight:700;
+    }
+
+    .chat{
+      background:#f7f9fc;
+      border:1px solid #e4e7ee;
+      border-radius:12px;
+      padding:16px;
+    }
     .chat p{margin:0 0 8px}
+
+    /* right-side quick links panel */
+    .live-links{
+      background:#f7f9fc;
+      border:1px solid #e4e7ee;
+      border-radius:12px;
+      padding:16px;
+    }
+
+    .live-links h2{
+      margin-top:0;
+      margin-bottom:12px;
+      font-size:1.1rem;
+    }
+
+    .live-links p{
+      margin:0 0 12px;
+      font-size:0.95rem;
+    }
+
+    .live-links .live-btn{
+      display:block;
+      text-align:center;
+      padding:10px 12px;
+      margin-bottom:8px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:600;
+      border:1px solid #d0d4e0;
+      background:#ffffff;
+    }
+
+    .live-links .live-btn:last-child{
+      margin-bottom:0;
+    }
+
+    /* mobile: stack columns */
+    @media (max-width: 768px){
+      .live-grid{
+        grid-template-columns:1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -41,22 +110,39 @@
 </header>
 
 <main class="live-wrap">
-  <img class="hero-img" src="https://images.pexels.com/photos/1171084/pexels-photo-1171084.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Crowd cheering in the stadium">
-  <div class="pager">
-    <span>PREVIOUS LIVE</span>
-    <span>NEXT LIVE</span>
-  </div>
+  <div class="live-grid">
+    <!-- LEFT SIDE: image + pager + live chat -->
+    <div class="live-main">
+      <img class="hero-img" src="https://images.pexels.com/photos/1171084/pexels-photo-1171084.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Crowd cheering in the stadium">
 
-  <section aria-labelledby="liveChatHeading">
-    <h1 id="liveChatHeading">Live Chat</h1>
-    <div class="chat" role="log" aria-live="polite">
-      <p><strong>James:</strong> I think the coach made a wild sub too early.</p>
-      <p><strong>John:</strong> Nah, that one’s on the defense.</p>
-      <p><strong>Joe:</strong> That is a crazy take 😅</p>
-      <p><strong>Peter:</strong> You said it was the coach’s fault earlier!</p>
-      <p><strong>Brad:</strong> Get him off the mic 😂</p>
+      <div class="pager">
+        <span>PREVIOUS LIVE</span>
+        <span>NEXT LIVE</span>
+      </div>
+
+      <section aria-labelledby="liveChatHeading">
+        <h1 id="liveChatHeading">Live Chat</h1>
+        <div class="chat" role="log" aria-live="polite">
+          <p><strong>James:</strong> I think the coach made a wild sub too early.</p>
+          <p><strong>John:</strong> Nah, that one’s on the defense.</p>
+          <p><strong>Joe:</strong> That is a crazy take 😅</p>
+          <p><strong>Peter:</strong> You said it was the coach’s fault earlier!</p>
+          <p><strong>Brad:</strong> Get him off the mic 😂</p>
+        </div>
+      </section>
     </div>
-  </section>
+
+    <!-- RIGHT SIDE: clickable buttons to other football pages -->
+    <aside class="live-links" aria-label="Quick links to other football pages">
+      <h2>Explore More</h2>
+      <p>Jump to other sections of Fast Premier Life:</p>
+      <a class="live-btn" href="index.html">🏠 Home</a>
+      <a class="live-btn" href="news.html">📰 Latest News</a>
+      <a class="live-btn" href="matches.html">📅 Matches</a>
+      <a class="live-btn" href="ClubsandPlayers.html">⚽ Clubs &amp; Players</a>
+      <a class="live-btn" href="Coach&amp;League.html">🌍 Other Leagues / Coaches</a>
+    </aside>
+  </div>
 </main>
 
 <footer>
@@ -77,7 +163,4 @@
 </footer>
 </body>
 </html>
-
-<a href="LiveDiscussion.html" class="active">Discussion</a>
-
 
