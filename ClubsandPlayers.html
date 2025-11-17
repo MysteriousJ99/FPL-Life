@@ -106,70 +106,99 @@
     background: white;
   }
 
-  /* ---------------- Team Theme System — SAFE (header + footer only) ---------------- */
+/* ---------------- Team Theme System — Robust Header/Footer ---------------- */
 
-  /* Default (no theme selected) */
-  body.default header,
-  body.default footer {
-    background-color: #ffffff;
-    color: #000000;
-  }
+/* Default (white background, black text) */
+body.default {
+  background-color: #ffffff;
+  color: #000000;
+}
+body.default header,
+body.default footer {
+  background-color: #ffffff;
+  color: #000000;
+}
 
-  /* Chelsea */
-  body.chelsea header,
-  body.chelsea footer {
-    background-color: #034694;
-    color: #ffffff;
-  }
+/* Chelsea */
+body.chelsea header,
+body.chelsea footer {
+  background-color: #034694;
+  color: #ffffff;
+}
 
-  /* Manchester City */
-  body.mancity header,
-  body.mancity footer {
-    background-color: #6CABDD;
-    color: #001838;
-  }
+/* Manchester City */
+body.mancity header,
+body.mancity footer {
+  background-color: #6CABDD;
+  color: #001838;
+}
 
-  /* Manchester United */
-  body.manutd header,
-  body.manutd footer {
-    background-color: #DA291C;
-    color: #ffffff;
-  }
+/* Manchester United */
+body.manutd header,
+body.manutd footer {
+  background-color: #DA291C;
+  color: #ffffff;
+}
 
-  /* Tottenham Hotspur */
-  body.tottenham header,
-  body.tottenham footer {
-    background-color: #001C58;
-    color: #ffffff;
-  }
+/* Tottenham Hotspur */
+body.tottenham header,
+body.tottenham footer {
+  background-color: #001C58;
+  color: #ffffff;
+}
 
-  /* Liverpool */
-  body.liverpool header,
-  body.liverpool footer {
-    background-color: #C8102E;
-    color: #ffffff;
-  }
+/* Liverpool */
+body.liverpool header,
+body.liverpool footer {
+  background-color: #C8102E;
+  color: #ffffff;
+}
 
-  /* Arsenal */
-  body.arsenal header,
-  body.arsenal footer {
-    background-color: #EF0107;
-    color: #ffffff;
-  }
+/* Arsenal */
+body.arsenal header,
+body.arsenal footer {
+  background-color: #EF0107;
+  color: #ffffff;
+}
 
-  /* Keep nav & header text readable across themes */
-  header nav a,
-  header .header-right a,
-  header .search-icon,
-  .theme-selector label {
-    color: inherit !important;
-    transition: 0.25s ease;
-  }
+/* Ensure nav, header links, icons inherit theme colors */
+header nav a,
+header .header-right a,
+header .search-icon,
+header .theme-selector label {
+  color: inherit !important;
+  transition: color 0.25s ease;
+}
+header nav a:hover,
+header .header-right a:hover {
+  opacity: 0.85;
+}
 
-  header nav a:hover,
-  header .header-right a:hover {
-    opacity: 0.85;
-  }
+/* Default body background for all themes */
+body.default main,
+body.chelsea main,
+body.mancity main,
+body.manutd main,
+body.tottenham main,
+body.liverpool main,
+body.arsenal main {
+  background-color: #f8f8f8; /* light neutral main background */
+  color: #000000;
+}
+
+/* Footer layout remains consistent across themes */
+footer {
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  color: inherit;
+  font-size: 14px;
+}
+
 
   /* footer baseline (kept as part of theming) */
   footer {
@@ -281,26 +310,30 @@
 </footer>
 
 <script>
-/* ================== Theme loader / saver ================== */
-/* This script loads saved theme on page load and saves changes */
 document.addEventListener("DOMContentLoaded", function () {
   const colorPicker = document.getElementById("colorPicker");
+  const themeClasses = ["default","chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
 
-  // Load saved theme (if any)
-  const saved = localStorage.getItem("selectedTeam") || "default";
-  document.body.className = saved;
+  // Load saved theme (default to "default")
+  let saved = localStorage.getItem("selectedTeam") || "default";
+
+  // Remove any existing theme classes
+  themeClasses.forEach(c => document.body.classList.remove(c));
+  // Add saved class (default works as expected)
+  document.body.classList.add(saved);
+
   if (colorPicker) colorPicker.value = saved;
 
-  // When user picks a new team
-  if (colorPicker) {
-    colorPicker.addEventListener("change", function () {
-      const team = this.value || "default";
-      document.body.className = team;
-      localStorage.setItem("selectedTeam", team);
-    });
-  }
+  // On change
+  colorPicker.addEventListener("change", function () {
+    const team = this.value || "default";
+    themeClasses.forEach(c => document.body.classList.remove(c));
+    document.body.classList.add(team);
+    localStorage.setItem("selectedTeam", team);
+  });
 });
 </script>
+
 
 <script>
 /* ================== Club / Player data & logic (kept intact) ================== */
@@ -464,3 +497,4 @@ playerSelect.addEventListener("change", function() {
 
 </body>
 </html>
+
