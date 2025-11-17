@@ -27,7 +27,7 @@
       width:100%;
       height:auto;
       border-radius:12px;
-      margin:0 0 16px 0; /* left aligned, no auto-centering */
+      margin:0 0 16px 0;
     }
 
     .pager{
@@ -78,6 +78,28 @@
 
     .live-links .live-btn:last-child{
       margin-bottom:0;
+    }
+
+    /* logo-button styles for YouTube channels */
+    .live-logo-btn{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+      padding:10px 12px;
+      margin-bottom:10px;
+      border-radius:12px;
+      background:#ffffff;
+      border:1px solid #d0d4e0;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.95rem;
+    }
+
+    .live-logo-btn img{
+      width:40px;
+      height:auto;
+      border-radius:8px;
     }
 
     /* mobile: stack columns */
@@ -132,15 +154,45 @@
       </section>
     </div>
 
-    <!-- RIGHT SIDE: clickable buttons to other football pages -->
+    <!-- RIGHT SIDE: clickable buttons to other football pages + YouTube channels -->
     <aside class="live-links" aria-label="Quick links to other football pages">
       <h2>Explore More</h2>
       <p>Jump to other sections of Fast Premier Life:</p>
+
       <a class="live-btn" href="index.html">🏠 Home</a>
       <a class="live-btn" href="news.html">📰 Latest News</a>
       <a class="live-btn" href="matches.html">📅 Matches</a>
       <a class="live-btn" href="ClubsandPlayers.html">⚽ Clubs &amp; Players</a>
       <a class="live-btn" href="Coach&amp;League.html">🌍 Other Leagues / Coaches</a>
+
+      <hr style="margin:16px 0; opacity:0.5;">
+
+      <h2>Top Football Channels</h2>
+
+      <!-- Premier League YouTube -->
+      <a class="live-logo-btn" 
+         href="https://www.youtube.com/@premierleague" 
+         target="_blank">
+         <img src="images/premierleague.png" alt="Premier League Logo">
+         Premier League YouTube
+      </a>
+
+      <!-- Tifo Football -->
+      <a class="live-logo-btn" 
+         href="https://www.youtube.com/@TifoFootball" 
+         target="_blank">
+         <img src="images/tifo.png" alt="Tifo Football Logo">
+         Tifo Football (The Athletic)
+      </a>
+
+      <!-- TNT Sports Football -->
+      <a class="live-logo-btn" 
+         href="https://www.youtube.com/@footballontnt" 
+         target="_blank">
+         <img src="images/tnt.png" alt="TNT Logo">
+         TNT Sports Football
+      </a>
+
     </aside>
   </div>
 </main>
@@ -148,7 +200,6 @@
 <footer>
   <div class="footer-left">
     <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-    <!-- use whatever social images you already have in /images -->
     <a href="https://twitter.com" aria-label="Twitter">
       <img src="images/Logo.png" alt="Twitter Logo">
     </a>
@@ -163,6 +214,3 @@
 </footer>
 </body>
 </html>
-
-
-
