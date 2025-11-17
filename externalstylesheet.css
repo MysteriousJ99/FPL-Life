@@ -255,3 +255,80 @@ html, body {
   border-radius: 3px;
   font-weight: 700;
 }
+ /* ============================================================
+   TEAM THEME SYSTEM — SAFE VERSION
+   Applies colors ONLY to header + footer so layout stays intact
+   ============================================================ */
+
+/* Default (no theme selected) */
+body.default header,
+body.default footer {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* ---------------- CHELSEA ---------------- */
+body.chelsea header,
+body.chelsea footer {
+  background-color: #034694;
+  color: #ffffff;
+}
+
+/* ---------------- MANCHESTER CITY ---------------- */
+body.mancity header,
+body.mancity footer {
+  background-color: #6CABDD;
+  color: #001838;
+}
+
+/* ---------------- MANCHESTER UNITED ---------------- */
+body.manutd header,
+body.manutd footer {
+  background-color: #DA291C;
+  color: #ffffff;
+}
+
+/* ---------------- TOTTENHAM HOTSPUR ---------------- */
+body.tottenham header,
+body.tottenham footer {
+  background-color: #001C58;
+  color: #ffffff;
+}
+
+/* ---------------- LIVERPOOL ---------------- */
+body.liverpool header,
+body.liverpool footer {
+  background-color: #C8102E;
+  color: #ffffff;
+}
+
+/* ---------------- ARSENAL ---------------- */
+body.arsenal header,
+body.arsenal footer {
+  background-color: #EF0107;
+  color: #ffffff;
+}
+
+/* ============================================================
+   KEEP NAVIGATION & HEADER TEXT READABLE ACROSS ALL THEMES
+   ============================================================ */
+
+header nav a,
+header .header-right a {
+  color: inherit !important;
+  transition: 0.3s ease;
+}
+
+header nav a:hover,
+header .header-right a:hover {
+  opacity: 0.8;
+}
+
+/* Make sure search icons & link icons are also readable */
+header .search-icon,
+header .header-right i,
+header nav i {
+  color: inherit !important;
+}
+
+
