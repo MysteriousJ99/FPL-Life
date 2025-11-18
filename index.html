@@ -215,6 +215,35 @@
       <p>wearedefinitelyreal@gmail.com</p>
     </div>
   </footer>
+<script>
+  // ================= TEAM THEME SYSTEM =================
+  const selector = document.getElementById("team-selector");
+
+  // Load saved theme from localStorage
+  const savedTheme = localStorage.getItem("teamTheme") || "default";
+
+  // Apply saved theme
+  if (savedTheme !== "default") {
+    document.body.classList.add(savedTheme);
+  }
+
+  // Set selector to saved value
+  selector.value = savedTheme;
+
+  // Listen for changes
+  selector.addEventListener("change", () => {
+    const team = selector.value;
+
+    // Remove all previous theme classes
+    document.body.classList.remove("chelsea","mancity","manutd","tottenham","liverpool","arsenal");
+
+    // Add new theme if not default
+    if (team !== "default") document.body.classList.add(team);
+
+    // Save to localStorage
+    localStorage.setItem("teamTheme", team);
+  });
+</script>
 
   <script>
     // ================= TEAM THEME SYSTEM =================
@@ -252,3 +281,4 @@
   </script>
 </body>
 </html>
+
