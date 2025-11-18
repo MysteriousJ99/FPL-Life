@@ -187,11 +187,70 @@ const clubDetails = {
       "Lisandro Martínez": { img:"images/lisandro.jpg", appearances:70, goals:5, assists:3, achievements:["World Cup Winner 2022"] }
     } 
   },
-  "Arsenal": { ... }, // Keep the rest of your clubDetails object as you provided
-  "Chelsea": { ... },
-  "Liverpool": { ... },
-  "Tottenham Hotspur": { ... },
-  "Manchester City": { ... }
+  "Arsenal": {
+    img: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
+    history: "Arsenal have been reborn under Mikel Arteta, playing high-pressing, possession-based football and challenging for the Premier League title.",
+    achievements: ["13 English League Titles","14 FA Cups","Undefeated Season (2003–04)"],
+    players: {
+      "Bukayo Saka": { img:"images/saka.jpg", appearances:160, goals:45, assists:40, achievements:["England Player of the Year (2023)"] },
+      "Martin Ødegaard": { img:"images/odegaard.jpg", appearances:120, goals:30, assists:35, achievements:["Arsenal Captain"] },
+      "Gabriel Jesus": { img:"images/jesus.jpg", appearances:95, goals:35, assists:25, achievements:["Copa America Winner"] },
+      "William Saliba": { img:"images/saliba.jpg", appearances:70, goals:5, assists:4, achievements:["Best Defender 2023"] },
+      "Declan Rice": { img:"images/rice.jpg", appearances:55, goals:8, assists:10, achievements:["England Vice Captain"] },
+      "Gabriel Martinelli": { img:"images/martinelli.jpg", appearances:110, goals:35, assists:22, achievements:["Arsenal Young Player 2022"] },
+      "David Raya": { img:"images/raya.jpg", appearances:45, goals:0, assists:0, achievements:["Golden Glove 2024"] }
+    }
+  "Chelsea": {
+  img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
+    history: "Chelsea became a Premier League powerhouse in the 2000s, rising to prominence with a strong squad and European success.",
+    achievements: ["5 Premier League Titles","2 UEFA Champions League Trophies","8 FA Cups","2 UEFA Europa League Titles"],
+    players: {
+      "Cole Palmer": { img:"images/palmer.jpg", appearances:60, goals:25, assists:15, achievements:["Young Player of the Year (2024)","England International"] },
+      "Moisés Caicedo": { img:"images/caicedo.jpg", appearances:80, goals:5, assists:10, achievements:["Ecuador Player of the Year (2022)","Key Midfielder"] },
+      "Reece James": { img:"images/james.jpg", appearances:120, goals:12, assists:30, achievements:["Club Captain (2023)","England International"] },
+      "Enzo Fernández": { img:"images/enzo.jpg", appearances:70, goals:6, assists:20, achievements:["Ballon d’Or Nominee (2023)","Argentina International"] },
+      "Ben Chilwell": { img:"images/chilwell.jpg", appearances:100, goals:8, assists:25, achievements:["England International","Experienced Defender"] },
+      "Malo Gusto": { img:"images/gusto.jpg", appearances:45, goals:3, assists:8, achievements:["Young Defender Rising"] },
+      "Tosin Adarabioyo": { img:"images/adarabioyo.jpg", appearances:55, goals:4, assists:7, achievements:["England International","Strong Centre-Back"] }
+     },
+  "Liverpool": {
+    img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
+    history: "Liverpool have one of the richest football histories in world football. Under Jürgen Klopp they returned to the top of English & European game, with passionate fans and iconic stadium Anfield.",
+    achievements: ["1 Premier League Title (2020)","19 English League Titles (Overall)","6 UEFA Champions League Trophies","8 FA Cups"],
+    players: {
+      "Mohamed Salah": { img:"images/salah.jpg", appearances:220, goals:155, assists:65, achievements:["Golden Boot (3x)","Egypt International"] },
+      "Virgil van Dijk": { img:"images/vandijk.jpg", appearances:160, goals:20, assists:10, achievements:["Captain","Netherlands International"] },
+      "Alexander Isak": { img:"images/isak.jpg", appearances:55, goals:28, assists:12, achievements:["Sweden International","New Forward Signing"] },
+      "Alisson Becker": { img:"images/alisson.jpg", appearances:140, goals:2, assists:3, achievements:["Brazil International","Top Premier League Goalkeeper"] },
+      "Cody Gakpo": { img:"images/gakpo.jpg", appearances:70, goals:25, assists:18, achievements:["Netherlands International","Versatile Forward"] },
+      "Joe Gomez": { img:"images/gomez.jpg", appearances:80, goals:4, assists:6, achievements:["England International","Reliable Defender"] },
+      "Dominik Szoboszlai": { img:"images/szoboszlai.jpg", appearances:60, goals:12, assists:20, achievements:["Hungary International","Midfield Creator"] }
+  },
+  "Tottenham Hotspur": {
+    img: "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg",
+    history: "Tottenham Hotspur have impressed under Ange Postecoglou with dynamic, attacking football and a revitalized squad.",
+    achievements: ["2 English League Titles","8 FA Cups","UEFA Champions League Finalists (2019)"],
+    players: {
+      "Heung-min Son": { img:"images/son.jpg", appearances:250, goals:110, assists:75, achievements:["Asian Player of the Year (5x)"] },
+      "James Maddison": { img:"images/maddison.jpg", appearances:95, goals:28, assists:40, achievements:["Tottenham Vice Captain"] },
+      "Cristian Romero": { img:"images/romero.jpg", appearances:65, goals:4, assists:3, achievements:["World Cup Winner 2022"] },
+      "Destiny Udogie": { img:"images/udogie.jpg", appearances:40, goals:3, assists:5, achievements:["Breakthrough Young Player 2024"] },
+      "Richarlison": { img:"images/richarlison.jpg", appearances:85, goals:25, assists:15, achievements:["Copa America Winner"] },
+      "Pedro Porro": { img:"images/porro.jpg", appearances:50, goals:5, assists:12, achievements:["Best Right-Back 2024"] },
+      "Guglielmo Vicario": { img:"images/vicario.jpg", appearances:38, goals:0, assists:0, achievements:["Clean Sheets Leader 2024"] }
+    },
+  "Manchester City": {
+ img: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+    history: "Manchester City have dominated the Premier League under Pep Guardiola with tactical brilliance and squad depth.",
+    achievements: ["9 English League Titles","6 Premier League Titles (since 2012)","UEFA Champions League Winners (2023)"],
+    players: {
+      "Erling Haaland": { img:"images/haaland.jpg", appearances:70, goals:73, assists:14, achievements:["Premier League Golden Boot (2023)"] },
+      "Kevin De Bruyne": { img:"images/debruyne.jpg", appearances:240, goals:65, assists:130, achievements:["PFA Player of the Year (2x)"] },
+      "Phil Foden": { img:"images/foden.jpg", appearances:160, goals:55, assists:45, achievements:["Young Player of the Year (2x)"] },
+      "Rodri": { img:"images/rodri.jpg", appearances:145, goals:20, assists:18, achievements:["Champions League Final Winner 2023"] },
+      "Bernardo Silva": { img:"images/silva.jpg", appearances:210, goals:50, assists:65, achievements:["Treble Winner 2023"] },
+      "Jack Grealish": { img:"images/grealish.jpg", appearances:110, goals:18, assists:25, achievements:["FA Cup Winner 2023"] } 
+  }
 };
 
 const clubSelect = document.getElementById("clubSelect");
@@ -375,4 +434,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
