@@ -219,66 +219,61 @@
   // ================= TEAM THEME SYSTEM =================
   const selector = document.getElementById("team-selector");
 
-  // Load saved theme from localStorage
+  // Load and apply saved theme
   const savedTheme = localStorage.getItem("teamTheme") || "default";
 
-  // Apply saved theme
+  // Apply saved theme (remove any previous classes first for cleanliness)
+  document.body.className = "";
   if (savedTheme !== "default") {
     document.body.classList.add(savedTheme);
   }
-
-  // Set selector to saved value
-  selector.value = savedTheme;
+  selector.value = savedTheme; // Set selector to saved value
 
   // Listen for changes
   selector.addEventListener("change", () => {
     const team = selector.value;
-
-    // Remove all previous theme classes
-    document.body.classList.remove("chelsea","mancity","manutd","tottenham","liverpool","arsenal");
-
-    // Add new theme if not default
+    document.body.className = ""; // Remove all previous theme classes
     if (team !== "default") document.body.classList.add(team);
+    localStorage.setItem("teamTheme", team); // Save to localStorage
+  });
 
-    // Save to localStorage
-    localStorage.setItem("teamTheme", team);
+  // ================= Player of the Week =================
+  const playerOfTheWeek = {
+    name: "Erling Haaland",
+    image: "images/potw.jpg",
+    rating: 9.4,
+    goals: 2,
+    assists: 1,
+    description: "Erling Haaland was unstoppable in Manchester City's 3–1 victory, scoring twice and assisting another."
+  };
+
+  // This event listener ensures the code runs only after the full page (DOM) is ready.
+  document.addEventListener("DOMContentLoaded", () => {
+    // Check if the elements exist before trying to set their content
+    const playerImg = document.getElementById("player-img");
+    const playerRating = document.getElementById("player-rating");
+    const playerGoals = document.getElementById("player-goals");
+    const playerAssists = document.getElementById("player-assists");
+    const playerDescription = document.getElementById("player-description");
+
+    if (playerImg) {
+      playerImg.src = playerOfTheWeek.image;
+    }
+    if (playerRating) {
+      playerRating.textContent = "Overall Rating: " + playerOfTheWeek.rating;
+    }
+    if (playerGoals) {
+      playerGoals.textContent = "Goals: " + playerOfTheWeek.goals;
+    }
+    if (playerAssists) {
+      playerAssists.textContent = "Assists: " + playerOfTheWeek.assists;
+    }
+    if (playerDescription) {
+      playerDescription.textContent = playerOfTheWeek.description;
+    }
   });
 </script>
-
-  <script>
-    // ================= TEAM THEME SYSTEM =================
-    const selector = document.getElementById("team-selector");
-    const savedTheme = localStorage.getItem("teamTheme");
-
-    // Apply theme only if not default
-    if (savedTheme && savedTheme !== "default") document.body.classList.add(savedTheme);
-    selector.value = savedTheme || "default";
-
-    selector.addEventListener("change", () => {
-      const team = selector.value;
-      document.body.className = ""; // remove previous theme
-      if (team !== "default") document.body.classList.add(team);
-      localStorage.setItem("teamTheme", team);
-    });
-
-    // ================= Player of the Week =================
-    const playerOfTheWeek = {
-      name: "Erling Haaland",
-      image: "images/potw.jpg",
-      rating: 9.4,
-      goals: 2,
-      assists: 1,
-      description: "Erling Haaland was unstoppable in Manchester City's 3–1 victory, scoring twice and assisting another."
-    };
-
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("player-img").src = playerOfTheWeek.image;
-      document.getElementById("player-rating").textContent = "Overall Rating: " + playerOfTheWeek.rating;
-      document.getElementById("player-goals").textContent = "Goals: " + playerOfTheWeek.goals;
-      document.getElementById("player-assists").textContent = "Assists: " + playerOfTheWeek.assists;
-      document.getElementById("player-description").textContent = playerOfTheWeek.description;
-    });
-  </script>
 </body>
 </html>
+
 
