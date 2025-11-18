@@ -458,32 +458,32 @@ schemeSelector.addEventListener("change", () => {
   const defaultHistory = document.getElementById("defaultHistory");
 
   clubSelect.addEventListener("change", function() {
-    const club = this.value;
-    if(!club) {
-      clubResult.textContent = "Please select a club.";
-      playerResult.textContent = "Select a club first.";
-      playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-      clubInfo.style.display = "none";
-      defaultHistory.style.display = "block";
-      return;
-    }
-    const details = clubDetails[club];
+  const club = this.value;
+  if(!club) {
+    clubResult.textContent = "Please select a club.";
+    playerResult.textContent = "Select a club first.";
+    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+    clubInfo.style.display = "none";
+    defaultHistory.style.display = "block";
+    return;
+  }
+  const details = clubDetails[club];
+  if(details){
     clubResult.textContent = `You selected: ${club}`;
-    updatePlayersDropdown();
-    if(details){
-      clubInfo.style.display = "flex";
-      defaultHistory.style.display = "none";
-      clubImage.src = details.img;
-      clubName.textContent = club;
-      clubHistory.textContent = details.history;
-      clubAchievements.innerHTML = "";
-      details.achievements.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        clubAchievements.appendChild(li);
-      });
-    }
-  });
+    clubInfo.style.display = "flex";
+    defaultHistory.style.display = "none";
+    clubImage.src = details.img;
+    clubName.textContent = club;
+    clubHistory.textContent = details.history;
+    clubAchievements.innerHTML = "";
+    details.achievements.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      clubAchievements.appendChild(li);
+    });
+    updatePlayersDropdown();  // ✅ call here, after details exists
+  }
+});
 
   function updatePlayersDropdown() {
     const club = clubSelect.value;
@@ -525,4 +525,5 @@ schemeSelector.addEventListener("change", () => {
 
 </body>
 </html>
+
 
