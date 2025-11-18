@@ -4,17 +4,15 @@
   <meta charset="utf-8" />
   <title>FPL — Live Discussion</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Use your site-wide external stylesheet -->
   <link rel="stylesheet" href="externalstylesheet.css">
   <style>
-    /* page-specific tweaks */
+    /* ---------------- Page Layout ---------------- */
     .live-wrap{
       max-width:1100px;
       margin:0 auto;
       padding:16px;
     }
 
-    /* two-column layout: left = image + chat, right = quick links */
     .live-grid{
       display:grid;
       grid-template-columns:minmax(0,2fr) minmax(0,1fr);
@@ -37,15 +35,37 @@
       font-weight:700;
     }
 
+    /* Chat styles */
     .chat{
       background:#f7f9fc;
       border:1px solid #e4e7ee;
       border-radius:12px;
       padding:16px;
+      max-height:400px;
+      overflow-y:auto;
     }
     .chat p{margin:0 0 8px}
 
-    /* right-side quick links panel */
+    /* Comment box */
+    .comment-box input, .comment-box textarea {
+      width:100%;
+      padding:8px;
+      margin-bottom:8px;
+      border-radius:6px;
+      border:1px solid #ccc;
+    }
+    .comment-box button {
+      margin-top:8px;
+      padding:10px 14px;
+      background:#0044cc;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    /* Right-side quick links panel */
     .live-links{
       background:#f7f9fc;
       border:1px solid #e4e7ee;
@@ -80,7 +100,6 @@
       margin-bottom:0;
     }
 
-    /* logo-button styles for YouTube channels / podcast */
     .live-logo-btn{
       display:flex;
       align-items:center;
@@ -102,21 +121,78 @@
       border-radius:8px;
     }
 
-    /* mobile: stack columns */
     @media (max-width: 768px){
       .live-grid{
         grid-template-columns:1fr;
       }
     }
+
+    /* ---------------- Team Themes ---------------- */
+    body.chelsea header,
+    body.chelsea nav a,
+    body.chelsea section {
+      background-color: #034694;
+      color: #ffffff;
+    }
+
+    body.mancity header,
+    body.mancity nav a,
+    body.mancity section {
+      background-color: #6CABDD;
+      color: #001838;
+    }
+
+    body.manutd header,
+    body.manutd nav a,
+    body.manutd section {
+      background-color: #DA291C;
+      color: #ffffff;
+    }
+
+    body.tottenham header,
+    body.tottenham nav a,
+    body.tottenham section {
+      background-color: #132257;
+      color: #ffffff;
+    }
+
+    body.liverpool header,
+    body.liverpool nav a,
+    body.liverpool section {
+      background-color: #C8102E;
+      color: #ffffff;
+    }
+
+    body.arsenal header,
+    body.arsenal nav a,
+    body.arsenal section {
+      background-color: #EF0107;
+      color: #ffffff;
+    }
+
+    header nav a,
+    header .header-right a,
+    header .search-icon,
+    header .theme-selector label {
+      color: inherit;
+      transition: color 0.25s ease;
+    }
+
+    header nav a:hover,
+    header .header-right a:hover {
+      opacity: 0.85;
+    }
   </style>
 </head>
 <body>
+
 <header>
   <div class="logo">
     <a href="index.html" aria-label="Home">
       <img src="images/Logo.png" alt="Website Logo">
     </a>
   </div>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="news.html">News</a>
@@ -125,7 +201,20 @@
     <a href="Coach&amp;League.html">Other Leagues/Coaches</a>
     <a href="LiveDiscussion.html" class="active">Discussion</a>
   </nav>
-  <div class="header-right">
+
+  <div class="header-right" style="display:flex; align-items:center; gap:12px;">
+    <div class="theme-selector">
+      <label for="teamSelector">Team Theme:</label>
+      <select id="teamSelector">
+        <option value="default">Default</option>
+        <option value="chelsea">Chelsea</option>
+        <option value="mancity">Manchester City</option>
+        <option value="manutd">Manchester United</option>
+        <option value="tottenham">Tottenham Hotspur</option>
+        <option value="liverpool">Liverpool</option>
+        <option value="arsenal">Arsenal</option>
+      </select>
+    </div>
     <a href="login.html">Login</a>
     <span class="search-icon" title="Search">🔍</span>
   </div>
@@ -133,74 +222,47 @@
 
 <main class="live-wrap">
   <div class="live-grid">
-    <!-- LEFT SIDE: image + pager + live chat -->
-    <div class="live-main">
-      <img class="hero-img" src="https://images.pexels.com/photos/1171084/pexels-photo-1171084.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Crowd cheering in the stadium">
+    <!-- LEFT: Chat -->
+    <section aria-labelledby="liveChatHeading">
+      <h1 id="liveChatHeading">Live Chat</h1>
 
-      <div class="pager">
-        <span>PREVIOUS LIVE</span>
-        <span>NEXT LIVE</span>
+      <!-- Chat log -->
+      <div class="chat" id="chatLog" role="log" aria-live="polite"></div>
+
+      <!-- Comment form -->
+      <div class="comment-box">
+        <h3>Join the discussion</h3>
+        <input type="text" id="chatName" placeholder="Your name">
+        <textarea id="chatMessage" placeholder="Your message..." rows="3"></textarea>
+        <button id="chatSubmit">Post Comment</button>
       </div>
+    </section>
 
-      <section aria-labelledby="liveChatHeading">
-        <h1 id="liveChatHeading">Live Chat</h1>
-        <div class="chat" role="log" aria-live="polite">
-          <p><strong>James:</strong> I think the coach made a wild sub too early.</p>
-          <p><strong>John:</strong> Nah, that one’s on the defense.</p>
-          <p><strong>Joe:</strong> That is a crazy take 😅</p>
-          <p><strong>Peter:</strong> You said it was the coach’s fault earlier!</p>
-          <p><strong>Brad:</strong> Get him off the mic 😂</p>
-        </div>
-      </section>
-    </div>
-
-    <!-- RIGHT SIDE: clickable buttons to other football pages + channels + podcast -->
-    <aside class="live-links" aria-label="Quick links to other football pages">
+    <!-- RIGHT: Quick links -->
+    <aside class="live-links" aria-label="Quick links">
       <h2>Explore More</h2>
       <p>Jump to other sections of Fast Premier Life:</p>
-
       <a class="live-btn" href="index.html">🏠 Home</a>
       <a class="live-btn" href="news.html">📰 Latest News</a>
       <a class="live-btn" href="matches.html">📅 Matches</a>
-      <a class="live-btn" href="ClubsandPlayers.html">⚽ Clubs &amp; Players</a>
+      <a class="live-btn" href="ClubsandPlayers.html">⚽ Clubs & Players</a>
       <a class="live-btn" href="Coach&amp;League.html">🌍 Other Leagues / Coaches</a>
 
       <hr style="margin:16px 0; opacity:0.5;">
 
       <h2>Top Football Channels</h2>
-
-      <!-- Premier League YouTube -->
-      <a class="live-logo-btn" 
-         href="https://www.youtube.com/@premierleague" 
-         target="_blank">
-         <img src="images/premier.jpg" alt="Premier League Logo">
-         Premier League YouTube
+      <a class="live-logo-btn" href="https://www.youtube.com/@premierleague" target="_blank">
+        <img src="images/premier.jpg" alt="Premier League Logo">Premier League YouTube
       </a>
-
-      <!-- Tifo Football -->
-      <a class="live-logo-btn" 
-         href="https://www.youtube.com/@TifoFootball" 
-         target="_blank">
-         <img src="images/tifo.webp" alt="Tifo Football Logo">
-         Tifo Football (The Athletic)
+      <a class="live-logo-btn" href="https://www.youtube.com/@TifoFootball" target="_blank">
+        <img src="images/tifo.webp" alt="Tifo Football Logo">Tifo Football (The Athletic)
       </a>
-
-      <!-- TNT Sports Football -->
-      <a class="live-logo-btn" 
-         href="https://www.youtube.com/@footballontnt" 
-         target="_blank">
-         <img src="images/tnt.webp" alt="TNT Logo">
-         TNT Sports Football
+      <a class="live-logo-btn" href="https://www.youtube.com/@footballontnt" target="_blank">
+        <img src="images/tnt.webp" alt="TNT Logo">TNT Sports Football
       </a>
-
-      <!-- Podcast -->
-      <a class="live-logo-btn"
-         href="#"
-         aria-label="Football Podcast">
-         <img src="images/podcast.wepp" alt="Football Podcast Logo">
-         FPL Matchday Podcast
+      <a class="live-logo-btn" href="#" aria-label="Football Podcast">
+        <img src="images/podcast.wepp" alt="Football Podcast Logo">FPL Matchday Podcast
       </a>
-
     </aside>
   </div>
 </main>
@@ -208,17 +270,67 @@
 <footer>
   <div class="footer-left">
     <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-    <a href="https://twitter.com" aria-label="Twitter">
-      <img src="images/Logo.png" alt="Twitter Logo">
-    </a>
-    <a href="https://instagram.com" aria-label="Instagram">
-      <img src="images/instagram.jpg" alt="Instagram Logo">
-    </a>
+    <a href="https://twitter.com" aria-label="Twitter"><img src="images/Logo.png" alt="Twitter Logo"></a>
+    <a href="https://instagram.com" aria-label="Instagram"><img src="images/instagram.jpg" alt="Instagram Logo"></a>
   </div>
   <div class="footer-right">
     <p><a href="tel:302-555-6611">302-555-6611</a></p>
     <p><a href="mailto:wearedefintelyreal@gmail.com">wearedefintelyreal@gmail.com</a></p>
   </div>
 </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // ---------------- Chat logic ----------------
+  const chatLog = document.getElementById("chatLog");
+  const chatName = document.getElementById("chatName");
+  const chatMessage = document.getElementById("chatMessage");
+  const chatSubmit = document.getElementById("chatSubmit");
+
+  let comments = JSON.parse(localStorage.getItem("liveChatComments") || "[]");
+
+  function renderComments() {
+    chatLog.innerHTML = "";
+    comments.forEach(c => {
+      const p = document.createElement("p");
+      p.innerHTML = `<strong>${c.name}:</strong> ${c.message}`;
+      chatLog.appendChild(p);
+    });
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  renderComments();
+
+  chatSubmit.addEventListener("click", () => {
+    const name = chatName.value.trim();
+    const message = chatMessage.value.trim();
+    if (!name || !message) {
+      alert("Please enter both name and message.");
+      return;
+    }
+    const newComment = { name, message };
+    comments.push(newComment);
+    localStorage.setItem("liveChatComments", JSON.stringify(comments));
+    renderComments();
+    chatName.value = "";
+    chatMessage.value = "";
+  });
+
+  // ---------------- Team Theme logic ----------------
+  const selector = document.getElementById("teamSelector");
+  const teams = ["chelsea", "mancity", "manutd", "tottenham", "liverpool", "arsenal"];
+  const savedTheme = localStorage.getItem("teamTheme");
+  if (savedTheme && savedTheme !== "default") document.body.classList.add(savedTheme);
+  if (selector) selector.value = savedTheme || "default";
+
+  selector.addEventListener("change", function() {
+    const team = this.value;
+    teams.forEach(c => document.body.classList.remove(c));
+    if (team !== "default") document.body.classList.add(team);
+    localStorage.setItem("teamTheme", team);
+  });
+});
+</script>
+
 </body>
 </html>
