@@ -12,12 +12,26 @@
     .panel { background: #f7f9fc; border: 1px solid #e4e7ee; border-radius: 14px; padding: 16px; margin-bottom: 20px; }
     .row { display: grid; grid-template-columns: 1fr; gap: 20px; }
 
+    header, header nav a, header .header-right a, header .theme-selector label, header .theme-selector select {
+      color: inherit; /* ensure text is readable on dark/light headers */
+    }
+
+    header .theme-selector select {
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.6);
+      background-color: rgba(255,255,255,0.9);
+      color: #000;
+    }
+
+    /* ---------- Coach Card ---------- */
     .coach-card {
       display: grid;
       grid-template-columns: 140px 1fr;
       gap: 14px;
       align-items: start;
-      background: #fff;
+      background-color: #fff; /* keep white for readability */
+      color: #000; /* text dark inside card */
       border: 1px solid #e6e6e6;
       border-radius: 12px;
       padding: 12px;
@@ -55,39 +69,27 @@
     .theme-box { padding: 10px 0; display: flex; justify-content: flex-end; }
 
     /* ---------------- Team Themes ---------------- */
-    body.chelsea, body.chelsea header, body.chelsea nav a, body.chelsea section, body.chelsea .coach-card { background-color: #034694; color: #ffffff; }
-    body.mancity, body.mancity header, body.mancity nav a, body.mancity section, body.mancity .coach-card { background-color: #6CABDD; color: #001838; }
-    body.manutd, body.manutd header, body.manutd nav a, body.manutd section, body.manutd .coach-card { background-color: #DA291C; color: #ffffff; }
-    body.tottenham, body.tottenham header, body.tottenham nav a, body.tottenham section, body.tottenham .coach-card { background-color: #132257; color: #ffffff; }
-    body.liverpool, body.liverpool header, body.liverpool nav a, body.liverpool section, body.liverpool .coach-card { background-color: #C8102E; color: #ffffff; }
-    body.arsenal, body.arsenal header, body.arsenal nav a, body.arsenal section, body.arsenal .coach-card { background-color: #EF0107; color: #ffffff; }
+    body.chelsea, body.chelsea header, body.chelsea nav a, body.chelsea section { background-color: #034694; color: #ffffff; }
+    body.mancity, body.mancity header, body.mancity nav a, body.mancity section { background-color: #6CABDD; color: #001838; }
+    body.manutd, body.manutd header, body.manutd nav a, body.manutd section { background-color: #DA291C; color: #ffffff; }
+    body.tottenham, body.tottenham header, body.tottenham nav a, body.tottenham section { background-color: #132257; color: #ffffff; }
+    body.liverpool, body.liverpool header, body.liverpool nav a, body.liverpool section { background-color: #C8102E; color: #ffffff; }
+    body.arsenal, body.arsenal header, body.arsenal nav a, body.arsenal section { background-color: #EF0107; color: #ffffff; }
 
     header nav a, header .header-right a, header .search-icon, header .theme-box select { color: inherit; transition: color 0.25s ease; }
     header nav a:hover, header .header-right a:hover { opacity: 0.85; }
+
   </style>
 </head>
 
 <body>
 <header>
-  <!-- THEME SELECTOR -->
-  <div class="theme-box">
-    <label for="teamSelector" style="margin-right:8px;">Team Theme:</label>
-    <select id="teamSelector">
-      <option value="default">Default</option>
-      <option value="chelsea">Chelsea</option>
-      <option value="mancity">Manchester City</option>
-      <option value="manutd">Manchester United</option>
-      <option value="tottenham">Tottenham Hotspur</option>
-      <option value="liverpool">Liverpool</option>
-      <option value="arsenal">Arsenal</option>
-    </select>
-  </div>
-
   <div class="logo">
     <a href="index.html" aria-label="Home">
       <img src="images/Logo.png" alt="Website Logo">
     </a>
   </div>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="news.html">News</a>
@@ -96,7 +98,21 @@
     <a href="Coach&amp;League.html" class="active">Other Leagues/Coaches</a>
     <a href="LiveDiscussion.html">Discussion</a>
   </nav>
+
   <div class="header-right">
+    <!-- Theme selector moved here -->
+    <div class="theme-selector">
+      <label for="themeSelect" style="margin-right:6px;">Team Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Default</option>
+        <option value="chelsea">Chelsea</option>
+        <option value="mancity">Manchester City</option>
+        <option value="manutd">Manchester United</option>
+        <option value="tottenham">Tottenham Hotspur</option>
+        <option value="liverpool">Liverpool</option>
+        <option value="arsenal">Arsenal</option>
+      </select>
+    </div>
     <a href="login.html">Login</a>
     <span class="search-icon" title="Search">🔍</span>
   </div>
@@ -184,7 +200,7 @@
 <!-- THEME SCRIPT -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const selector = document.getElementById("teamSelector");
+  const selector = document.getElementById("themeSelect");
   const teams = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
 
   const savedTheme = localStorage.getItem("teamTheme");
