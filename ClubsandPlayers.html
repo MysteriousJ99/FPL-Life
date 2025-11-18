@@ -15,7 +15,7 @@
   background-color: #f0f8ff;
   padding: 15px;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 .club-info img {
   width: 120px;
@@ -37,7 +37,7 @@
   border-radius: 10px;
   margin-top: 1rem;
   border: 1px solid #ddd;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   max-width: 400px;
 }
 .player-card h3 { margin-top: 0; color: #004080; }
@@ -72,7 +72,6 @@ body.arsenal header, body.arsenal footer { background-color: #EF0107; color: #ff
 header nav a, header .header-right a, header .search-icon, header .theme-selector label { color: inherit; transition: color 0.25s ease; }
 </style>
 </head>
-
 <body>
 <header>
   <div class="logo"><img src="images/Logo.png" alt="Website Logo"></div>
@@ -165,7 +164,7 @@ const themeClasses = ["chelsea","mancity","manutd","tottenham","liverpool","arse
 let saved = localStorage.getItem("selectedTeam");
 if(saved && saved !== "default") document.body.classList.add(saved);
 if(colorPicker) colorPicker.value = saved || "default";
-colorPicker.addEventListener("change", function () {
+colorPicker.addEventListener("change", function() {
   const team = this.value;
   themeClasses.forEach(c => document.body.classList.remove(c));
   if(team !== "default") document.body.classList.add(team);
@@ -200,8 +199,9 @@ const clubDetails = {
       "Gabriel Martinelli": { img:"images/martinelli.jpg", appearances:110, goals:35, assists:22, achievements:["Arsenal Young Player 2022"] },
       "David Raya": { img:"images/raya.jpg", appearances:45, goals:0, assists:0, achievements:["Golden Glove 2024"] }
     }
+  },
   "Chelsea": {
-  img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
+    img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
     history: "Chelsea became a Premier League powerhouse in the 2000s, rising to prominence with a strong squad and European success.",
     achievements: ["5 Premier League Titles","2 UEFA Champions League Trophies","8 FA Cups","2 UEFA Europa League Titles"],
     players: {
@@ -212,7 +212,8 @@ const clubDetails = {
       "Ben Chilwell": { img:"images/chilwell.jpg", appearances:100, goals:8, assists:25, achievements:["England International","Experienced Defender"] },
       "Malo Gusto": { img:"images/gusto.jpg", appearances:45, goals:3, assists:8, achievements:["Young Defender Rising"] },
       "Tosin Adarabioyo": { img:"images/adarabioyo.jpg", appearances:55, goals:4, assists:7, achievements:["England International","Strong Centre-Back"] }
-     },
+    }
+  },
   "Liverpool": {
     img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
     history: "Liverpool have one of the richest football histories in world football. Under Jürgen Klopp they returned to the top of English & European game, with passionate fans and iconic stadium Anfield.",
@@ -225,6 +226,7 @@ const clubDetails = {
       "Cody Gakpo": { img:"images/gakpo.jpg", appearances:70, goals:25, assists:18, achievements:["Netherlands International","Versatile Forward"] },
       "Joe Gomez": { img:"images/gomez.jpg", appearances:80, goals:4, assists:6, achievements:["England International","Reliable Defender"] },
       "Dominik Szoboszlai": { img:"images/szoboszlai.jpg", appearances:60, goals:12, assists:20, achievements:["Hungary International","Midfield Creator"] }
+    }
   },
   "Tottenham Hotspur": {
     img: "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg",
@@ -238,9 +240,10 @@ const clubDetails = {
       "Richarlison": { img:"images/richarlison.jpg", appearances:85, goals:25, assists:15, achievements:["Copa America Winner"] },
       "Pedro Porro": { img:"images/porro.jpg", appearances:50, goals:5, assists:12, achievements:["Best Right-Back 2024"] },
       "Guglielmo Vicario": { img:"images/vicario.jpg", appearances:38, goals:0, assists:0, achievements:["Clean Sheets Leader 2024"] }
-    },
+    }
+  },
   "Manchester City": {
- img: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+    img: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
     history: "Manchester City have dominated the Premier League under Pep Guardiola with tactical brilliance and squad depth.",
     achievements: ["9 English League Titles","6 Premier League Titles (since 2012)","UEFA Champions League Winners (2023)"],
     players: {
@@ -250,9 +253,11 @@ const clubDetails = {
       "Rodri": { img:"images/rodri.jpg", appearances:145, goals:20, assists:18, achievements:["Champions League Final Winner 2023"] },
       "Bernardo Silva": { img:"images/silva.jpg", appearances:210, goals:50, assists:65, achievements:["Treble Winner 2023"] },
       "Jack Grealish": { img:"images/grealish.jpg", appearances:110, goals:18, assists:25, achievements:["FA Cup Winner 2023"] } 
+    }
   }
 };
 
+// --- DOM Elements ---
 const clubSelect = document.getElementById("clubSelect");
 const playerSelect = document.getElementById("playerSelect");
 const clubResult = document.getElementById("clubResult");
@@ -264,175 +269,61 @@ const clubHistory = document.getElementById("clubHistory");
 const clubAchievements = document.getElementById("clubAchievements");
 const defaultHistory = document.getElementById("defaultHistory");
 
+// --- Update Club Info ---
 clubSelect.addEventListener("change", function() {
   const club = this.value;
-  if (!club) {
-    clubResult.textContent = "Please select a club.";
-    playerResult.textContent = "Select a club first.";
-    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+  if(!club || !clubDetails[club]) {
     clubInfo.style.display = "none";
+    clubResult.textContent = "Please select a club.";
     defaultHistory.style.display = "block";
+    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+    playerResult.textContent = "Select a club first.";
     return;
   }
   const details = clubDetails[club];
-  clubResult.textContent = `You selected: ${club}`;
-  updatePlayersDropdown();
-  if (details) {
-    clubInfo.style.display = "flex";
-    defaultHistory.style.display = "none";
-    clubImage.src = details.img;
-    clubName.textContent = club;
-    clubHistory.textContent = details.history;
-    clubAchievements.innerHTML = "";
-    details.achievements.forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      clubAchievements.appendChild(li);
-    });
-  }
+  clubInfo.style.display = "flex";
+  defaultHistory.style.display = "none";
+  clubImage.src = details.img;
+  clubName.textContent = club;
+  clubHistory.textContent = details.history;
+  clubAchievements.innerHTML = "";
+  details.achievements.forEach(a => {
+    const li = document.createElement("li");
+    li.textContent = a;
+    clubAchievements.appendChild(li);
+  });
+  // Update player dropdown
+  playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+  Object.keys(details.players).forEach(p => {
+    const option = document.createElement("option");
+    option.value = p;
+    option.textContent = p;
+    playerSelect.appendChild(option);
+  });
+  playerResult.textContent = "Select a player to see details.";
 });
 
-function updatePlayersDropdown() {
-  const club = clubSelect.value;
-  playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-  if (club && clubDetails[club]) {
-    Object.keys(clubDetails[club].players).forEach(player => {
-      const option = document.createElement("option");
-      option.value = player;
-      option.textContent = player;
-      playerSelect.appendChild(option);
-    });
-    playerResult.textContent = "Please select a player.";
-  } else {
-    playerResult.textContent = "Select a club first.";
-  }
-}
-
+// --- Update Player Info ---
 playerSelect.addEventListener("change", function() {
   const club = clubSelect.value;
   const player = this.value;
-  if (!player || !club) {
-    playerResult.textContent = "Please select a player.";
+  if(!player || !clubDetails[club].players[player]) {
+    playerResult.innerHTML = "Select a player to see details.";
     return;
   }
-  const data = clubDetails[club].players[player];
+  const p = clubDetails[club].players[player];
   playerResult.innerHTML = `
     <div class="player-card">
       <h3>${player}</h3>
-      <img src="${data.img}" alt="${player}" class="player-image">
-      <p><strong>Appearances:</strong> ${data.appearances}</p>
-      <p><strong>Goals:</strong> ${data.goals}</p>
-      <p><strong>Assists:</strong> ${data.assists}</p>
-      <h4>Personal Achievements:</h4>
-      <ul>${data.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
+      <p><strong>Appearances:</strong> ${p.appearances}</p>
+      <p><strong>Goals:</strong> ${p.goals}</p>
+      <p><strong>Assists:</strong> ${p.assists}</p>
+      <h4>Achievements:</h4>
+      <ul>${p.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
+      <img class="player-image" src="${p.img}" alt="${player}">
     </div>
   `;
 });
-</script> 
-  <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const clubSelect = document.getElementById("clubSelect");
-  const playerSelect = document.getElementById("playerSelect");
-  const clubResult = document.getElementById("clubResult");
-  const playerResult = document.getElementById("playerResult");
-  const clubInfo = document.getElementById("clubInfo");
-  const clubImage = document.getElementById("clubImage");
-  const clubName = document.getElementById("clubName");
-  const clubHistory = document.getElementById("clubHistory");
-  const clubAchievements = document.getElementById("clubAchievements");
-  const defaultHistory = document.getElementById("defaultHistory");
-
-  const clubDetails = {
-    "Manchester United": { 
-      img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
-      history: "Manchester United are one of the most successful clubs in Premier League history...",
-      achievements: ["13 Premier League Titles","3 UEFA Champions League Trophies","12 FA Cups"],
-      players: {
-        "Bruno Fernandes": { img: "images/bruno.jpg", appearances:150, goals:55, assists:45, achievements:["Captain","PFA Team of the Year"] },
-        "Marcus Rashford": { img:"images/marcus.jpg", appearances:210, goals:90, assists:60, achievements:["Member of the British Empire (MBE)","Youth Academy Graduate"] },
-        "Kobbie Mainoo": { img:"images/kobbie.jpg", appearances:45, goals:6, assists:7, achievements:["Breakthrough Player 2024"] },
-        "Casemiro": { img:"images/casemiro.jpg", appearances:60, goals:8, assists:6, achievements:["Champions League Winner (5x)"] },
-        "Luke Shaw": { img:"images/luke.jpg", appearances:180, goals:4, assists:25, achievements:["PFA Team of the Year"] },
-        "Lisandro Martínez": { img:"images/lisandro.jpg", appearances:70, goals:5, assists:3, achievements:["World Cup Winner 2022"] }
-      } 
-    },
-    // Add the rest of your clubs here exactly like your full code above
-  };
-
-  function updatePlayersDropdown() {
-    const club = clubSelect.value;
-    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-    if (club && clubDetails[club]) {
-      Object.keys(clubDetails[club].players).forEach(player => {
-        const option = document.createElement("option");
-        option.value = player;
-        option.textContent = player;
-        playerSelect.appendChild(option);
-      });
-      playerResult.textContent = "Please select a player.";
-    } else {
-      playerResult.textContent = "Select a club first.";
-    }
-  }
-
-  clubSelect.addEventListener("change", function() {
-    const club = this.value;
-    if (!club) {
-      clubResult.textContent = "Please select a club.";
-      playerResult.textContent = "Select a club first.";
-      playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-      clubInfo.style.display = "none";
-      defaultHistory.style.display = "block";
-      return;
-    }
-    const details = clubDetails[club];
-    clubResult.textContent = `You selected: ${club}`;
-    updatePlayersDropdown();
-    if (details) {
-      clubInfo.style.display = "flex";
-      defaultHistory.style.display = "none";
-      clubImage.src = details.img;
-      clubName.textContent = club;
-      clubHistory.textContent = details.history;
-      clubAchievements.innerHTML = "";
-      details.achievements.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        clubAchievements.appendChild(li);
-      });
-    }
-  });
-
-  playerSelect.addEventListener("change", function() {
-    const club = clubSelect.value;
-    const player = this.value;
-    if (!player || !club) {
-      playerResult.textContent = "Please select a player.";
-      return;
-    }
-    const data = clubDetails[club].players[player];
-    playerResult.innerHTML = `
-      <div class="player-card">
-        <h3>${player}</h3>
-        <img src="${data.img}" alt="${player}" class="player-image">
-        <p><strong>Appearances:</strong> ${data.appearances}</p>
-        <p><strong>Goals:</strong> ${data.goals}</p>
-        <p><strong>Assists:</strong> ${data.assists}</p>
-        <h4>Personal Achievements:</h4>
-        <ul>${data.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
-      </div>
-    `;
-  });
-
-  // Initialize dropdown if saved value exists
-  if (clubSelect.value) {
-    const event = new Event('change');
-    clubSelect.dispatchEvent(event);
-  }
-});
 </script>
-
 </body>
 </html>
-
-
