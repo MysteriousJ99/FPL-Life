@@ -289,11 +289,116 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("teamTheme", team);
   });
 });
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const colorPicker = document.getElementById("colorPicker");
+  const themeClasses = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem("teamTheme");
+  if(savedTheme && savedTheme !== "default") document.body.classList.add(savedTheme);
+  if(colorPicker) colorPicker.value = savedTheme || "default";
+
+  colorPicker.addEventListener("change", function () {
+    const team = this.value;
+    themeClasses.forEach(c => document.body.classList.remove(c));
+    if(team !== "default") document.body.classList.add(team);
+    localStorage.setItem("teamTheme", team);
+  });
+
+  // --- Club & Player Data ---
+  const clubs = {
+    "Manchester United": {
+      img: "images/manutd.png",
+      history: "Founded in 1878, Manchester United is one of the most successful clubs in English football history.",
+      achievements: ["20 Premier League titles", "12 FA Cups", "3 Champions League titles"],
+      players: [
+        { name: "Marcus Rashford", img: "images/rashford.png", position: "Forward" },
+        { name: "Bruno Fernandes", img: "images/fernandes.png", position: "Midfielder" }
+      ]
+    },
+    "Chelsea": {
+      img: "images/chelsea.png",
+      history: "Chelsea FC, founded in 1905, is a top Premier League club with multiple European trophies.",
+      achievements: ["6 Premier League titles", "8 FA Cups", "2 Champions League titles"],
+      players: [
+        { name: "Mason Mount", img: "images/mount.png", position: "Midfielder" },
+        { name: "Thiago Silva", img: "images/silva.png", position: "Defender" }
+      ]
+    },
+    // Add Liverpool, Arsenal, Tottenham, Man City similarly
+  };
+
+  const clubSelect = document.getElementById("clubSelect");
+  const clubInfo = document.getElementById("clubInfo");
+  const clubImage = document.getElementById("clubImage");
+  const clubName = document.getElementById("clubName");
+  const clubHistory = document.getElementById("clubHistory");
+  const clubAchievements = document.getElementById("clubAchievements");
+  const defaultHistory = document.getElementById("defaultHistory");
+  const playerSelect = document.getElementById("playerSelect");
+  const playerResult = document.getElementById("playerResult");
+
+  clubSelect.addEventListener("change", function () {
+    const club = clubs[this.value];
+    if(club){
+      clubInfo.style.display = "flex";
+      clubImage.src = club.img;
+      clubImage.alt = this.value;
+      clubName.textContent = this.value;
+      clubHistory.textContent = club.history;
+
+      clubAchievements.innerHTML = "";
+      club.achievements.forEach(a => {
+        const li = document.createElement("li");
+        li.textContent = a;
+        clubAchievements.appendChild(li);
+      });
+
+      // Update players dropdown
+      playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+      club.players.forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p.name;
+        opt.textContent = p.name;
+        playerSelect.appendChild(opt);
+      });
+
+      playerResult.textContent = "Select a player to view info.";
+      defaultHistory.style.display = "none";
+    } else {
+      clubInfo.style.display = "none";
+      defaultHistory.style.display = "block";
+      playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+      playerResult.textContent = "Select a club first.";
+    }
+  });
+
+  playerSelect.addEventListener("change", function(){
+    const club = clubs[clubSelect.value];
+    if(club){
+      const player = club.players.find(p => p.name === this.value);
+      if(player){
+        playerResult.innerHTML = `
+          <div class="player-card">
+            <h3>${player.name}</h3>
+            <p><strong>Position:</strong> ${player.position}</p>
+            <img class="player-image" src="${player.img}" alt="${player.name}">
+          </div>
+        `;
+      } else {
+        playerResult.textContent = "Select a player to view info.";
+      }
+    }
+  });
+});
+</script>
 
 /* your existing clubDetails JS and event listeners */
 </script>
 
 </body>
 </html>
+
 
 
