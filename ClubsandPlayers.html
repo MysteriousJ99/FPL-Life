@@ -1,360 +1,438 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Fast Premier Life</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="externalstylesheet.css">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <meta charset="utf-8" />
+  <title>Fast Premier Life</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
-  <style>
-    /* --- Global image safety --- */
-    img {
-        max-width: 100%; /* Prevents images from overflowing small screens */
-        height: auto;    /* Maintains aspect ratio when resizing */
-        display: block;
+  <style>
+    /* ===============================
+       1. CSS Variables for color schemes
+       =============================== */
+    :root {
+      --bg-color: #FAEFE1;
+      --header-bg: #FAEFE1;
+      --header-text: black;
+      --text-color: black;
+      --footer-bg: #49BCDC;
     }
 
-    /* --- EXISTING STYLES --- */
-    .club-info {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      margin-top: 1rem;
-      background-color: #f0f8ff;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      color: #000;
-      flex-wrap: wrap; /* Added wrap so image and text stack on small screens */
-    }
+    /* Dark theme */
+    body.dark {
+      --bg-color: #1E1E1E;
+      --header-bg: #2B2B2B;
+      --header-text: #ffffff;
+      --text-color: #e0e0e0;
+      --footer-bg: #333333;
+    }
 
-    .club-info img {
-      /* UPDATED TO 300x300 */
-      width: 300px;
-      height: 300px;
-      border-radius: 10px;
-      object-fit: contain; /* Ensures logo fits inside the box without stretching */
-      background-color: white;
-      border: 2px solid #ccc;
-      padding: 5px;
-      flex-shrink: 0; /* Prevents the image from getting squashed */
-    }
+    /* Light Blue theme */
+    body.lightBlue {
+      --bg-color: #E0F7FA;
+      --header-bg: #B2EBF2;
+      --header-text: #004D40;
+      --text-color: #004D40;
+      --footer-bg: #00ACC1;
+    }
 
-    .club-text { flex: 1; min-width: 250px; }
-    .club-text h3 { margin-top: 0; }
-    .club-text ul { margin-top: 0.5rem; padding-left: 1.2rem; }
-    .club-text ul li { margin-bottom: 4px; }
+    /* Green theme */
+    body.green {
+      --bg-color: #E8F5E9;
+      --header-bg: #A5D6A7;
+      --header-text: #1B5E20;
+      --text-color: #1B5E20;
+      --footer-bg: #43A047;
+    }
 
-    .player-card {
-      background-color: #f8f9fa;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 1rem;
-      border: 1px solid #ddd;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      /* Increased max-width slightly to accommodate the larger 300px image nicely */
-      max-width: 450px;
-      color: #000;
-    }
-    .player-card h3 { margin-top: 0; color: #004080; }
-    .player-card p { margin: 4px 0; }
-    .player-card ul { margin-top: 8px; padding-left: 1.2rem; }
-    .player-card ul li { margin-bottom: 4px; }
-    
-    .player-image {
-      /* UPDATED TO 300x300 */
-      width: 300px;
-      height: 300px;
-      border-radius: 8px;
-      object-fit: cover; /* 'cover' is usually better for player photos (faces) */
-      /* You can change 'cover' to 'contain' if you want to see the whole photo uncropped */
-      margin-top: 8px;
-    }
-
-    /* --- THEME COLORS CSS --- */
-    section {
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
+    /* ===============================
+       2. Global body/main
+       =============================== */
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       transition: background-color 0.3s, color 0.3s;
     }
-    
-    header, nav a { transition: background-color 0.3s, color 0.3s; }
-    nav a { margin: 0 10px; text-decoration: none; font-weight: bold; }
-    nav a.active { border-bottom: 2px solid currentColor; }
 
-    /* Team Colors */
-    body.chelsea header, body.chelsea nav a, body.chelsea section { background-color: #034694; color: #fff; }
-    body.mancity header, body.mancity nav a, body.mancity section { background-color: #6CABDD; color: #000; }
-    body.manutd header, body.manutd nav a, body.manutd section { background-color: #DA291C; color: #fff; }
-    body.tottenham header, body.tottenham nav a, body.tottenham section { background-color: #132257; color: #fff; }
-    body.liverpool header, body.liverpool nav a, body.liverpool section { background-color: #C8102E; color: #fff; }
-    body.arsenal header, body.arsenal nav a, body.arsenal section { background-color: #EF0107; color: #fff; }
-  </style>
+    main {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ===============================
+       3. Header
+       =============================== */
+    header {
+      background-color: var(--header-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      transition: background-color 0.3s;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    nav {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    nav a,
+    .header-right a {
+      color: var(--header-text);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: color 0.3s ease;
+    }
+
+    nav a.active {
+      border-bottom: 2px solid currentColor;
+    }
+
+    nav a:hover {
+      color: var(--header-text);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+    }
+
+    /* ===============================
+       4. Theme Selector Dropdown
+       =============================== */
+    #colorSchemeSelector {
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      color: #000;
+      font-weight: 500;
+      margin-left: auto;
+    }
+
+    #colorSchemeSelector:hover {
+      border-color: #888;
+    }
+
+    #colorSchemeSelector option {
+      padding: 5px 10px;
+    }
+
+    /* ===============================
+       5. Club & Player Cards
+       =============================== */
+    .club-info, .player-card {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: #000;
+    }
+
+    .club-info img, .player-image {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      padding: 5px;
+      flex-shrink: 0;
+      background-color: white;
+    }
+
+    .club-text {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .club-text h3 { margin-top: 0; }
+    .club-text ul { padding-left: 1.2rem; }
+    .club-text ul li { margin-bottom: 4px; }
+
+    .player-card h3 { margin-top: 0; color: #004080; }
+    .player-card p { margin: 4px 0; }
+    .player-card ul { padding-left: 1.2rem; margin-top: 6px; }
+    .player-card ul li { margin-bottom: 4px; }
+
+    /* ===============================
+       6. Footer
+       =============================== */
+    footer {
+      background-color: var(--footer-bg);
+      width: 100%;
+      height: 90px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+      color: #fff;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .footer-left p {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .footer-left img {
+      width: 30px;
+      height: 30px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .footer-right {
+      text-align: right;
+    }
+
+    .footer-right p {
+      margin: 2px 0;
+    }
+
+    /* ===============================
+       7. Responsive adjustments
+       =============================== */
+    @media (max-width: 900px) {
+      .club-info, .player-card {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+  </style>
 </head>
-
 <body>
+
 <header>
-  <div class="logo">
-    <img src="images/Logo.png" alt="Website Logo" width="150" height="40">
+  <div class="logo">
+    <img src="images/Logo.png" alt="Website Logo">
   </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="news.html">News</a>
-    <a href="matches.html">Matches</a>
-    <a href="ClubsandPlayers.html" class="active">Clubs & Players</a>
-    <a href="coach&league.html">Other Leagues/Coaches</a>
-    <a href="discussion.html">Discussion</a>
-  </nav>
-  <div class="header-right">
-    <select id="team-selector">
-        <option value="default">Default</option>
-        <option value="chelsea">Chelsea</option>
-        <option value="mancity">Manchester City</option>
-        <option value="manutd">Manchester United</option>
-        <option value="tottenham">Tottenham</option>
-        <option value="liverpool">Liverpool</option>
-        <option value="arsenal">Arsenal</option>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="news.html">News</a>
+    <a href="matches.html">Matches</a>
+    <a href="ClubsandPlayers.html" class="active">Clubs & Players</a>
+    <a href="coach&league.html">Other Leagues/Coaches</a>
+    <a href="discussion.html">Discussion</a>
+  </nav>
+  <div class="header-right">
+    <select id="colorSchemeSelector">
+      <option value="default">Default</option>
+      <option value="dark">Dark</option>
+      <option value="lightBlue">Light Blue</option>
+      <option value="green">Green</option>
     </select>
-    <a href="login.html">Login</a>
-    <span class="search-icon" title="Search">🔍</span>
-  </div>
+    <a href="login.html">Login</a>
+    <span class="search-icon" title="Search">🔍</span>
+  </div>
 </header>
 
 <main>
-  <section>
-    <h2>Select a Club</h2>
-    <div class="search-section">
-      <select id="clubSelect">
-        <option value="">--Select Club--</option>
-        <option value="Manchester United">Manchester United</option>
-        <option value="Chelsea">Chelsea</option>
-        <option value="Liverpool">Liverpool</option>
-        <option value="Arsenal">Arsenal</option>
-        <option value="Tottenham Hotspur">Tottenham Hotspur</option>
-        <option value="Manchester City">Manchester City</option>
-      </select>
-    </div>
-    <div class="search-result" id="clubResult">Please select a club.</div>
-  </section>
+  <section>
+    <h2>Select a Club</h2>
+    <div class="search-section">
+      <select id="clubSelect">
+        <option value="">--Select Club--</option>
+        <option value="Manchester United">Manchester United</option>
+        <option value="Chelsea">Chelsea</option>
+        <option value="Liverpool">Liverpool</option>
+        <option value="Arsenal">Arsenal</option>
+        <option value="Tottenham Hotspur">Tottenham Hotspur</option>
+        <option value="Manchester City">Manchester City</option>
+      </select>
+    </div>
+    <div class="search-result" id="clubResult">Please select a club.</div>
+  </section>
 
-  <section>
-    <h2>Club History & Achievements</h2>
-    <div id="clubInfo" class="club-info" style="display:none;">
-      <img id="clubImage" src="" alt="Club Logo">
-      <div class="club-text">
-        <h3 id="clubName"></h3>
-        <p id="clubHistory"></p>
-        <h4>Notable Achievements:</h4>
-        <ul id="clubAchievements"></ul>
-      </div>
-    </div>
-    <p id="defaultHistory">Select a club above to view its Premier League history, image, and notable achievements.</p>
-  </section>
+  <section>
+    <h2>Club History & Achievements</h2>
+    <div id="clubInfo" class="club-info" style="display:none;">
+      <img id="clubImage" src="" alt="Club Logo">
+      <div class="club-text">
+        <h3 id="clubName"></h3>
+        <p id="clubHistory"></p>
+        <h4>Notable Achievements:</h4>
+        <ul id="clubAchievements"></ul>
+      </div>
+    </div>
+    <p id="defaultHistory">Select a club above to view its Premier League history, image, and notable achievements.</p>
+  </section>
 
-  <section>
-    <h2>Club Players</h2>
-    <div class="search-section">
-      <select id="playerSelect">
-        <option value="">--Select Player--</option>
-      </select>
-    </div>
-    <div class="search-result" id="playerResult">Select a club first.</div>
-  </section>
+  <section>
+    <h2>Club Players</h2>
+    <div class="search-section">
+      <select id="playerSelect">
+        <option value="">--Select Player--</option>
+      </select>
+    </div>
+    <div class="search-result" id="playerResult">Select a club first.</div>
+  </section>
 </main>
 
 <footer>
-  <div class="footer-left">
-    <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
-    <img src="images/Logo.png" alt="Twitter Logo" width="40" height="40">
-    <img src="images/instagram.jpg" alt="Instagram Logo" width="40" height="40">
-  </div>
-  <div class="footer-right">
-    <p>302-555-6611</p>
-    <p>wearedefintelyreal@gmail.com</p>
-  </div>
+  <div class="footer-left">
+    <p>Check out other links for the official Premier League Instagram and Twitter page:</p>
+    <img src="images/Logo.png" alt="Twitter Logo">
+    <img src="images/instagram.jpg" alt="Instagram Logo">
+  </div>
+  <div class="footer-right">
+    <p>302-555-6611</p>
+    <p>wearedefinitelyreal@gmail.com</p>
+  </div>
 </footer>
 
 <script>
-// ================= TEAM THEME SYSTEM =================
-const selector = document.getElementById("team-selector");
-const savedTheme = localStorage.getItem("teamTheme") || "default";
+  /* ===============================
+     Theme Selector
+     =============================== */
+  const schemeSelector = document.getElementById("colorSchemeSelector");
+  const savedScheme = localStorage.getItem("colorScheme") || "default";
+  if(savedScheme !== "default") document.body.classList.add(savedScheme);
+  schemeSelector.value = savedScheme;
 
-document.body.className = "";
-if (savedTheme !== "default") {
-  document.body.classList.add(savedTheme);
-}
-selector.value = savedTheme;
+  schemeSelector.addEventListener("change", () => {
+    const selected = schemeSelector.value;
+    document.body.className = document.body.className.replace(/\b(dark|lightBlue|green)\b/g,'');
+    if(selected !== "default") document.body.classList.add(selected);
+    localStorage.setItem("colorScheme", selected);
+  });
 
-selector.addEventListener("change", () => {
-  const team = selector.value;
-  document.body.className = "";
-  if (team !== "default") document.body.classList.add(team);
-  localStorage.setItem("teamTheme", team);
-});
+  /* ===============================
+     Club & Player Data
+     =============================== */
+  const clubDetails = {
+    "Manchester United": {
+      img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
+      history: "Manchester United are one of the most successful clubs in Premier League history...",
+      achievements: ["13 Premier League Titles","3 UEFA Champions League Trophies","12 FA Cups"],
+      players: {
+        "Bruno Fernandes": { img: "images/bruno.jpg", appearances:150, goals:55, assists:45, achievements:["Captain","PFA Team of the Year"] },
+        "Marcus Rashford": { img:"images/marcus.jpg", appearances:210, goals:90, assists:60, achievements:["MBE","Youth Academy Graduate"] }
+      }
+    },
+    "Chelsea": {
+      img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
+      history: "Chelsea became a Premier League powerhouse in the 2000s...",
+      achievements: ["5 Premier League Titles","2 UEFA Champions League Trophies","8 FA Cups","2 UEFA Europa League Titles"],
+      players: {
+        "Cole Palmer": { img:"images/palmer.jpg", appearances:60, goals:25, assists:15, achievements:["Young Player of the Year (2024)"] },
+        "Reece James": { img:"images/james.jpg", appearances:120, goals:12, assists:30, achievements:["Club Captain"] }
+      }
+    }
+  };
 
-// ================= CLUB & PLAYER DATA =================
-const clubDetails = {
-  "Manchester United": { 
-    img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
-    history: "Manchester United are one of the most successful clubs in Premier League history...",
-    achievements: ["13 Premier League Titles","3 UEFA Champions League Trophies","12 FA Cups"],
-    players: {
-      "Bruno Fernandes": { img: "images/bruno.jpg", appearances:150, goals:55, assists:45, achievements:["Captain","PFA Team of the Year"] },
-      "Marcus Rashford": { img:"images/marcus.jpg", appearances:210, goals:90, assists:60, achievements:["Member of the British Empire (MBE)","Youth Academy Graduate"] },
-      "Kobbie Mainoo": { img:"images/kobbie.jpg", appearances:45, goals:6, assists:7, achievements:["Breakthrough Player 2024"] },
-      "Casemiro": { img:"images/casemiro.jpg", appearances:60, goals:8, assists:6, achievements:["Champions League Winner (5x)"] },
-      "Luke Shaw": { img:"images/luke.jpg", appearances:180, goals:4, assists:25, achievements:["PFA Team of the Year"] },
-      "Lisandro Martínez": { img:"images/lisandro.jpg", appearances:70, goals:5, assists:3, achievements:["World Cup Winner 2022"] }
-    } 
-  },
-  "Arsenal": {  
-    img: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
-    history: "Arsenal have been reborn under Mikel Arteta, playing high-pressing, possession-based football and challenging for the Premier League title.",
-    achievements: ["13 English League Titles","14 FA Cups","Undefeated Season (2003–04)"],
-    players: {
-      "Bukayo Saka": { img:"images/saka.jpg", appearances:160, goals:45, assists:40, achievements:["England Player of the Year (2023)"] },
-      "Martin Ødegaard": { img:"images/odegaard.jpg", appearances:120, goals:30, assists:35, achievements:["Arsenal Captain"] },
-      "Gabriel Jesus": { img:"images/jesus.jpg", appearances:95, goals:35, assists:25, achievements:["Copa America Winner"] },
-      "William Saliba": { img:"images/saliba.jpg", appearances:70, goals:5, assists:4, achievements:["Best Defender 2023"] },
-      "Declan Rice": { img:"images/rice.jpg", appearances:55, goals:8, assists:10, achievements:["England Vice Captain"] },
-      "Gabriel Martinelli": { img:"images/gabriel.jpg", appearances:110, goals:35, assists:22, achievements:["Arsenal Young Player 2022"] },
-      "David Raya": { img:"images/raya.jpg", appearances:45, goals:0, assists:0, achievements:["Golden Glove 2024"] }
-    } 
-  },
-  "Chelsea": {
-    img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
-    history: "Chelsea became a Premier League powerhouse in the 2000s, rising to prominence with a strong squad and European success.",
-    achievements: ["5 Premier League Titles","2 UEFA Champions League Trophies","8 FA Cups","2 UEFA Europa League Titles"],
-    players: {
-      "Cole Palmer": { img:"images/palmer.jpg", appearances:60, goals:25, assists:15, achievements:["Young Player of the Year (2024)","England International"] },
-      "Moisés Caicedo": { img:"images/caicedo.jpg", appearances:80, goals:5, assists:10, achievements:["Ecuador Player of the Year (2022)","Key Midfielder"] },
-      "Reece James": { img:"images/james.jpg", appearances:120, goals:12, assists:30, achievements:["Club Captain (2023)","England International"] },
-      "Enzo Fernández": { img:"images/enzo.jpg", appearances:70, goals:6, assists:20, achievements:["Ballon d’Or Nominee (2023)","Argentina International"] },
-      "Ben Chilwell": { img:"images/ben.jpg", appearances:100, goals:8, assists:25, achievements:["England International","Experienced Defender"] },
-      "Malo Gusto": { img:"images/gusto.jpg", appearances:45, goals:3, assists:8, achievements:["Young Defender Rising"] },
-      "Tosin Adarabioyo": { img:"images/tosin.jpg", appearances:55, goals:4, assists:7, achievements:["England International","Strong Centre-Back"] }
-    }
-  },
-  "Liverpool": {
-    img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
-    history: "Liverpool have one of the richest football histories in world football. Under Jürgen Klopp they returned to the top of English & European game, with passionate fans and iconic stadium Anfield.",
-    achievements: ["1 Premier League Title (2020)","19 English League Titles (Overall)","6 UEFA Champions League Trophies","8 FA Cups"],
-    players: {
-      "Mohamed Salah": { img:"images/salah.jpg", appearances:220, goals:155, assists:65, achievements:["Golden Boot (3x)","Egypt International"] },
-      "Virgil van Dijk": { img:"images/vandijk.jpg", appearances:160, goals:20, assists:10, achievements:["Captain","Netherlands International"] },
-      "Alexander Isak": { img:"images/isak.jpg", appearances:55, goals:28, assists:12, achievements:["Sweden International","New Forward Signing"] },
-      "Alisson Becker": { img:"images/alisson.jpg", appearances:140, goals:2, assists:3, achievements:["Brazil International","Top Premier League Goalkeeper"] },
-      "Cody Gakpo": { img:"images/gakpo.jpg", appearances:70, goals:25, assists:18, achievements:["Netherlands International","Versatile Forward"] },
-      "Joe Gomez": { img:"images/gomez.jpg", appearances:80, goals:4, assists:6, achievements:["England International","Reliable Defender"] },
-      "Dominik Szoboszlai": { img:"images/dominik.jpg", appearances:60, goals:12, assists:20, achievements:["Hungary International","Midfield Creator"] }
-    }
-  },
-  "Tottenham Hotspur": {  
-    img: "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg",
-    history: "Tottenham Hotspur have impressed under Ange Postecoglou with dynamic, attacking football and a revitalized squad.",
-    achievements: ["2 English League Titles","8 FA Cups","UEFA Champions League Finalists (2019)"],
-    players: {
-      "Heung-min Son": { img:"images/son.jpg", appearances:250, goals:110, assists:75, achievements:["Asian Player of the Year (5x)"] },
-      "James Maddison": { img:"images/maddison.jpg", appearances:95, goals:28, assists:40, achievements:["Tottenham Vice Captain"] },
-      "Cristian Romero": { img:"images/romero.jpg", appearances:65, goals:4, assists:3, achievements:["World Cup Winner 2022"] },
-      "Destiny Udogie": { img:"images/udogie.jpg", appearances:40, goals:3, assists:5, achievements:["Breakthrough Young Player 2024"] },
-      "Richarlison": { img:"images/richarlison.jpg", appearances:85, goals:25, assists:15, achievements:["Copa America Winner"] },
-      "Pedro Porro": { img:"images/porro.jpg", appearances:50, goals:5, assists:12, achievements:["Best Right-Back 2024"] },
-      "Guglielmo Vicario": { img:"images/vicario.jpg", appearances:38, goals:0, assists:0, achievements:["Clean Sheets Leader 2024"] }
-    } 
-  },
-  "Manchester City": { 
-    img: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
-    history: "Manchester City have dominated the Premier League under Pep Guardiola with tactical brilliance and squad depth.",
-    achievements: ["9 English League Titles","6 Premier League Titles (since 2012)","UEFA Champions League Winners (2023)"],
-    players: {
-      "Erling Haaland": { img:"images/haaland.jpg", appearances:70, goals:73, assists:14, achievements:["Premier League Golden Boot (2023)"] },
-      "Kevin De Bruyne": { img:"images/debruyne.jpg", appearances:240, goals:65, assists:130, achievements:["PFA Player of the Year (2x)"] },
-      "Phil Foden": { img:"images/foden.jpg", appearances:160, goals:55, assists:45, achievements:["Young Player of the Year (2x)"] },
-      "Rodri": { img:"images/rodri.jpg", appearances:145, goals:20, assists:18, achievements:["Champions League Final Winner 2023"] },
-      "Bernardo Silva": { img:"images/silva.jpg", appearances:210, goals:50, assists:65, achievements:["Treble Winner 2023"] },
-      "Jack Grealish": { img:"images/grealish.jpg", appearances:110, goals:18, assists:25, achievements:["FA Cup Winner 2023"] }
-    } 
-  }
-};
+  const clubSelect = document.getElementById("clubSelect");
+  const playerSelect = document.getElementById("playerSelect");
+  const clubResult = document.getElementById("clubResult");
+  const playerResult = document.getElementById("playerResult");
+  const clubInfo = document.getElementById("clubInfo");
+  const clubImage = document.getElementById("clubImage");
+  const clubName = document.getElementById("clubName");
+  const clubHistory = document.getElementById("clubHistory");
+  const clubAchievements = document.getElementById("clubAchievements");
+  const defaultHistory = document.getElementById("defaultHistory");
 
-const clubSelect = document.getElementById("clubSelect");
-const playerSelect = document.getElementById("playerSelect");
-const clubResult = document.getElementById("clubResult");
-const playerResult = document.getElementById("playerResult");
-const clubInfo = document.getElementById("clubInfo");
-const clubImage = document.getElementById("clubImage");
-const clubName = document.getElementById("clubName");
-const clubHistory = document.getElementById("clubHistory");
-const clubAchievements = document.getElementById("clubAchievements");
-const defaultHistory = document.getElementById("defaultHistory");
+  clubSelect.addEventListener("change", function() {
+    const club = this.value;
+    if(!club) {
+      clubResult.textContent = "Please select a club.";
+      playerResult.textContent = "Select a club first.";
+      playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+      clubInfo.style.display = "none";
+      defaultHistory.style.display = "block";
+      return;
+    }
+    const details = clubDetails[club];
+    clubResult.textContent = `You selected: ${club}`;
+    updatePlayersDropdown();
+    if(details){
+      clubInfo.style.display = "flex";
+      defaultHistory.style.display = "none";
+      clubImage.src = details.img;
+      clubName.textContent = club;
+      clubHistory.textContent = details.history;
+      clubAchievements.innerHTML = "";
+      details.achievements.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        clubAchievements.appendChild(li);
+      });
+    }
+  });
 
-clubSelect.addEventListener("change", function() {
-  const club = this.value;
-  if (!club) {
-    clubResult.textContent = "Please select a club.";
-    playerResult.textContent = "Select a club first.";
-    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-    clubInfo.style.display = "none";
-    defaultHistory.style.display = "block";
-    return;
-  }
-  const details = clubDetails[club];
-  clubResult.textContent = `You selected: ${club}`;
-  updatePlayersDropdown();
-  if (details) {
-    clubInfo.style.display = "flex";
-    defaultHistory.style.display = "none";
-    clubImage.src = details.img;
-    clubName.textContent = club;
-    clubHistory.textContent = details.history;
-    clubAchievements.innerHTML = "";
-    details.achievements.forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      clubAchievements.appendChild(li);
-    });
-  }
-});
+  function updatePlayersDropdown() {
+    const club = clubSelect.value;
+    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+    if(club && clubDetails[club]){
+      Object.keys(clubDetails[club].players).sort().forEach(player => {
+        const option = document.createElement("option");
+        option.value = player;
+        option.textContent = player;
+        playerSelect.appendChild(option);
+      });
+      playerResult.textContent = "Please select a player.";
+    } else {
+      playerResult.textContent = "Select a club first.";
+    }
+  }
 
-function updatePlayersDropdown() {
-  const club = clubSelect.value;
-  playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-  if (club && clubDetails[club]) {
-    Object.keys(clubDetails[club].players).forEach(player => {
-      const option = document.createElement("option");
-      option.value = player;
-      option.textContent = player;
-      playerSelect.appendChild(option);
-    });
-    playerResult.textContent = "Please select a player.";
-  } else {
-    playerResult.textContent = "Select a club first.";
-  }
-}
-
-playerSelect.addEventListener("change", function() {
-  const club = clubSelect.value;
-  const player = this.value;
-  if (!player || !club) {
-    playerResult.textContent = "Please select a player.";
-    return;
-  }
-  const data = clubDetails[club].players[player];
-  playerResult.innerHTML = `
-    <div class="player-card">
-      <h3>${player}</h3>
-      <img src="${data.img}" alt="${player}" class="player-image">
-      <p><strong>Appearances:</strong> ${data.appearances}</p>
-      <p><strong>Goals:</strong> ${data.goals}</p>
-      <p><strong>Assists:</strong> ${data.assists}</p>
-      <h4>Personal Achievements:</h4>
-      <ul>${data.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
-    </div>
-  `;
-});
+  playerSelect.addEventListener("change", function() {
+    const club = clubSelect.value;
+    const player = this.value;
+    if(!player || !club){
+      playerResult.textContent = "Please select a player.";
+      return;
+    }
+    const data = clubDetails[club].players[player];
+    playerResult.innerHTML = `
+      <div class="player-card">
+        <h3>${player}</h3>
+        <img src="${data.img}" alt="${player}" class="player-image">
+        <p><strong>Appearances:</strong> ${data.appearances}</p>
+        <p><strong>Goals:</strong> ${data.goals}</p>
+        <p><strong>Assists:</strong> ${data.assists}</p>
+        <h4>Personal Achievements:</h4>
+        <ul>${data.achievements.map(a=>`<li>${a}</li>`).join('')}</ul>
+      </div>
+    `;
+  });
 </script>
 
 </body>
