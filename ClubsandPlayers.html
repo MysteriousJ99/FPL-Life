@@ -5,31 +5,43 @@
   <title>Fast Premier Life</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="externalstylesheet.css">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
   <style>
-    /* --- EXISTING STYLES --- */
+    /* --- Global image safety --- */
+    img {
+        max-width: 100%; /* Prevents images from overflowing small screens */
+        height: auto;    /* Maintains aspect ratio when resizing */
+        display: block;
+    }
+
+    /* --- EXISTING STYLES --- */
     .club-info {
       display: flex;
       align-items: flex-start;
       gap: 20px;
       margin-top: 1rem;
-      background-color: #f0f8ff; /* Note: This specific box stays light blue */
+      background-color: #f0f8ff;
       padding: 15px;
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      color: #000; /* Ensure text inside this box remains black even if theme changes */
+      color: #000;
+      flex-wrap: wrap; /* Added wrap so image and text stack on small screens */
     }
+
     .club-info img {
-      width: 120px;
-      height: 120px;
+      /* UPDATED TO 300x300 */
+      width: 300px;
+      height: 300px;
       border-radius: 10px;
-      object-fit: contain;
+      object-fit: contain; /* Ensures logo fits inside the box without stretching */
       background-color: white;
       border: 2px solid #ccc;
       padding: 5px;
+      flex-shrink: 0; /* Prevents the image from getting squashed */
     }
-    .club-text { flex: 1; }
+
+    .club-text { flex: 1; min-width: 250px; }
     .club-text h3 { margin-top: 0; }
     .club-text ul { margin-top: 0.5rem; padding-left: 1.2rem; }
     .club-text ul li { margin-bottom: 4px; }
@@ -41,8 +53,9 @@
       margin-top: 1rem;
       border: 1px solid #ddd;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      max-width: 400px;
-      color: #000; /* Ensure text stays black */
+      /* Increased max-width slightly to accommodate the larger 300px image nicely */
+      max-width: 450px;
+      color: #000;
     }
     .player-card h3 { margin-top: 0; color: #004080; }
     .player-card p { margin: 4px 0; }
@@ -50,26 +63,24 @@
     .player-card ul li { margin-bottom: 4px; }
     
     .player-image {
-      width: 200px;
-      height: 200px;
+      /* UPDATED TO 300x300 */
+      width: 300px;
+      height: 300px;
       border-radius: 8px;
-      object-fit: contain;
+      object-fit: cover; /* 'cover' is usually better for player photos (faces) */
+      /* You can change 'cover' to 'contain' if you want to see the whole photo uncropped */
       margin-top: 8px;
     }
 
-    /* --- NEW THEME COLORS CSS --- */
-    /* These rules apply colors to the Header, Nav, and Main Sections */
+    /* --- THEME COLORS CSS --- */
     section {
       padding: 20px;
       border-radius: 8px;
-      margin-bottom: 20px; /* Added for spacing */
+      margin-bottom: 20px;
       transition: background-color 0.3s, color 0.3s;
     }
     
-    /* Transition for header elements */
     header, nav a { transition: background-color 0.3s, color 0.3s; }
-
-    /* Nav Styling Fixes for Themes */
     nav a { margin: 0 10px; text-decoration: none; font-weight: bold; }
     nav a.active { border-bottom: 2px solid currentColor; }
 
@@ -106,7 +117,6 @@
         <option value="liverpool">Liverpool</option>
         <option value="arsenal">Arsenal</option>
     </select>
-
     <a href="login.html">Login</a>
     <span class="search-icon" title="Search">🔍</span>
   </div>
@@ -167,29 +177,24 @@
 </footer>
 
 <script>
-// ================= TEAM THEME SYSTEM (ADDED) =================
+// ================= TEAM THEME SYSTEM =================
 const selector = document.getElementById("team-selector");
-
-// Load and apply saved theme
 const savedTheme = localStorage.getItem("teamTheme") || "default";
 
-// Apply saved theme (remove any previous classes first for cleanliness)
 document.body.className = "";
 if (savedTheme !== "default") {
   document.body.classList.add(savedTheme);
 }
-selector.value = savedTheme; // Set selector to saved value
+selector.value = savedTheme;
 
-// Listen for changes
 selector.addEventListener("change", () => {
   const team = selector.value;
-  document.body.className = ""; // Remove all previous theme classes
+  document.body.className = "";
   if (team !== "default") document.body.classList.add(team);
-  localStorage.setItem("teamTheme", team); // Save to localStorage
+  localStorage.setItem("teamTheme", team);
 });
 
-
-// ================= EXISTING CLUB & PLAYER DATA =================
+// ================= CLUB & PLAYER DATA =================
 const clubDetails = {
   "Manchester United": { 
     img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
@@ -214,7 +219,7 @@ const clubDetails = {
       "Gabriel Jesus": { img:"images/jesus.jpg", appearances:95, goals:35, assists:25, achievements:["Copa America Winner"] },
       "William Saliba": { img:"images/saliba.jpg", appearances:70, goals:5, assists:4, achievements:["Best Defender 2023"] },
       "Declan Rice": { img:"images/rice.jpg", appearances:55, goals:8, assists:10, achievements:["England Vice Captain"] },
-      "Gabriel Martinelli": { img:"images/martinelli.jpg", appearances:110, goals:35, assists:22, achievements:["Arsenal Young Player 2022"] },
+      "Gabriel Martinelli": { img:"images/gabriel.jpg", appearances:110, goals:35, assists:22, achievements:["Arsenal Young Player 2022"] },
       "David Raya": { img:"images/raya.jpg", appearances:45, goals:0, assists:0, achievements:["Golden Glove 2024"] }
     } 
   },
@@ -227,9 +232,9 @@ const clubDetails = {
       "Moisés Caicedo": { img:"images/caicedo.jpg", appearances:80, goals:5, assists:10, achievements:["Ecuador Player of the Year (2022)","Key Midfielder"] },
       "Reece James": { img:"images/james.jpg", appearances:120, goals:12, assists:30, achievements:["Club Captain (2023)","England International"] },
       "Enzo Fernández": { img:"images/enzo.jpg", appearances:70, goals:6, assists:20, achievements:["Ballon d’Or Nominee (2023)","Argentina International"] },
-      "Ben Chilwell": { img:"images/chilwell.jpg", appearances:100, goals:8, assists:25, achievements:["England International","Experienced Defender"] },
+      "Ben Chilwell": { img:"images/ben.jpg", appearances:100, goals:8, assists:25, achievements:["England International","Experienced Defender"] },
       "Malo Gusto": { img:"images/gusto.jpg", appearances:45, goals:3, assists:8, achievements:["Young Defender Rising"] },
-      "Tosin Adarabioyo": { img:"images/adarabioyo.jpg", appearances:55, goals:4, assists:7, achievements:["England International","Strong Centre-Back"] }
+      "Tosin Adarabioyo": { img:"images/tosin.jpg", appearances:55, goals:4, assists:7, achievements:["England International","Strong Centre-Back"] }
     }
   },
   "Liverpool": {
@@ -243,7 +248,7 @@ const clubDetails = {
       "Alisson Becker": { img:"images/alisson.jpg", appearances:140, goals:2, assists:3, achievements:["Brazil International","Top Premier League Goalkeeper"] },
       "Cody Gakpo": { img:"images/gakpo.jpg", appearances:70, goals:25, assists:18, achievements:["Netherlands International","Versatile Forward"] },
       "Joe Gomez": { img:"images/gomez.jpg", appearances:80, goals:4, assists:6, achievements:["England International","Reliable Defender"] },
-      "Dominik Szoboszlai": { img:"images/szoboszlai.jpg", appearances:60, goals:12, assists:20, achievements:["Hungary International","Midfield Creator"] }
+      "Dominik Szoboszlai": { img:"images/dominik.jpg", appearances:60, goals:12, assists:20, achievements:["Hungary International","Midfield Creator"] }
     }
   },
   "Tottenham Hotspur": {  
