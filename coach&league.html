@@ -21,6 +21,7 @@
       border: 1px solid #e6e6e6;
       border-radius: 12px;
       padding: 12px;
+      transition: background 0.3s, color 0.3s;
     }
     .coach-card img {
       width: 140px;
@@ -52,11 +53,36 @@
 
     /* THEME DROPDOWN */
     .theme-box { padding: 10px 0; display: flex; justify-content: flex-end; }
+
+    /* ---------------- Team Themes ---------------- */
+    body.chelsea, body.chelsea header, body.chelsea nav a, body.chelsea section, body.chelsea .coach-card { background-color: #034694; color: #ffffff; }
+    body.mancity, body.mancity header, body.mancity nav a, body.mancity section, body.mancity .coach-card { background-color: #6CABDD; color: #001838; }
+    body.manutd, body.manutd header, body.manutd nav a, body.manutd section, body.manutd .coach-card { background-color: #DA291C; color: #ffffff; }
+    body.tottenham, body.tottenham header, body.tottenham nav a, body.tottenham section, body.tottenham .coach-card { background-color: #132257; color: #ffffff; }
+    body.liverpool, body.liverpool header, body.liverpool nav a, body.liverpool section, body.liverpool .coach-card { background-color: #C8102E; color: #ffffff; }
+    body.arsenal, body.arsenal header, body.arsenal nav a, body.arsenal section, body.arsenal .coach-card { background-color: #EF0107; color: #ffffff; }
+
+    header nav a, header .header-right a, header .search-icon, header .theme-box select { color: inherit; transition: color 0.25s ease; }
+    header nav a:hover, header .header-right a:hover { opacity: 0.85; }
   </style>
 </head>
 
 <body>
 <header>
+  <!-- THEME SELECTOR -->
+  <div class="theme-box">
+    <label for="teamSelector" style="margin-right:8px;">Team Theme:</label>
+    <select id="teamSelector">
+      <option value="default">Default</option>
+      <option value="chelsea">Chelsea</option>
+      <option value="mancity">Manchester City</option>
+      <option value="manutd">Manchester United</option>
+      <option value="tottenham">Tottenham Hotspur</option>
+      <option value="liverpool">Liverpool</option>
+      <option value="arsenal">Arsenal</option>
+    </select>
+  </div>
+
   <div class="logo">
     <a href="index.html" aria-label="Home">
       <img src="images/Logo.png" alt="Website Logo">
@@ -75,19 +101,6 @@
     <span class="search-icon" title="Search">🔍</span>
   </div>
 </header>
-
-<!-- THEME SELECTOR -->
-<div class="theme-box wrap">
-  <select id="themeSelect">
-    <option value="default">Default</option>
-    <option value="chelsea">Chelsea</option>
-    <option value="mancity">Manchester City</option>
-    <option value="manutd">Manchester United</option>
-    <option value="tottenham">Tottenham</option>
-    <option value="liverpool">Liverpool</option>
-    <option value="arsenal">Arsenal</option>
-  </select>
-</div>
 
 <main class="wrap">
   <!-- COACH FINDER PANEL -->
@@ -129,27 +142,27 @@
     <div class="league-grid">
       <article class="league">
         <h3>La Liga (Spain)</h3>
-        <p>Spain’s top tier is renowned for technique and possession play, home to Barcelona, Real Madrid, and Atlético. It has produced some of the most successful Champions League campaigns in history.</p>
+        <p>Spain’s top tier is renowned for technique and possession play, home to Barcelona, Real Madrid, and Atlético.</p>
         <p><a href="#">Official website</a></p>
       </article>
       <article class="league">
         <h3>Serie A (Italy)</h3>
-        <p>Serie A is tactically rich and defensively disciplined, with giants like Juventus, Milan, and Inter. Italian clubs are famous for tactical flexibility and strong defensive structures.</p>
+        <p>Serie A is tactically rich and defensively disciplined, with giants like Juventus, Milan, and Inter.</p>
         <p><a href="#">Official website</a></p>
       </article>
       <article class="league">
         <h3>Bundesliga (Germany)</h3>
-        <p>The Bundesliga is high tempo with fan-centric ownership models and elite development pipelines. Clubs like Bayern Munich and Borussia Dortmund regularly compete in Europe.</p>
+        <p>The Bundesliga is high tempo with fan-centric ownership models and elite development pipelines.</p>
         <p><a href="#">Official website</a></p>
       </article>
       <article class="league">
         <h3>Ligue 1 (France)</h3>
-        <p>Ligue 1 pairs youth development with star power, with PSG leading the charge domestically. Many world-class talents have started their careers in France before moving abroad.</p>
+        <p>Ligue 1 pairs youth development with star power, with PSG leading the charge domestically.</p>
         <p><a href="#">Official website</a></p>
       </article>
       <article class="league">
         <h3>Premier League (England)</h3>
-        <p>The Premier League combines global reach, varied styles, and intense weekly competition. It is considered the world’s most-watched league with huge TV audiences.</p>
+        <p>The Premier League combines global reach, varied styles, and intense weekly competition.</p>
         <p><a href="#">Official website</a></p>
       </article>
     </div>
@@ -171,18 +184,18 @@
 <!-- THEME SCRIPT -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const themeSelect = document.getElementById("themeSelect");
-  const saved = localStorage.getItem("selectedTeam") || "default";
+  const selector = document.getElementById("teamSelector");
+  const teams = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
 
-  document.body.classList.remove("chelsea","mancity","manutd","tottenham","liverpool","arsenal");
-  if (saved !== "default") document.body.classList.add(saved);
-  themeSelect.value = saved;
+  const savedTheme = localStorage.getItem("teamTheme");
+  if(savedTheme && savedTheme !== "default") document.body.classList.add(savedTheme);
+  selector.value = savedTheme || "default";
 
-  themeSelect.addEventListener("change", () => {
-    const team = themeSelect.value;
-    document.body.classList.remove("chelsea","mancity","manutd","tottenham","liverpool","arsenal");
-    if (team !== "default") document.body.classList.add(team);
-    localStorage.setItem("selectedTeam", team);
+  selector.addEventListener("change", () => {
+    const team = selector.value;
+    teams.forEach(t => document.body.classList.remove(t));
+    if(team !== "default") document.body.classList.add(team);
+    localStorage.setItem("teamTheme", team);
   });
 });
 </script>
@@ -190,72 +203,12 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- COACH SCRIPT -->
 <script>
 const coaches = {
-  pep: {
-    name: "Pep Guardiola",
-    img: "images/guardiola.wepp",
-    style: "Pep Guardiola is known for his positional play and controlled possession, building attacks patiently through short passing and overloads. His teams press aggressively off the ball, aiming to win possession high and dominate the tempo from start to finish.",
-    formation: "4-3-3 that often morphs into a 3-2-4-1 in possession.",
-    achievements: [
-      "Multiple Premier League titles with Manchester City",
-      "Champions League titles with Barcelona and Manchester City",
-      "Domestic league titles in Spain, Germany, and England"
-    ]
-  },
-  klopp: {
-    name: "Jürgen Klopp",
-    img: "images/klopp.wepp",
-    style: "Jürgen Klopp is famous for his high-intensity gegenpressing, encouraging his teams to win the ball back within seconds of losing it. His sides attack with pace and directness while feeding off the emotional energy of the crowd.",
-    formation: "4-3-3 with aggressive pressing and overlapping full-backs.",
-    achievements: [
-      "Premier League title with Liverpool in 2019–20",
-      "Champions League winner with Liverpool in 2018–19",
-      "Multiple Bundesliga titles with Borussia Dortmund"
-    ]
-  },
-  arteta: {
-    name: "Mikel Arteta",
-    img: "images/arteta.wepp",
-    style: "Mikel Arteta blends Guardiola-style positional play with Arsenal’s traditional focus on fluid attacking football. He emphasizes structure in possession, rotations between midfield and full-backs, and a strong pressing trigger when the ball is lost.",
-    formation: "4-3-3 / 4-2-3-1 hybrid with an inverted full-back.",
-    achievements: [
-      "FA Cup and Community Shield wins with Arsenal",
-      "Guided Arsenal back into consistent title contention",
-      "Developed young stars into key Premier League performers"
-    ]
-  },
-  tenhag: {
-    name: "Erik ten Hag",
-    img: "images/hag.wepp",
-    style: "Erik ten Hag focuses on structured build-up play and vertical passing lanes through midfield. His teams are drilled to press in coordinated units and to control space between the lines on both sides of the ball.",
-    formation: "4-2-3-1 with an emphasis on rotations between the 10 and wingers.",
-    achievements: [
-      "Multiple Eredivisie titles with Ajax",
-      "Champions League semi-final run with Ajax in 2018–19",
-      "Domestic cup success in both the Netherlands and England"
-    ]
-  },
-  postecoglou: {
-    name: "Ange Postecoglou",
-    img: "images/postecoglou.wepp",
-    style: "Ange Postecoglou is known for ultra-attacking, front-foot football, asking his teams to take risks in possession and commit numbers forward. His sides look to dominate the ball, push full-backs high, and keep a relentless attacking tempo.",
-    formation: "4-3-3 with very advanced full-backs and attacking eights.",
-    achievements: [
-      "Domestic trebles and league titles with Celtic",
-      "Transformed Tottenham’s style into a proactive attacking side",
-      "Successful stints in multiple countries and competitions"
-    ]
-  },
-  emery: {
-    name: "Unai Emery",
-    img: "images/emery.wepp",
-    style: "Unai Emery is meticulous in preparation, tailoring his game plans to expose opponents’ weaknesses. He balances compact defensive structures with quick transitions, especially effective in knockout and European competitions.",
-    formation: "4-4-2 / 4-2-3-1 with compact lines and quick counters.",
-    achievements: [
-      "Multiple Europa League titles with Sevilla and Villarreal",
-      "Rebuilt Aston Villa into a strong European contender",
-      "Managed top clubs across Spain, France, and England"
-    ]
-  }
+  pep: { name: "Pep Guardiola", img: "images/guardiola.webp", style: "Positional play and possession.", formation: "4-3-3", achievements: ["Multiple Premier League titles", "Champions League titles", "Domestic league titles in Spain, Germany, England"] },
+  klopp: { name: "Jürgen Klopp", img: "images/klopp.webp", style: "High-intensity gegenpressing.", formation: "4-3-3", achievements: ["Premier League 2019–20", "Champions League 2018–19", "Multiple Bundesliga titles"] },
+  arteta: { name: "Mikel Arteta", img: "images/arteta.webp", style: "Structured possession and attacking football.", formation: "4-3-3 / 4-2-3-1", achievements: ["FA Cup & Community Shield wins", "Guided Arsenal to title contention", "Developed young stars"] },
+  tenhag: { name: "Erik ten Hag", img: "images/hag.webp", style: "Structured build-up play.", formation: "4-2-3-1", achievements: ["Multiple Eredivisie titles", "Champions League semi-final 2018–19", "Domestic cup success"] },
+  postecoglou: { name: "Ange Postecoglou", img: "images/postecoglou.webp", style: "Ultra-attacking, front-foot football.", formation: "4-3-3", achievements: ["Domestic trebles & league titles with Celtic", "Transformed Tottenham’s style", "Successful stints in multiple countries"] },
+  emery: { name: "Unai Emery", img: "images/emery.webp", style: "Compact defense with quick transitions.", formation: "4-4-2 / 4-2-3-1", achievements: ["Multiple Europa League titles", "Rebuilt Aston Villa", "Managed top clubs in Europe"] }
 };
 
 const coachSelect = document.getElementById("coachSelect");
@@ -267,43 +220,35 @@ const coachStyle = document.getElementById("coachStyle");
 const coachFormation = document.getElementById("coachFormation");
 const coachList = document.getElementById("coachList");
 
-// Update card when a coach is selected
 coachSelect.addEventListener("change", () => {
   const value = coachSelect.value;
-  if (value && coaches[value]) {
+  if(value && coaches[value]){
     const coach = coaches[value];
     coachImg.src = coach.img;
     coachImg.alt = coach.name;
     coachName.textContent = coach.name;
     coachStyle.textContent = coach.style;
     coachFormation.innerHTML = "<strong>Preferred formation:</strong> " + coach.formation;
-
     coachList.innerHTML = "";
     coach.achievements.forEach(a => {
       const li = document.createElement("li");
       li.textContent = a;
       coachList.appendChild(li);
     });
-
     coachCard.style.display = "grid";
   } else {
     coachCard.style.display = "none";
   }
 });
 
-// Optional: simple filter for the dropdown by name
 coachFilter.addEventListener("input", () => {
   const term = coachFilter.value.toLowerCase();
-  for (let i = 0; i < coachSelect.options.length; i++) {
+  for(let i=0;i<coachSelect.options.length;i++){
     const opt = coachSelect.options[i];
-    if (opt.value === "") continue;
-    const text = opt.textContent.toLowerCase();
-    opt.hidden = term && !text.includes(term);
+    if(opt.value==="") continue;
+    opt.hidden = term && !opt.textContent.toLowerCase().includes(term);
   }
 });
 </script>
-
 </body>
 </html>
-
-
