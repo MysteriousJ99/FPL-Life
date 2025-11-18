@@ -1,77 +1,63 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<title>Fast Premier Life</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="externalstylesheet.css">
+  <meta charset="utf-8" />
+  <title>Fast Premier Life</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="externalstylesheet.css">
+
+ <!-- (rest of the HTML remains the same) -->
+
 <style>
-/* --- Club & Player Cards --- */
-.club-info {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  margin-top: 1rem;
-  background-color: #f0f8ff;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.club-info img {
-  width: 120px;
-  height: 120px;
-  border-radius: 10px;
-  object-fit: contain;
-  background-color: white;
-  border: 2px solid #ccc;
-  padding: 5px;
-}
-.club-text { flex: 1; }
-.club-text h3 { margin-top: 0; }
-.club-text ul { margin-top: 0.5rem; padding-left: 1.2rem; }
-.club-text ul li { margin-bottom: 4px; }
+  .club-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 1rem;
+    background-color: #f0f8ff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  .club-info img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+    background-color: white;
+    border: 2px solid #ccc;
+    padding: 5px;
+  }
+  .club-text { flex: 1; }
+  .club-text h3 { margin-top: 0; }
+  .club-text ul { margin-top: 0.5rem; padding-left: 1.2rem; }
+  .club-text ul li { margin-bottom: 4px; }
 
-.player-card {
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 1rem;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  max-width: 400px;
-}
-.player-card h3 { margin-top: 0; color: #004080; }
-.player-card p { margin: 4px 0; }
-.player-card ul { margin-top: 8px; padding-left: 1.2rem; }
-.player-card ul li { margin-bottom: 4px; }
-.player-image { width: 200px; height: 200px; border-radius: 8px; object-fit: contain; margin-top: 8px; }
-
-/* --- Header/Nav --- */
-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; }
-.logo img { height: 40px; width: auto; }
-nav { flex: 1; display: flex; justify-content: center; gap: 20px; }
-nav a { text-decoration: none; color: inherit; font-weight: 500; padding: 8px 12px; border-radius: 5px; transition: color 0.3s ease; }
-nav a:hover { opacity: 0.85; }
-nav a.active { font-weight: bold; }
-.header-right { display: flex; align-items: center; gap: 15px; }
-.header-right a { text-decoration: none; color: inherit; font-weight: 500; }
-.search-icon { font-size: 18px; cursor: pointer; color: inherit; }
-
-/* --- Theme Selector --- */
-.theme-selector { display: flex; align-items: center; gap: 8px; }
-.theme-selector select { padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1); background: white; }
-
-/* --- Team Themes --- */
-body.chelsea header, body.chelsea footer { background-color: #034694; color: #ffffff; }
-body.mancity header, body.mancity footer { background-color: #6CABDD; color: #001838; }
-body.manutd header, body.manutd footer { background-color: #DA291C; color: #ffffff; }
-body.tottenham header, body.tottenham footer { background-color: #001C58; color: #ffffff; }
-body.liverpool header, body.liverpool footer { background-color: #C8102E; color: #ffffff; }
-body.arsenal header, body.arsenal footer { background-color: #EF0107; color: #ffffff; }
-
-header nav a, header .header-right a, header .search-icon, header .theme-selector label { color: inherit; transition: color 0.25s ease; }
+  .player-card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 1rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    max-width: 400px;
+  }
+  .player-card h3 { margin-top: 0; color: #004080; }
+  .player-card p { margin: 4px 0; }
+  .player-card ul { margin-top: 8px; padding-left: 1.2rem; }
+  .player-card ul li { margin-bottom: 4px; }
+  
+  /* Updated player image */
+  .player-image {
+    width: 200px;       /* fixed width */
+    height: 200px;      /* fixed height */
+    border-radius: 8px;
+    object-fit: contain; /* shows full image */
+    margin-top: 8px;
+  }
 </style>
 </head>
+
 <body>
 <header>
   <div class="logo"><img src="images/Logo.png" alt="Website Logo"></div>
@@ -83,23 +69,9 @@ header nav a, header .header-right a, header .search-icon, header .theme-selecto
     <a href="coach&league.html">Other Leagues/Coaches</a>
     <a href="discussion.html">Discussion</a>
   </nav>
-  <div style="display:flex; align-items:center; gap:12px;">
-    <div class="theme-selector">
-      <label for="colorPicker">Team Theme:</label>
-      <select id="colorPicker">
-        <option value="default">Default</option>
-        <option value="chelsea">Chelsea</option>
-        <option value="mancity">Manchester City</option>
-        <option value="manutd">Manchester United</option>
-        <option value="tottenham">Tottenham Hotspur</option>
-        <option value="liverpool">Liverpool</option>
-        <option value="arsenal">Arsenal</option>
-      </select>
-    </div>
-    <div class="header-right">
-      <a href="login.html">Login</a>
-      <span class="search-icon" title="Search">🔍</span>
-    </div>
+  <div class="header-right">
+    <a href="login.html">Login</a>
+    <span class="search-icon" title="Search">🔍</span>
   </div>
 </header>
 
@@ -153,25 +125,11 @@ header nav a, header .header-right a, header .search-icon, header .theme-selecto
   </div>
   <div class="footer-right">
     <p>302-555-6611</p>
-    <p>wearedefinitelyreal@gmail.com</p>
+    <p>wearedefintelyreal@gmail.com</p>
   </div>
 </footer>
 
 <script>
-// --- Theme Selector ---
-const colorPicker = document.getElementById("colorPicker");
-const themeClasses = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
-let saved = localStorage.getItem("selectedTeam");
-if(saved && saved !== "default") document.body.classList.add(saved);
-if(colorPicker) colorPicker.value = saved || "default";
-colorPicker.addEventListener("change", function() {
-  const team = this.value;
-  themeClasses.forEach(c => document.body.classList.remove(c));
-  if(team !== "default") document.body.classList.add(team);
-  localStorage.setItem("selectedTeam", team);
-});
-
-// --- Club & Player Data ---
 const clubDetails = {
   "Manchester United": { 
     img: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg",
@@ -186,7 +144,7 @@ const clubDetails = {
       "Lisandro Martínez": { img:"images/lisandro.jpg", appearances:70, goals:5, assists:3, achievements:["World Cup Winner 2022"] }
     } 
   },
-  "Arsenal": {
+  "Arsenal": {  
     img: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
     history: "Arsenal have been reborn under Mikel Arteta, playing high-pressing, possession-based football and challenging for the Premier League title.",
     achievements: ["13 English League Titles","14 FA Cups","Undefeated Season (2003–04)"],
@@ -198,7 +156,7 @@ const clubDetails = {
       "Declan Rice": { img:"images/rice.jpg", appearances:55, goals:8, assists:10, achievements:["England Vice Captain"] },
       "Gabriel Martinelli": { img:"images/martinelli.jpg", appearances:110, goals:35, assists:22, achievements:["Arsenal Young Player 2022"] },
       "David Raya": { img:"images/raya.jpg", appearances:45, goals:0, assists:0, achievements:["Golden Glove 2024"] }
-    }
+    } 
   },
   "Chelsea": {
     img: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg",
@@ -228,7 +186,7 @@ const clubDetails = {
       "Dominik Szoboszlai": { img:"images/szoboszlai.jpg", appearances:60, goals:12, assists:20, achievements:["Hungary International","Midfield Creator"] }
     }
   },
-  "Tottenham Hotspur": {
+  "Tottenham Hotspur": {  
     img: "https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg",
     history: "Tottenham Hotspur have impressed under Ange Postecoglou with dynamic, attacking football and a revitalized squad.",
     achievements: ["2 English League Titles","8 FA Cups","UEFA Champions League Finalists (2019)"],
@@ -240,9 +198,9 @@ const clubDetails = {
       "Richarlison": { img:"images/richarlison.jpg", appearances:85, goals:25, assists:15, achievements:["Copa America Winner"] },
       "Pedro Porro": { img:"images/porro.jpg", appearances:50, goals:5, assists:12, achievements:["Best Right-Back 2024"] },
       "Guglielmo Vicario": { img:"images/vicario.jpg", appearances:38, goals:0, assists:0, achievements:["Clean Sheets Leader 2024"] }
-    }
+    } 
   },
-  "Manchester City": {
+  "Manchester City": { 
     img: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
     history: "Manchester City have dominated the Premier League under Pep Guardiola with tactical brilliance and squad depth.",
     achievements: ["9 English League Titles","6 Premier League Titles (since 2012)","UEFA Champions League Winners (2023)"],
@@ -252,12 +210,11 @@ const clubDetails = {
       "Phil Foden": { img:"images/foden.jpg", appearances:160, goals:55, assists:45, achievements:["Young Player of the Year (2x)"] },
       "Rodri": { img:"images/rodri.jpg", appearances:145, goals:20, assists:18, achievements:["Champions League Final Winner 2023"] },
       "Bernardo Silva": { img:"images/silva.jpg", appearances:210, goals:50, assists:65, achievements:["Treble Winner 2023"] },
-      "Jack Grealish": { img:"images/grealish.jpg", appearances:110, goals:18, assists:25, achievements:["FA Cup Winner 2023"] } 
-    }
+      "Jack Grealish": { img:"images/grealish.jpg", appearances:110, goals:18, assists:25, achievements:["FA Cup Winner 2023"] }
+    } 
   }
 };
 
-// --- DOM Elements ---
 const clubSelect = document.getElementById("clubSelect");
 const playerSelect = document.getElementById("playerSelect");
 const clubResult = document.getElementById("clubResult");
@@ -269,61 +226,71 @@ const clubHistory = document.getElementById("clubHistory");
 const clubAchievements = document.getElementById("clubAchievements");
 const defaultHistory = document.getElementById("defaultHistory");
 
-// --- Update Club Info ---
 clubSelect.addEventListener("change", function() {
   const club = this.value;
-  if(!club || !clubDetails[club]) {
-    clubInfo.style.display = "none";
+  if (!club) {
     clubResult.textContent = "Please select a club.";
-    defaultHistory.style.display = "block";
-    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
     playerResult.textContent = "Select a club first.";
+    playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+    clubInfo.style.display = "none";
+    defaultHistory.style.display = "block";
     return;
   }
   const details = clubDetails[club];
-  clubInfo.style.display = "flex";
-  defaultHistory.style.display = "none";
-  clubImage.src = details.img;
-  clubName.textContent = club;
-  clubHistory.textContent = details.history;
-  clubAchievements.innerHTML = "";
-  details.achievements.forEach(a => {
-    const li = document.createElement("li");
-    li.textContent = a;
-    clubAchievements.appendChild(li);
-  });
-  // Update player dropdown
-  playerSelect.innerHTML = '<option value="">--Select Player--</option>';
-  Object.keys(details.players).forEach(p => {
-    const option = document.createElement("option");
-    option.value = p;
-    option.textContent = p;
-    playerSelect.appendChild(option);
-  });
-  playerResult.textContent = "Select a player to see details.";
+  clubResult.textContent = `You selected: ${club}`;
+  updatePlayersDropdown();
+  if (details) {
+    clubInfo.style.display = "flex";
+    defaultHistory.style.display = "none";
+    clubImage.src = details.img;
+    clubName.textContent = club;
+    clubHistory.textContent = details.history;
+    clubAchievements.innerHTML = "";
+    details.achievements.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      clubAchievements.appendChild(li);
+    });
+  }
 });
 
-// --- Update Player Info ---
+function updatePlayersDropdown() {
+  const club = clubSelect.value;
+  playerSelect.innerHTML = '<option value="">--Select Player--</option>';
+  if (club && clubDetails[club]) {
+    Object.keys(clubDetails[club].players).forEach(player => {
+      const option = document.createElement("option");
+      option.value = player;
+      option.textContent = player;
+      playerSelect.appendChild(option);
+    });
+    playerResult.textContent = "Please select a player.";
+  } else {
+    playerResult.textContent = "Select a club first.";
+  }
+}
+
 playerSelect.addEventListener("change", function() {
   const club = clubSelect.value;
   const player = this.value;
-  if(!player || !clubDetails[club].players[player]) {
-    playerResult.innerHTML = "Select a player to see details.";
+  if (!player || !club) {
+    playerResult.textContent = "Please select a player.";
     return;
   }
-  const p = clubDetails[club].players[player];
+  const data = clubDetails[club].players[player];
   playerResult.innerHTML = `
     <div class="player-card">
       <h3>${player}</h3>
-      <p><strong>Appearances:</strong> ${p.appearances}</p>
-      <p><strong>Goals:</strong> ${p.goals}</p>
-      <p><strong>Assists:</strong> ${p.assists}</p>
-      <h4>Achievements:</h4>
-      <ul>${p.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
-      <img class="player-image" src="${p.img}" alt="${player}">
+      <img src="${data.img}" alt="${player}" class="player-image">
+      <p><strong>Appearances:</strong> ${data.appearances}</p>
+      <p><strong>Goals:</strong> ${data.goals}</p>
+      <p><strong>Assists:</strong> ${data.assists}</p>
+      <h4>Personal Achievements:</h4>
+      <ul>${data.achievements.map(a => `<li>${a}</li>`).join('')}</ul>
     </div>
   `;
 });
 </script>
+
 </body>
 </html>
