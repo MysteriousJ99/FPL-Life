@@ -98,24 +98,44 @@
       background: white;
     }
 
-    /* ---------------- Team Theme Overrides ---------------- */
-    body.chelsea header,
-    body.chelsea footer { background-color: #034694; color: #ffffff; }
+    /* ---------------- Team Theme Overrides (MATCHES HOME PAGE) ---------------- */
 
-    body.mancity header,
-    body.mancity footer { background-color: #6CABDD; color: #001838; }
+body.chelsea header,
+body.chelsea nav a,
+body.chelsea section { background-color: #034694; color: #ffffff; }
 
-    body.manutd header,
-    body.manutd footer { background-color: #DA291C; color: #ffffff; }
+body.mancity header,
+body.mancity nav a,
+body.mancity section { background-color: #6CABDD; color: #001838; }
 
-    body.tottenham header,
-    body.tottenham footer { background-color: #001C58; color: #ffffff; }
+body.manutd header,
+body.manutd nav a,
+body.manutd section { background-color: #DA291C; color: #ffffff; }
 
-    body.liverpool header,
-    body.liverpool footer { background-color: #C8102E; color: #ffffff; }
+body.tottenham header,
+body.tottenham nav a,
+body.tottenham section { background-color: #132257; color: #ffffff; }
 
-    body.arsenal header,
-    body.arsenal footer { background-color: #EF0107; color: #ffffff; }
+body.liverpool header,
+body.liverpool nav a,
+body.liverpool section { background-color: #C8102E; color: #ffffff; }
+
+body.arsenal header,
+body.arsenal nav a,
+body.arsenal section { background-color: #EF0107; color: #ffffff; }
+
+/* Ensure links/icons inherit theme */
+header nav a,
+header .header-right a,
+header .search-icon,
+header .theme-selector label {
+  color: inherit;
+  transition: color 0.25s ease;
+}
+header nav a:hover,
+header .header-right a:hover {
+  opacity: 0.85;
+}
 
     /* Ensure links/icons inherit theme */
     header nav a,
@@ -241,9 +261,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <!-- Club & Player JS logic remains unchanged -->
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const colorPicker = document.getElementById("colorPicker");
+  const themeClasses = ["chelsea","mancity","manutd","tottenham","liverpool","arsenal"];
+
+  // Load saved theme (MUST match Home page key)
+  const savedTheme = localStorage.getItem("teamTheme");
+
+  if(savedTheme && savedTheme !== "default") {
+    document.body.classList.add(savedTheme);
+  }
+
+  if(colorPicker) colorPicker.value = savedTheme || "default";
+
+  colorPicker.addEventListener("change", function () {
+    const team = this.value;
+
+    // Remove old theme
+    themeClasses.forEach(c => document.body.classList.remove(c));
+
+    // Apply new theme
+    if(team !== "default") {
+      document.body.classList.add(team);
+    }
+
+    // Save theme (SAME KEY AS HOME PAGE)
+    localStorage.setItem("teamTheme", team);
+  });
+});
+
 /* your existing clubDetails JS and event listeners */
 </script>
 
 </body>
 </html>
+
 
