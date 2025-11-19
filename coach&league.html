@@ -13,7 +13,7 @@
     .row { display: grid; grid-template-columns: 1fr; gap: 20px; }
 
     header, header nav a, header .header-right a, header .theme-selector label, header .theme-selector select {
-      color: inherit; /* ensure text is readable on dark/light headers */
+      color: inherit;
     }
 
     header .theme-selector select {
@@ -30,8 +30,8 @@
       grid-template-columns: 140px 1fr;
       gap: 14px;
       align-items: start;
-      background-color: #fff; /* keep white for readability */
-      color: #000; /* text dark inside card */
+      background-color: #fff;
+      color: #000;
       border: 1px solid #e6e6e6;
       border-radius: 12px;
       padding: 12px;
@@ -45,6 +45,7 @@
       border: 1px solid #ddd;
       background: white;
     }
+
     .coach-meta h3 { margin: 0 0 6px; }
     .coach-meta p { margin: 0 0 6px; }
     .coach-meta ul { margin: 6px 0 0 18px; }
@@ -68,17 +69,54 @@
     /* THEME DROPDOWN */
     .theme-box { padding: 10px 0; display: flex; justify-content: flex-end; }
 
-    /* ---------------- Team Themes ---------------- */
-    body.chelsea, body.chelsea header, body.chelsea nav a, body.chelsea section { background-color: #034694; color: #ffffff; }
-    body.mancity, body.mancity header, body.mancity nav a, body.mancity section { background-color: #6CABDD; color: #001838; }
-    body.manutd, body.manutd header, body.manutd nav a, body.manutd section { background-color: #DA291C; color: #ffffff; }
-    body.tottenham, body.tottenham header, body.tottenham nav a, body.tottenham section { background-color: #132257; color: #ffffff; }
-    body.liverpool, body.liverpool header, body.liverpool nav a, body.liverpool section { background-color: #C8102E; color: #ffffff; }
-    body.arsenal, body.arsenal header, body.arsenal nav a, body.arsenal section { background-color: #EF0107; color: #ffffff; }
+    /* ---------------- Team Themes (FIXED) ---------------- */
+    body.chelsea  { background-color: #034694; color: #ffffff; }
+    body.mancity  { background-color: #6CABDD; color: #001838; }
+    body.manutd   { background-color: #DA291C; color: #ffffff; }
+    body.tottenham{ background-color: #132257; color: #ffffff; }
+    body.liverpool{ background-color: #C8102E; color: #ffffff; }
+    body.arsenal  { background-color: #EF0107; color: #ffffff; }
 
-    header nav a, header .header-right a, header .search-icon, header .theme-box select { color: inherit; transition: color 0.25s ease; }
-    header nav a:hover, header .header-right a:hover { opacity: 0.85; }
+    body.chelsea header,
+    body.mancity header,
+    body.manutd header,
+    body.tottenham header,
+    body.liverpool header,
+    body.arsenal header {
+      background-color: rgba(0,0,0,0.15);
+    }
 
+    /* Keep panels readable */
+    body.chelsea .panel,
+    body.mancity .panel,
+    body.manutd .panel,
+    body.tottenham .panel,
+    body.liverpool .panel,
+    body.arsenal .panel,
+    body.chelsea .league,
+    body.mancity .league,
+    body.manutd .league,
+    body.tottenham .league,
+    body.liverpool .league,
+    body.arsenal .league,
+    body.chelsea .coach-card,
+    body.mancity .coach-card,
+    body.manutd .coach-card,
+    body.tottenham .coach-card,
+    body.liverpool .coach-card,
+    body.arsenal .coach-card {
+      background-color: #f7f9fc;
+      color: #111827;
+    }
+
+    body.chelsea .panel .muted,
+    body.mancity .panel .muted,
+    body.manutd .panel .muted,
+    body.tottenham .panel .muted,
+    body.liverpool .panel .muted,
+    body.arsenal .panel .muted {
+      color: #4b5563;
+    }
   </style>
 </head>
 
@@ -100,7 +138,6 @@
   </nav>
 
   <div class="header-right">
-    <!-- Theme selector moved here -->
     <div class="theme-selector">
       <label for="themeSelect" style="margin-right:6px;">Team Theme:</label>
       <select id="themeSelect">
@@ -119,6 +156,7 @@
 </header>
 
 <main class="wrap">
+
   <!-- COACH FINDER PANEL -->
   <section class="panel">
     <h1>Coach Finder</h1>
@@ -136,10 +174,11 @@
         <option value="postecoglou">Ange Postecoglou (Spurs)</option>
         <option value="emery">Unai Emery (Aston Villa)</option>
       </select>
+
       <input id="coachFilter" type="text" placeholder="(Optional) Filter name…" aria-label="Filter coach list">
     </div>
 
-    <div id="coachCard" class="coach-card" style="display:none;margin-top:16px;">
+    <div id="coachCard" class="coach-card" style="display:none; margin-top:16px;">
       <img id="coachImg" src="" alt="">
       <div class="coach-meta">
         <h3 id="coachName"></h3>
@@ -151,38 +190,46 @@
     </div>
   </section>
 
-  <!-- OTHER EUROPEAN LEAGUES -->
+  <!-- OTHER EUROPEAN LEAGUES (FIXED LINKS) -->
   <section class="panel">
     <h2>Other Top European Leagues</h2>
     <p class="muted">Short descriptions and official sites for the other members of the “Top 5”.</p>
+
     <div class="league-grid">
+
       <article class="league">
         <h3>La Liga (Spain)</h3>
         <p>Spain’s top tier is renowned for technique and possession play, home to Barcelona, Real Madrid, and Atlético.</p>
-        <p><a href="#">Official website</a></p>
+        <p><a href="https://www.laliga.com" target="_blank" rel="noopener">Official website</a></p>
       </article>
+
       <article class="league">
         <h3>Serie A (Italy)</h3>
         <p>Serie A is tactically rich and defensively disciplined, with giants like Juventus, Milan, and Inter.</p>
-        <p><a href="#">Official website</a></p>
+        <p><a href="https://www.legaseriea.it/en" target="_blank" rel="noopener">Official website</a></p>
       </article>
+
       <article class="league">
         <h3>Bundesliga (Germany)</h3>
         <p>The Bundesliga is high tempo with fan-centric ownership models and elite development pipelines.</p>
-        <p><a href="#">Official website</a></p>
+        <p><a href="https://www.bundesliga.com/en/bundesliga" target="_blank" rel="noopener">Official website</a></p>
       </article>
+
       <article class="league">
         <h3>Ligue 1 (France)</h3>
         <p>Ligue 1 pairs youth development with star power, with PSG leading the charge domestically.</p>
-        <p><a href="#">Official website</a></p>
+        <p><a href="https://www.ligue1.com" target="_blank" rel="noopener">Official website</a></p>
       </article>
+
       <article class="league">
         <h3>Premier League (England)</h3>
         <p>The Premier League combines global reach, varied styles, and intense weekly competition.</p>
-        <p><a href="#">Official website</a></p>
+        <p><a href="https://www.premierleague.com" target="_blank" rel="noopener">Official website</a></p>
       </article>
+
     </div>
   </section>
+
 </main>
 
 <footer>
@@ -191,6 +238,7 @@
     <a href="#"><img src="images/twitterpage.jpg" alt="Twitter Logo"></a>
     <a href="#"><img src="images/instagram.jpg" alt="Instagram Logo"></a>
   </div>
+
   <div class="footer-right">
     <p><a href="tel:3025556611">302-555-6611</a></p>
     <p><a href="mailto:wearedefintelyreal@gmail.com">wearedefintelyreal@gmail.com</a></p>
@@ -266,5 +314,6 @@ coachFilter.addEventListener("input", () => {
   }
 });
 </script>
+
 </body>
 </html>
